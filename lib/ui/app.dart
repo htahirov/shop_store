@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'ShopStore',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: 'Nunito',
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: AppColors.primary.toMaterialColor,
           ),
