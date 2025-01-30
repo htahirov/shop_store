@@ -6,7 +6,7 @@ import '../../../../utils/constants/app_constants.dart';
 
 class CustomVerifyTextFormField extends StatelessWidget {
   CustomVerifyTextFormField({super.key});
-  final List<TextEditingController> _controllers =
+  final List<TextEditingController> _verifyController =
       List.generate(4, (_) => TextEditingController());
 
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
@@ -19,7 +19,7 @@ class CustomVerifyTextFormField extends StatelessWidget {
           width: 65.r,
           height: 65.r,
           child: TextFormField(
-            controller: _controllers[i],
+            controller: _verifyController[i],
             focusNode: _focusNodes[i],
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
@@ -40,8 +40,9 @@ class CustomVerifyTextFormField extends StatelessWidget {
                 height: 26.h / 26.sp,
               ),
               counterText: "",
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
           ),
         );
