@@ -3,7 +3,9 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_paddings.dart';
-
+import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
+import '../../widgets/custom_progress_loading.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -11,7 +13,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      // Go.replace(context, Pager.onboard);
+      Go.replace(context, Pager.onboard);
     });
     return Scaffold(
       body: Center(
@@ -21,9 +23,9 @@ class SplashPage extends StatelessWidget {
           height: 200,
         ),
       ),
-      floatingActionButton: const Padding(
+      floatingActionButton: Padding(
         padding: AppPaddings.a32,
-        child: CircularProgressIndicator(),
+        child: CustomProgressLoading.medium(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

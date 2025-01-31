@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shop_store/utils/constants/app_paddings.dart';
 
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_constants.dart';
+import '../../utils/constants/app_paddings.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 26.sp,
           height: 35.h / 26.sp,
           letterSpacing: -0.5,
-          fontFamily: AppConstants.fontFamily,
+          fontFamily: AppConstants.fontFamilyNunito,
         ),
       ),
     );
