@@ -35,7 +35,7 @@ class CustomVerifyTextFormField extends StatelessWidget {
               counterStyle: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: AppColors.titleTextColor,
-                fontFamily: AppConstants.fontFamily,
+                fontFamily: AppConstants.fontFamilyNunito,
                 fontSize: 26,
                 height: 26.h / 26.sp,
               ),

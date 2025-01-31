@@ -23,37 +23,40 @@ class PasswordConditionIndicator extends StatelessWidget {
           style: TextStyle(
             fontSize: 12.sp,
             color: AppColors.textButtonColor,
-            fontFamily: AppConstants.fontFamily,
+            fontFamily: AppConstants.fontFamilyNunito,
             fontWeight: FontWeight.w600,
           ),
         ),
         8.verticalSpace,
         ...conditions.map((condition) => Padding(
-          padding: EdgeInsets.only(bottom: 4.h),
-          child: Row(
-            children: [
-              Icon(
-                condition.isMet ? Icons.check_circle : Icons.circle_outlined,
-                size: 16.r,
-                color: condition.isMet ? AppColors.primary : AppColors.textButtonColor,
+              padding: EdgeInsets.only(bottom: 4.h),
+              child: Row(
+                children: [
+                  Icon(
+                    condition.isMet
+                        ? Icons.check_circle
+                        : Icons.circle_outlined,
+                    size: 16.r,
+                    color: condition.isMet
+                        ? AppColors.primary
+                        : AppColors.textButtonColor,
+                  ),
+                  8.horizontalSpace,
+                  Text(
+                    condition.message,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: condition.isMet
+                          ? AppColors.titleTextColor
+                          : AppColors.textButtonColor,
+                      fontFamily: AppConstants.fontFamilyNunito,
+                      fontWeight:
+                          condition.isMet ? FontWeight.w600 : FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
-              8.horizontalSpace,
-              Text(
-                condition.message,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: condition.isMet 
-                    ? AppColors.titleTextColor 
-                    : AppColors.textButtonColor,
-                  fontFamily: AppConstants.fontFamily,
-                  fontWeight: condition.isMet 
-                    ? FontWeight.w600 
-                    : FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        )),
+            )),
       ],
     );
   }

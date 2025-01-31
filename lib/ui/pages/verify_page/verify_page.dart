@@ -55,7 +55,7 @@ class VerifyPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        fontFamily: AppConstants.fontFamily,
+                        fontFamily: AppConstants.fontFamilyNunito,
                         height: 22.h / 14.sp,
                         letterSpacing: -0.5,
                       ),
@@ -67,7 +67,7 @@ class VerifyPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            fontFamily: AppConstants.fontFamily,
+                            fontFamily: AppConstants.fontFamilyNunito,
                             height: 19.1.h / 14.sp,
                             letterSpacing: -0.5),
                       ),

@@ -9,7 +9,8 @@ class OnboardElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const OnboardElevatedButton({super.key, required this.text, required this.onPressed});
+  const OnboardElevatedButton(
+      {super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,6 @@ class OnboardElevatedButton extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: AppRadiuses.a16,
         ),
-        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 38.5.w),
       ),
       child: Text(
         text,

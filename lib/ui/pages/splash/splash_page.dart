@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../cubits/splash/splash_cubit.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/helpers/go.dart';
@@ -12,22 +15,25 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      Go.replace(context, Pager.onboard);
-    });
-    return Scaffold(
-      body: Center(
-        child: SvgPicture.asset(
-          AppAssets.logo,
-          width: 200,
-          height: 200,
+    return BlocListener<SplashCubit, SplashEnum>(
+      listener: (_, state) {
+        if (state == SplashEnum.finish) {
+          Go.replace(context, Pager.onboard);
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: SvgPicture.asset(
+            AppAssets.logo,
+            width: 150.r,
+            height: 150.r,
+          ),
+        ),
+        floatingActionButton: const CustomProgressLoading.medium(
+          alignment: Alignment.bottomCenter,
+          padding: AppPaddings.b24,
         ),
       ),
-      floatingActionButton: Padding(
-        padding: AppPaddings.a32,
-        child: CustomProgressLoading.medium(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
