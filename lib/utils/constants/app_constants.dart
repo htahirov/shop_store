@@ -4,4 +4,5 @@ class AppConstants {
   
 
   static const fontFamily = 'Nunito';
+  static const fontFamilyPoppins = 'Poppins';
 }
