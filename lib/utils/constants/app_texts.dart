@@ -7,4 +7,5 @@ class AppTexts {
   static const password = 'Password';
   static const login = 'Log in';
   static const signUp = 'Sign up';
+  static const signIn = 'Sign in';
 }
