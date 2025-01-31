@@ -9,6 +9,7 @@ class AppColors {
   static const ghostWhite = Color(0xffFAFAFF);
   static const darkRift = Color(0xff06100F);
   static const madeInTheShade = Color(0xff6C6D76);
+  static const coldLips = Color(0xff9b99f5);
 
   static const primary = jadePalace;
   static const titleTextColor = satinDeepBlack;

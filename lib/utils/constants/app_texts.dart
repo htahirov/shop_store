@@ -10,5 +10,5 @@ class AppTexts {
   static const signIn = 'Sign in';
   static const createAccount = 'Create an Account';
   static const forgotPassword = 'Forgot Password?';
-    static const termsOfService = 'Terms of Service';
-  }
+  static const termsOfService = 'Terms of Service';
+}
