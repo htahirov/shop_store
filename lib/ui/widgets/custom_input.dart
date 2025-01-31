@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_constants.dart';
+import '../../utils/helpers/password_condition_indicator.dart';
+import '../../utils/models/password_validation.dart';
 
 class CustomInput extends StatelessWidget {
   const CustomInput({
@@ -13,6 +14,8 @@ class CustomInput extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.onChanged,
+    this.showPasswordConditions = false,
+    this.isPassword = false,
   });
 
   final String? title;
@@ -21,6 +24,18 @@ class CustomInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final bool showPasswordConditions;
+  final bool isPassword;
+
+  PasswordValidationState _getPasswordValidationState(String value) {
+    return PasswordValidationState(
+      hasMinLength: value.length >= 8,
+      hasUppercase: value.contains(RegExp(r'[A-Z]')),
+      hasLowercase: value.contains(RegExp(r'[a-z]')),
+      hasNumber: value.contains(RegExp(r'[0-9]')),
+      hasSpecialChar: value.contains(RegExp(r'[!@#\$&*~]')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +99,19 @@ class CustomInput extends StatelessWidget {
             ),
           ),
         ),
+        if (isPassword && controller != null)
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller!,
+            builder: (context, value, child) {
+              if (value.text.isEmpty) return const SizedBox.shrink();
+              final validationState = _getPasswordValidationState(value.text);
+              // sertler duzdurse conditionlari gizletmek
+              if (validationState.isValid) return const SizedBox.shrink();
+              return PasswordConditionIndicator(
+                conditions: validationState.conditions,
+              );
+            },
+          ),
       ],
     );
   }

@@ -94,6 +94,7 @@ flutter:
           weight: 800
         - asset: assets/fonts/nunito/Nunito-Black.ttf
           weight: 900
+          
     - family: Inter
       fonts:
         - asset: assets/fonts/inter/Inter_18pt-ExtraLight.ttf
@@ -112,3 +113,20 @@ flutter:
           weight: 800
         - asset: assets/fonts/inter/Inter_18pt-Black.ttf
           weight: 900
+          
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Black.ttf
+          weight: 900
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+          weight: 400 
+        - asset: assets/fonts/poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
+          weight: 800            

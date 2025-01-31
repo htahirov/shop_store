@@ -8,4 +8,7 @@ class AppTexts {
   static const login = 'Log in';
   static const signUp = 'Sign up';
   static const signIn = 'Sign in';
+  static const createAccount = 'Create an Account';
+  static const forgotPassword = 'Forgot Password?';
+  static const termsOfService = 'Terms of Service';
 }

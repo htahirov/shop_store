@@ -12,10 +12,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.leadIcon = AppAssets.arrowLeft,
+    this.onLeadingPressed,
   });
 
   final String? title;
   final String? leadIcon;
+  final VoidCallback? onLeadingPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: true,
         leading: leadIcon == null
             ? null
-            : Center(
-                child: SvgPicture.asset(
-                  leadIcon!,
-                  height: 32.r,
-                  width: 32.r,
+            : GestureDetector(
+                onTap: onLeadingPressed,
+                child: Center(
+                  child: SvgPicture.asset(
+                    leadIcon!,
+                    height: 32.r,
+                    width: 32.r,
+                  ),
                 ),
               ),
         title: title == null ? null : Text(title!),
