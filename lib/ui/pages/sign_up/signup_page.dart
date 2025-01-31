@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_constants.dart';
 import '../../../utils/constants/app_paddings.dart';
@@ -8,10 +9,9 @@ import '../../../utils/helpers/go.dart';
 import '../../../utils/helpers/pager.dart';
 import '../../../utils/validator.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_fab_button.dart';
 import '../../widgets/custom_input.dart';
 import '../../widgets/custom_text_button.dart';
-import '../../widgets/custom_fab_button.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -41,9 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: AppTexts.signUp,
-        onLeadingPressed: () {
-          Go.replace(context, Pager.signIn);
-        },
+        onLeadingPressed: () => Go.replace(context, Pager.signIn),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -96,7 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           TextSpan(
                             text: 'By signing up you agree to our\n',
                             style: TextStyle(
-                              fontFamily: AppConstants.fontFamily,
+                              fontFamily: AppConstants.fontFamilyNunito,
                               color: AppColors.textButtonColor,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w200,
@@ -107,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           TextSpan(
                             text: AppTexts.termsOfService,
                             style: TextStyle(
-                              fontFamily: AppConstants.fontFamily,
+                              fontFamily: AppConstants.fontFamilyNunito,
                               color: AppColors.textButtonColor,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
@@ -137,14 +135,16 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               CustomFabButton(
                                 onPressed: () {
-                                  if (_formKey.currentState?.validate() ?? false) {
+                                  if (_formKey.currentState?.validate() ??
+                                      false) {
                                     // sign up zamani process davami etmek lazimdi sehife olanda
                                     print('Sign up successful');
                                   } else {
                                     // xeta mesaji gostermek
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please check your input fields'),
+                                        content: Text(
+                                            'Please check your input fields'),
                                         backgroundColor: Colors.red,
                                       ),
                                     );

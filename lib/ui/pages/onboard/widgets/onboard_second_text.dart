@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
@@ -8,13 +9,20 @@ class OnboardSecondText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      "Use the voucher provided to buy a shirt, because there are lots of free vouchers here!",
-      style: TextStyle(
-        fontSize: 16,
-        color: AppColors.titleTextColor,
-        fontFamily: AppConstants.fontFamilyInter,
-        height: 19 / 16,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        width: 227.w,
+        child: Text(
+          "Use the voucher provided to buy a shirt, because there are lots of free vouchers here!",
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.titleTextColor,
+            fontFamily: AppConstants.fontFamilyInter,
+            height: 19.h / 16.sp,
+          ),
+        ),
       ),
     );
   }

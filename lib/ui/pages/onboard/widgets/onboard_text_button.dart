@@ -25,7 +25,6 @@ class OnboardTextButton extends StatelessWidget {
             width: 1,
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 38.5.w),
       ),
       child: Text(
         text,

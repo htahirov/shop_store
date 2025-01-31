@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/constants/app_texts.dart';
+import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
 import 'widgets/onboard_elevated_button.dart';
 import 'widgets/onboard_main_text.dart';
 import 'widgets/onboard_second_text.dart';
@@ -16,27 +18,27 @@ class OnboardPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: AppPaddings.h40,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const OnboardMainText(),
-              50.verticalSpace,
-              const OnboardSecondText(),
-              100.verticalSpace,
-              Row(
-                children: [
-                  OnboardElevatedButton(text: AppTexts.signUp, onPressed: (){
-                    // Go.replace(context, ...)
-                  }),
-                  15.horizontalSpace,
-                  OnboardTextButton(text: AppTexts.signIn, onPressed: (){
-                    // Go.replace(context, ...)
-                  })
-                ],
-              )
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const OnboardMainText(),
+            50.verticalSpace,
+            const OnboardSecondText(),
+            100.verticalSpace,
+            Row(
+              children: [
+                OnboardElevatedButton(
+                  text: AppTexts.signUp,
+                  onPressed: () => Go.replace(context, Pager.signUp),
+                ),
+                15.horizontalSpace,
+                OnboardTextButton(
+                  text: AppTexts.signIn,
+                  onPressed: () => Go.replace(context, Pager.signIn),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

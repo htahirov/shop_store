@@ -1,7 +1,7 @@
 class AppConstants {
   AppConstants._();
-  
-  static const fontFamily = 'Nunito';
+
+  static const fontFamilyNunito = 'Nunito';
   static const fontFamilyInter = 'Inter';
   static const fontFamilyPoppins = 'Poppins';
 }
