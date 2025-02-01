@@ -5,8 +5,11 @@ import 'package:shop_store/ui/widgets/custom_app_bar.dart';
 import 'package:shop_store/ui/widgets/custom_fab_button.dart';
 import 'package:shop_store/ui/widgets/custom_text_button.dart';
 import 'package:shop_store/utils/constants/app_colors.dart';
-import 'package:shop_store/utils/constants/app_constants.dart';
 import 'package:shop_store/utils/constants/app_paddings.dart';
+import 'package:shop_store/utils/constants/app_text_styles.dart';
+import 'package:shop_store/utils/constants/app_texts.dart';
+import 'package:shop_store/utils/helpers/go.dart';
+import 'package:shop_store/utils/helpers/pager.dart';
 
 class VerifyPage extends StatelessWidget {
   const VerifyPage({super.key});
@@ -15,7 +18,7 @@ class VerifyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: "Verification code",
+        title: AppTexts.verify,
       ),
       body: Column(
         children: [
@@ -25,23 +28,13 @@ class VerifyPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Please enter the 4 digit code sent to",
-                  style: TextStyle(
-                    color: AppColors.titleTextColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    height: 22 / 14.sp,
-                    letterSpacing: -0.5,
-                  ),
+                  AppTexts.veritifactionText,
+                  style: AppTextStyles.verifyTextStyle.copyWith(),
                 ),
                 Text(
                   "Login Email",
-                  style: TextStyle(
-                    color: AppColors.titleTextColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                  style: AppTextStyles.verifyTextStyle.copyWith(
                     height: 19.1 / 14.sp,
-                    letterSpacing: -0.5,
                   ),
                 ),
                 40.verticalSpace,
@@ -51,25 +44,20 @@ class VerifyPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "I didn’t recevie code.",
-                      style: TextStyle(
-                        fontSize: 14.sp,
+                      AppTexts.recevieCode,
+                      style: AppTextStyles.verifyTextStyle.copyWith(
+                        color: AppColors.textButtonColor,
                         fontWeight: FontWeight.w400,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        height: 22.h / 14.sp,
-                        letterSpacing: -0.5,
                       ),
                     ),
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        "Resend code",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: AppConstants.fontFamilyNunito,
-                            height: 19.1.h / 14.sp,
-                            letterSpacing: -0.5),
+                        AppTexts.resendCode,
+                        style: AppTextStyles.verifyTextStyle.copyWith(
+                          color: AppColors.primary,
+                          height: 19.1.h / 14.sp,
+                        ),
                       ),
                     ),
                   ],
@@ -85,8 +73,10 @@ class VerifyPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextButton(
-                  text: "Sign up",
-                  onPressed: () {},
+                  text: AppTexts.signUp,
+                  onPressed: () {
+                    Go.replace(context, Pager.signUp);
+                  },
                 ),
                 240.horizontalSpace,
                 CustomFabButton(onPressed: () {}),

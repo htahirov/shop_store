@@ -11,4 +11,9 @@ class AppTexts {
   static const createAccount = 'Create an Account';
   static const forgotPassword = 'Forgot Password?';
   static const termsOfService = 'Terms of Service';
+  static const verify= "Verification code";
+  static const veritifactionText = "Please enter the 4 digit code sent to";
+  static const resendCode =  "Resend code";
+  static const recevieCode =  "I didn’t recevie code.";
+
 }
