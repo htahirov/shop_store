@@ -5,6 +5,30 @@ class ValidatorUtils {
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
 
+  static final RegExp _phoneRegex = RegExp(
+    r'^\+?[\d\s-]{10,}$',
+  );
+
+  static String? validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    if (value.length < 3) {
+      return 'Username must be at least 3 characters';
+    }
+    return null;
+  }
+
+  static String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!_phoneRegex.hasMatch(value)) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
@@ -20,27 +44,22 @@ class ValidatorUtils {
       return 'Password is required';
     }
 
-    // Check minimum length
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
     }
 
-    // Check for lowercase letters
     if (!value.contains(RegExp(r'[a-z]'))) {
       return 'Password must contain at least one lowercase letter';
     }
 
-    // Check for uppercase letters
     if (!value.contains(RegExp(r'[A-Z]'))) {
       return 'Password must contain at least one uppercase letter';
     }
 
-    // Check for numbers
     if (!value.contains(RegExp(r'[0-9]'))) {
       return 'Password must contain at least one number';
     }
 
-    // Check for special characters
     if (!value.contains(RegExp(r'[!@#\$&*~]'))) {
       return 'Password must contain at least one special character (!@#\$&*~)';
     }
