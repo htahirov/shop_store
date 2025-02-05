@@ -5,6 +5,8 @@ import 'package:shop_store/ui/pages/create_new_password/create_new_password_page
 import 'package:shop_store/ui/pages/forgot_password/forgot_password_page.dart';
 import 'package:shop_store/ui/pages/verify_page/verify_page.dart';
 
+import '../../cubits/signin/signin_cubit.dart';
+import '../../cubits/signup/signup_cubit.dart';
 import '../../cubits/splash/splash_cubit.dart';
 import '../../locator.dart';
 import '../../ui/pages/onboard/onboard_page.dart';
@@ -22,15 +24,21 @@ class Pager {
 
   static Widget get onboard => const OnboardPage();
 
-  static Widget get signUp => const SignUpPage();
+  static Widget get signUp => BlocProvider<SignUpCubit>(
+        create: (_) => locator(),
+        child: const SignUpPage(),
+      );
 
-  static Widget get signIn => const SignInPage();
+  static Widget get signIn => BlocProvider<SignInCubit>(
+        create: (_) => locator(),
+        child: const SignInPage(),
+      );
 
   static Widget get forgotPassword => const ForgotPasswordPage();
 
   static Widget get createNewPassword => const CreateNewPasswordPage();
 
-  static Widget get verify =>  BlocProvider<VerifyCubit>(
+  static Widget get verify => BlocProvider<VerifyCubit>(
         create: (_) => locator()..updateVerificationCode(" "),
         child: const VerifyPage(),
       );
