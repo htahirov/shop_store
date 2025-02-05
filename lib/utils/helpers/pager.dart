@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_store/cubits/verify/verify_cubit.dart';
-import 'package:shop_store/ui/pages/create_new_password/create_new_password_page.dart';
-import 'package:shop_store/ui/pages/forgot_password/forgot_password_page.dart';
-import 'package:shop_store/ui/pages/verify_page/verify_page.dart';
 
 import '../../cubits/signin/signin_cubit.dart';
 import '../../cubits/signup/signup_cubit.dart';
 import '../../cubits/splash/splash_cubit.dart';
+import '../../cubits/verify/verify_cubit.dart';
 import '../../locator.dart';
+import '../../ui/pages/create_new_password/create_new_password_page.dart';
+import '../../ui/pages/forgot_password/forgot_password_page.dart';
 import '../../ui/pages/onboard/onboard_page.dart';
 import '../../ui/pages/sign_in/signin_page.dart';
 import '../../ui/pages/sign_up/signup_page.dart';
 import '../../ui/pages/splash/splash_page.dart';
+import '../../ui/pages/verify_page/verify_page.dart';
 
 class Pager {
   Pager._();

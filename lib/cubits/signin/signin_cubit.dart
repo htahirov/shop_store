@@ -1,26 +1,47 @@
-import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/models/remote/request/login_request.dart';
+import '../../data/repo/auth_repo.dart';
 
 part 'signin_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit() : super(SignInInitial());
+  SignInCubit(this._authRepo) : super(SignInInitial());
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  final AuthRepo _authRepo;
+
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void handleSignIn() async {
+    if (!formKey.currentState!.validate()) return;
+    await _signIn();
+  }
+
+  Future<void> _signIn() async {
     try {
       emit(SignInLoading());
-      
-      
-      await Future.delayed(const Duration(seconds: 2));
-      
-      // API elave etmek ucun yer
-      
+      final data = await _authRepo.login(
+        request: LoginRequest(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
       emit(SignInSuccess());
-    } catch (e) {
-      emit(SignInError(e.toString()));
+    } on DioException catch (e) {
+      emit(SignInError('$e'));
+    } catch (e, s) {
+      emit(SignInError('$e\n$s'));
     }
+  }
+
+  @override
+  Future<void> close() {
+    emailController.dispose();
+    passwordController.dispose();
+    return super.close();
   }
 }
