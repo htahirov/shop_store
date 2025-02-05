@@ -53,6 +53,7 @@ class SignInPage extends StatelessWidget {
                         BlocConsumer<SignInCubit, SignInState>(
                           listener: (_, state) {
                             if (state is SignInSuccess) {
+                              // Go to Home page
                               Go.to(context, Pager.createNewPassword);
                             } else if (state is SignInError) {
                               Snackbars.showError(context);
