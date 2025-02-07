@@ -19,30 +19,43 @@ class ValidatorUtils {
     if (value == null || value.isEmpty) {
       return 'Password is required';
     }
+  }
 
-    // Check minimum length
+  static String? validateCreateNewPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
     }
 
-    // Check for lowercase letters
     if (!value.contains(RegExp(r'[a-z]'))) {
       return 'Password must contain at least one lowercase letter';
     }
 
-    // Check for uppercase letters
     if (!value.contains(RegExp(r'[A-Z]'))) {
       return 'Password must contain at least one uppercase letter';
     }
 
-    // Check for numbers
     if (!value.contains(RegExp(r'[0-9]'))) {
       return 'Password must contain at least one number';
     }
 
-    // Check for special characters
     if (!value.contains(RegExp(r'[!@#\$&*~]'))) {
       return 'Password must contain at least one special character (!@#\$&*~)';
+    }
+
+    return null;
+  }
+
+  static String? validateConfirmPassword(String? value, String newPassword) {
+    if (value == null || value.isEmpty) {
+      return 'Confirm Password is required';
+    }
+
+    if (value != newPassword) {
+      return 'Passwords do not match';
     }
 
     return null;
