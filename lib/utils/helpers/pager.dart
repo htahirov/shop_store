@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/ui/pages/filter/filter_page.dart';
 
 import '../../cubits/signin/signin_cubit.dart';
 import '../../cubits/signup/signup_cubit.dart';
@@ -37,6 +38,8 @@ class Pager {
   static Widget get forgotPassword => const ForgotPasswordPage();
 
   static Widget get createNewPassword => const CreateNewPasswordPage();
+
+  static Widget get filter => const FilterPage();
 
   static Widget get verify => BlocProvider<VerifyCubit>(
         create: (_) => locator()..updateVerificationCode(" "),

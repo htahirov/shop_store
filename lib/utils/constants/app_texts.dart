@@ -20,5 +20,6 @@ class AppTexts {
   static const createNewPasswordText = "Enter your new password.";
   static const resendCode =  "Resend code";
   static const recevieCode =  "I didn’t recevie code.";
+  static const filter =  "Filter";
 
 }
