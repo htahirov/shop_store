@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import 'cubits/forgot_password/forgot_password_cubit.dart';
@@ -9,9 +10,12 @@ import 'cubits/splash/splash_cubit.dart';
 import 'cubits/verify/verify_cubit.dart';
 import 'data/i_repo/auth_repo_impl.dart';
 import 'data/repo/auth_repo.dart';
-import 'data/services/auth_service.dart';
+import 'data/services/remote/auth_service.dart';
 
 final GetIt locator = GetIt.instance;
+final navigatorKey = GlobalKey<NavigatorState>();
+
+BuildContext get appContext => navigatorKey.currentState!.context;
 
 void setupLocator() {
   locator.registerLazySingleton(() => AuthService());
