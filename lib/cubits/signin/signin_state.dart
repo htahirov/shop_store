@@ -14,3 +14,9 @@ class SignInError extends SignInState {
 
   SignInError(this.message);
 }
+
+class SignInNetworkError extends SignInState {
+  final String message;
+
+  SignInNetworkError(this.message);
+}

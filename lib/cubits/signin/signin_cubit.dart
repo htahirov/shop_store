@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/remote/request/login_request.dart';
 import '../../data/repo/auth_repo.dart';
+import '../../data/services/local/auth_hive_service.dart';
+import '../../utils/managers/internet_checker_manager.dart';
 
 part 'signin_state.dart';
 
@@ -23,13 +25,21 @@ class SignInCubit extends Cubit<SignInState> {
 
   Future<void> _signIn() async {
     try {
+      final hasInternet = await InternetCheckerManager.hasInternetConnection();
+      if (!hasInternet) {
+        emit(SignInNetworkError('No Internet connection'));
+        return;
+      }
+
       emit(SignInLoading());
+
       final data = await _authRepo.login(
         request: LoginRequest(
           email: emailController.text,
           password: passwordController.text,
         ),
       );
+      await AuthHiveService.saveData(data!);
       emit(SignInSuccess());
     } on DioException catch (e) {
       emit(SignInError('$e'));
