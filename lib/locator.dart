@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 
 import 'cubits/forgot_password/forgot_password_cubit.dart';
 import 'cubits/new_password/new_password_cubit.dart';
+import 'cubits/product_detail/product_detail_cubit.dart';
 import 'cubits/signin/signin_cubit.dart';
 import 'cubits/signup/signup_cubit.dart';
 import 'cubits/splash/splash_cubit.dart';
@@ -22,4 +23,5 @@ void setupLocator() {
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
   locator.registerFactory(() => SignUpCubit());
+  locator.registerFactory(() => ProductDetailCubit());
 }
