@@ -57,6 +57,8 @@ class SignInPage extends StatelessWidget {
                               Go.to(context, Pager.createNewPassword);
                             } else if (state is SignInError) {
                               Snackbars.showError(context);
+                            } else if (state is SignInNetworkError) {
+                              Snackbars.showNetworkError(context);
                             }
                           },
                           builder: (_, state) => CustomFabButton(

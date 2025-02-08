@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_store/locator.dart';
 
 import '../utils/constants/app_colors.dart';
 import '../utils/extensions/color_extensions.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColors.white,
         ),
         home: Pager.filter,
+        navigatorKey: navigatorKey,
       ),
     );
   }
