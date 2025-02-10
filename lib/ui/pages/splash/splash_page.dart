@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
         if (state == SplashEnum.finish) {
           Go.replace(context, Pager.onboard);
         } else if (state == SplashEnum.authenticated) {
-          Go.replace(context, Pager.createNewPassword);
+          Go.replace(context, Pager.home);
         }
       },
       child: Scaffold(

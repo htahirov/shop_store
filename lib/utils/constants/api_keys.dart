@@ -3,6 +3,11 @@ class ApiKeys {
 
   static const _baseUrl = 'https://rmusayevr.pythonanywhere.com';
   static const _accounts = '$_baseUrl/accounts';
+  static const _product = '$_baseUrl/store';
+  static const _base = '$_baseUrl/base';
+
   static const login = '$_accounts/login/';
   static const register = '$_accounts/register/';
+  static const product = '$_product/';
+  static const productCategories = '$_base/category/list/';
 }

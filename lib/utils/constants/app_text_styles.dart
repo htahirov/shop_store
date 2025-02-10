@@ -36,4 +36,12 @@ class AppTextStyles {
     letterSpacing: -0.5,
     color: AppColors.titleTextColor,
   );
+
+  static final carouselTextStyle = TextStyle(
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -0.5,
+    color: AppColors.white,
+  );
 }

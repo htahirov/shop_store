@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubits/home/home_cubit.dart';
+import '../../cubits/product_categories/product_categories_cubit.dart';
 import '../../cubits/product_detail/product_detail_cubit.dart';
 import '../../cubits/signin/signin_cubit.dart';
 import '../../cubits/signup/signup_cubit.dart';
@@ -51,5 +53,15 @@ class Pager {
         child: const ProductDetailPage(),
       );
 
-  static Widget get home => const HomePage();
+  static Widget get home => MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeCubit>(
+            create: (_) => locator()..getProducts(),
+          ),
+          BlocProvider<ProductCategoriesCubit>(
+            create: (context) => locator()..getProductCategories(),
+          ),
+        ],
+        child: const HomePage(),
+      );
 }

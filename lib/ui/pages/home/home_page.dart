@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../cubits/home/home_cubit.dart';
+import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../widgets/custom_nav_bar.dart';
+import '../../widgets/custom_progress_loading.dart';
 import '../../widgets/simple_app_bar.dart';
-import 'widgets/category_selection.dart';
-import 'widgets/custom_carousel_slider.dart';
-import 'widgets/home_grid_view.dart';
+import 'widgets/carousel/custom_carousel_slider.dart';
+import 'widgets/categories/category_selection.dart';
+import 'widgets/product/product_grid.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,7 +29,23 @@ class HomePage extends StatelessWidget {
               35.verticalSpace,
               const CategorySelectionRow(),
               20.verticalSpace,
-              HomeGridView(),
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (_, state) {
+                  if (state is HomeLoading) {
+                    return const CustomProgressLoading.medium();
+                  } else if (state is HomeSuccess) {
+                    return ProductGrid(products: state.productResponse);
+                  } else if (state is HomeError) {
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: const TextStyle(color: AppColors.redmana),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
             ],
           ),
         ),
