@@ -10,7 +10,8 @@ class AppColors {
   static const darkRift = Color(0xff06100F);
   static const madeInTheShade = Color(0xff6C6D76);
   static const coldLips = Color(0xff9b99f5);
-  static const redmana = Color(0xFFF45959);
+  static const titaniumWhite = Color(0xffE4E4E4);
+  static const dryadBark = Color(0xff33302E);
   static const navalNight = Color(0xFF001833);
   static const sea = Color(0xFF3CA390);
   static const fatback = Color(0xFFFFF7ED);
@@ -19,11 +20,13 @@ class AppColors {
   static const platinum = Color(0xFFE4E4E4);
   static const superSilver = Color(0xFFEEEEEE);
   static const chefsHat = Color(0xFFF3F3F6);
-
-
   static const primary = jadePalace;
   static const titleTextColor = satinDeepBlack;
   static const inputFillColor = ghostWhite;
   static const inputTextColor = darkRift;
   static const textButtonColor = madeInTheShade;
+  static const starColor = graniteConyon;
+  static const starBackColor = waterGreen;
+  static const starBorderColor = titaniumWhite;
+  static const sliderTrackColor = dryadBark;
 }

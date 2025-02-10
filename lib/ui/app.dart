@@ -30,10 +30,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: AppColors.white,
           ),
-          home: const ProductDetailPage(slug: 'men-s-502-taper-chino-shorts'),
+          home: Pager.splash,
           navigatorKey: navigatorKey,
         ),
-      ),
     );
   }
 }
