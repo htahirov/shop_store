@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:shop_store/ui/pages/filter/filter_page.dart';
+import 'package:shop_store/ui/pages/product_detail/product_detail_page.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
 import '../../cubits/product_detail/product_detail_cubit.dart';
@@ -43,15 +44,20 @@ class Pager {
 
   static Widget get createNewPassword => const CreateNewPasswordPage();
 
+  static Widget get filter => const FilterPage();
+
   static Widget get verify => BlocProvider<VerifyCubit>(
         create: (_) => locator()..updateVerificationCode(" "),
         child: const VerifyPage(),
       );
-
-  static Widget get productDetail => BlocProvider(
-        create: (_) => locator<ProductDetailCubit>(),
-        child: const ProductDetailPage(),
-      );
+        
+   static Widget productDetail(String slug) {
+    return BlocProvider.value(
+      value: locator<ProductDetailCubit>(),
+      child: ProductDetailPage(slug: slug),
+    );
+  }
+}
 
   static Widget get home => MultiBlocProvider(
         providers: [

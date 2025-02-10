@@ -7,12 +7,14 @@ class ReviewItem extends StatelessWidget {
   final String name;
   final String review;
   final String time;
+  final int rating;
 
   const ReviewItem({
     super.key,
     required this.name,
     required this.review,
     required this.time,
+    required this.rating,
   });
 
   @override
@@ -21,10 +23,20 @@ class ReviewItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // User Avatar and Name
             CircleAvatar(
               radius: 15.r,
               backgroundColor: AppColors.superSilver,
+              child: Text(
+                name.isNotEmpty ? name[0].toUpperCase() : 'A',
+                style: TextStyle(
+                  color: AppColors.titleTextColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             SizedBox(width: 14.w),
             Text(
@@ -38,13 +50,14 @@ class ReviewItem extends StatelessWidget {
               ),
             ),
             const Spacer(),
+            // Star Rating
             Row(
               children: List.generate(
                 5,
                 (index) => Icon(
-                  Icons.star,
+                  index < rating ? Icons.star : Icons.star_border,
                   color: AppColors.primary,
-                  size: 18.r,
+                  size: 16.r,
                 ),
               ),
             ),
