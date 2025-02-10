@@ -18,6 +18,21 @@ class ProductCategoryResponse {
         children: json["children"] == null ? [] : List<ProductCategoryResponse>.from(json["children"]!.map((x) => ProductCategoryResponse.fromJson(x))),
     );
 
+    factory ProductCategoryResponse.mock() {
+      return ProductCategoryResponse(
+        id: 1,
+        name: 'Accessories',
+        logo: null,
+        children: [
+          ProductCategoryResponse(
+             id: 1,
+            name: 'Belts',
+            logo: null,
+          ),
+        ],
+      );
+    }
+
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../data/models/remote/response/product_response.dart';
 import 'card_description.dart';
@@ -22,6 +23,7 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CardImage(imagePath: product.image!.image!),
+          14.verticalSpace,
           CardDescription(
             title: product.name!,
             amount: product.totalPrice!,

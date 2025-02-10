@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,12 +13,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._productRepo) : super(HomeInitial());
 
-   void getProducts() async {
+  final products = List.generate(6, (i) => Result.mock());
+
+  void getProducts() async {
     try {
-      log("State: HomeLoading");
       emit(HomeLoading());
       final productResponse = await _productRepo.getProducts();
-      log("State: HomeSuccess: $productResponse");
       emit(HomeSuccess(productResponse));
     } catch (e, s) {
       log('Error: $e');

@@ -10,18 +10,19 @@ part 'product_categories_state.dart';
 
 class ProductCategoriesCubit extends Cubit<ProductCategoriesState> {
   final ProductRepo productRepo;
-   int? _selectedCategoryIndex;
+  int? _selectedCategoryIndex;
 
   ProductCategoriesCubit(this.productRepo) : super(ProductCategoriesInitial());
 
+  final mockCategories = List.generate(
+    6,
+    (i) => ProductCategoryResponse.mock(),
+  );
+
   Future<void> getProductCategories() async {
     try {
-      log("State: ProductCategoriesLoading");
       emit(ProductCategoriesLoading());
-
       final productCategoryResponse = await productRepo.getProductCategories();
-
-      log("State: ProductCategoriesSuccess, Products Count: ${productCategoryResponse.length}");
       emit(ProductCategoriesSuccess(productCategoryResponse));
     } catch (e) {
       log("State: ProductCategoriesError, Error: $e");
