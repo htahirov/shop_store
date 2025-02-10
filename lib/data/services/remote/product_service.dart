@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import '../../../utils/constants/api_keys.dart';
 import '../../../utils/extensions/int_extensions.dart';
-import '../../dio/client_dio.dart';
+import '../../dio/auth_dio.dart';
 import '../../models/remote/response/product_categories_response.dart';
 import '../../models/remote/response/product_response.dart';
 
 class ProductService {
   Future<ProductResponse> getProducts() async {
-    final dio = ClientDio.instance.dio;
+    final dio = AuthDio.instance.dio;
     const endpoint = ApiKeys.product;
 
     log('Endpoint: $endpoint');
@@ -30,7 +30,7 @@ class ProductService {
   }
 
   Future<List<ProductCategoryResponse>> getProductCategories() async {
-    final dio = ClientDio.instance.dio;
+    final dio = AuthDio.instance.dio;
     const endpoint = ApiKeys.productCategories;
     final response = await dio.get(
       endpoint,

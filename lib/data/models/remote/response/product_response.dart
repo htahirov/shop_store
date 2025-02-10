@@ -1,3 +1,5 @@
+import 'package:shop_store/utils/constants/api_keys.dart';
+
 class ProductResponse {
   final int? count;
   final String? next;
@@ -79,6 +81,19 @@ class Result {
             : Category.fromJson(json["category"]),
         totalPrice: json["totalprice"]?.toDouble(),
         discountInterest: json["discount_interest"],
+      );
+
+  factory Result.mock() => Result(
+        id: 1,
+        product: 1,
+        slug: 'slug',
+        name: 'product name with',
+        image: Image(
+            image:
+                '/media/products/men-s-502-taper-chino-shorts/1_org_zoom.jpg'),
+        rating: 4.5,
+        totalPrice: 100,
+        discountInterest: 20,
       );
 
   Map<String, dynamic> toJson() => {

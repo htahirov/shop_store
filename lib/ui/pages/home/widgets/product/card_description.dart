@@ -19,26 +19,36 @@ class CardDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTextStyles.cardDescriptionTextStyle),
-            8.verticalSpace,
-            Text('$amount \$',
-                style: AppTextStyles.cardDescriptionTextStyle.copyWith(
-                  color: AppColors.redmana,
-                )),
-          ],
-        ),
-        26.verticalSpace,
-        const Align(
-          alignment: Alignment.center,
-          child: CustomFavoriteButton(),
-        ),
-      ],
+    return SizedBox(
+      height: 39.h,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyles.cardDescriptionTextStyle,
+                  overflow: TextOverflow.visible,
+                  maxLines: 1,
+                ),
+                1.verticalSpace,
+                Text('$amount \$',
+                    style: AppTextStyles.cardDescriptionTextStyle.copyWith(
+                      color: AppColors.redmana,
+                    )),
+              ],
+            ),
+          ),
+          26.verticalSpace,
+          const Align(
+            alignment: Alignment.center,
+            child: CustomFavoriteButton(),
+          ),
+        ],
+      ),
     );
   }
 }
