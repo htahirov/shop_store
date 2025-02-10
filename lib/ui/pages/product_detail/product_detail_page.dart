@@ -1,153 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../utils/constants/app_colors.dart';
-import '../../../utils/constants/app_assets.dart';
-import '../../../utils/constants/app_constants.dart';
-import '../../../utils/helpers/go.dart';
 import '../../../cubits/product_detail/product_detail_cubit.dart';
-import 'widgets/product_images.dart';
-import 'widgets/product_info.dart';
+import '../../../utils/screen/snackbars.dart';
 import 'widgets/bottom_cart_section.dart';
-import 'widgets/reviews_list.dart';
+import 'widgets/shimmer/product_detail_shimmer.dart';
+import 'widgets/product_detail_app_bar.dart';
+import 'widgets/product_detail_content.dart';
 
-class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key});
+class ProductDetailPage extends StatefulWidget {
+  final String slug;
+  
+  const ProductDetailPage({
+    super.key,
+    required this.slug,
+  });
+
+  @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductDetailCubit>().getProductDetail(widget.slug);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ProductDetailCubit>();
     
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40.w),
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: InkWell(
-              onTap: () => Go.pop(context),
-              child: SvgPicture.asset(
-                AppAssets.arrowLeft,
-                fit: BoxFit.none,
-              ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            ProductDetailAppBar(
+              onFavoritePressed: cubit.addToFavorites,
             ),
-            actions: [
-              InkWell(
-                onTap: cubit.addToFavorites,
-                child: CircleAvatar(
-                  radius: 17.5.r,
-                  backgroundColor: AppColors.platinum,
-                  child: const Icon(
-                    Icons.favorite_border,
-                    color: AppColors.darkRift,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const ProductImages(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
-                child: BlocBuilder<ProductDetailCubit, ProductDetailState>(
-                  builder: (context, state) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const ProductInfo(),
-                        SizedBox(height: 20.h),
-                        _buildSection(
-                          title: 'Description',
-                          isExpanded: cubit.isDescriptionExpanded,
-                          onTap: cubit.toggleDescription,
-                          content: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                            style: TextStyle(
-                              color: AppColors.titleTextColor,
-                              fontSize: 14.sp,
-                              fontFamily: AppConstants.fontFamilyNunito,
-                              fontWeight: FontWeight.w400,
-                              height: 1.57,
-                              letterSpacing: -0.07,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20.h),
-                        _buildSection(
-                          title: 'Reviews',
-                          isExpanded: cubit.isReviewsExpanded,
-                          onTap: cubit.toggleReviews,
-                          content: const ReviewsList(),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomSheet: const BottomCartSection(),
-    );
-  }
+            Expanded(
+              child: BlocConsumer<ProductDetailCubit, ProductDetailState>(
+                listener: (context, state) {
+                  if (state is ProductDetailError) {
+                    Snackbars.showError(context, message: state.message);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ProductDetailLoading) {
+                    return const ProductDetailShimmer();
+                  }
 
-  Widget _buildSection({
-    required String title,
-    required bool isExpanded,
-    required VoidCallback onTap,
-    required Widget content,
-  }) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.titleTextColor,
-                  fontSize: 14.sp,
-                  fontFamily: AppConstants.fontFamilyNunito,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.07,
-                ),
-              ),
-              Icon(
-                isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                size: 24.r,
-                color: AppColors.titleTextColor,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 10.h),
-        Container(
-          decoration: const ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: 1,
-                color: AppColors.chefsHat,
+                  final productDetail = cubit.productDetail;
+                  if (productDetail == null) {
+                    return const Center(
+                      child: Text('No product details available'),
+                    );
+                  }
+
+                  return ProductDetailContent(
+                    product: productDetail,
+                    isDescriptionExpanded: cubit.isDescriptionExpanded,
+                    isReviewsExpanded: cubit.isReviewsExpanded,
+                    onToggleDescription: cubit.toggleDescription,
+                    onToggleReviews: cubit.toggleReviews,
+                  );
+                },
               ),
             ),
-          ),
+          ],
         ),
-        if (isExpanded) ...[
-          SizedBox(height: 20.h),
-          content,
-        ],
-      ],
+      ),
+      bottomSheet: BlocBuilder<ProductDetailCubit, ProductDetailState>(
+        builder: (context, state) {
+          if (state is ProductDetailLoading || cubit.productDetail == null) {
+            return const SizedBox.shrink();
+          }
+          
+          return BottomCartSection(
+            price: cubit.productDetail!.price,
+            totalPrice: cubit.productDetail!.totalPrice,
+            discountInterest: cubit.productDetail!.discountInterest,
+          );
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
+import 'package:shop_store/utils/extensions/int_extensions.dart';
+
 import '../../../utils/constants/api_keys.dart';
-import '../../../utils/extensions/int_extensions.dart';
 import '../../dio/auth_dio.dart';
 import '../../models/remote/request/login_request.dart';
 import '../../models/remote/response/login_response.dart';

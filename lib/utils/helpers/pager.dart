@@ -45,8 +45,10 @@ class Pager {
         child: const VerifyPage(),
       );
         
-  static Widget get productDetail => BlocProvider(
-        create: (_) => locator<ProductDetailCubit>(),
-        child: const ProductDetailPage(),
-      );
+   static Widget productDetail(String slug) {
+    return BlocProvider.value(
+      value: locator<ProductDetailCubit>(),
+      child: ProductDetailPage(slug: slug),
+    );
+  }
 }
