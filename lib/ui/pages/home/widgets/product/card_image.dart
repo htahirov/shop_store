@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/constants/app_colors.dart';
-import '../../../../utils/constants/app_radiuses.dart';
+import '../../../../../utils/constants/app_colors.dart';
+import '../../../../../utils/constants/app_radiuses.dart';
 
 class CardImage extends StatelessWidget {
   final String imagePath;
@@ -18,7 +18,7 @@ class CardImage extends StatelessWidget {
           decoration: const BoxDecoration(
             color: AppColors.jadePalace,
           ),
-          child: Image.asset(
+          child: Image.network(
             imagePath,
             fit: BoxFit.contain,
           ),

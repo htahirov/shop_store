@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white,
         ),
-        home: Pager.home,
+        home: Pager.splash,
         navigatorKey: navigatorKey,
       ),
     );

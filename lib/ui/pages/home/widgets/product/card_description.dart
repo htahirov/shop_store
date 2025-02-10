@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../utils/constants/app_colors.dart';
-import '../../../../utils/constants/app_text_styles.dart';
-import '../../../widgets/custom_favorite_button.dart';
+import '../../../../../utils/constants/app_colors.dart';
+import '../../../../../utils/constants/app_text_styles.dart';
+import '../../../../widgets/custom_favorite_button.dart';
 
 class CardDescription extends StatelessWidget {
   final String title;
