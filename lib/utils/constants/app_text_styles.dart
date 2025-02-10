@@ -19,12 +19,21 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     height: 77.h / 64.sp,
   );
-  static final verifyTextStyle=TextStyle(
-    height: 22.h/14.sp,
-      color: AppColors.titleTextColor,
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w600,
-      fontFamily: AppConstants.fontFamilyNunito,
-      letterSpacing: -0.5,
-    );
+  static final verifyTextStyle = TextStyle(
+    height: 22.h / 14.sp,
+    color: AppColors.titleTextColor,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    fontFamily: AppConstants.fontFamilyNunito,
+    letterSpacing: -0.5,
+  );
+
+  static final cardDescriptionTextStyle = TextStyle(
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    height: 19.h / 14.sp,
+    letterSpacing: -0.5,
+    color: AppColors.titleTextColor,
+  );
 }
