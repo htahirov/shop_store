@@ -22,8 +22,6 @@ class AppTexts {
   static const resendCode =  "Resend code";
   static const recevieCode =  "I didn’t recevie code.";
   static const filter =  "Filter";
-  static const resendCode = "Resend code";
-  static const recevieCode = "I didn’t recevie code.";
   static const saleUpTo = "SALE UP TO";
   static const positioned2 = "70%";
   static const off = "OFF";

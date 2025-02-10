@@ -20,7 +20,7 @@ class CustomStarRating extends StatelessWidget {
         int star = index + 1;
         bool isSelected = selectedStar == star;
         return ChoiceChip(
-          labelPadding: AppPaddings.a0,
+          labelPadding: AppPaddings.zero,
           label: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
