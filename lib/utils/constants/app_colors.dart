@@ -20,6 +20,8 @@ class AppColors {
   static const platinum = Color(0xFFE4E4E4);
   static const superSilver = Color(0xFFEEEEEE);
   static const chefsHat = Color(0xFFF3F3F6);
+  static const graniteConyon = platinum;
+  static const waterGreen = jadePalace;
   static const primary = jadePalace;
   static const titleTextColor = satinDeepBlack;
   static const inputFillColor = ghostWhite;
@@ -29,4 +31,5 @@ class AppColors {
   static const starBackColor = waterGreen;
   static const starBorderColor = titaniumWhite;
   static const sliderTrackColor = dryadBark;
+  static const redmana = Color(0xffF45959);
 }
