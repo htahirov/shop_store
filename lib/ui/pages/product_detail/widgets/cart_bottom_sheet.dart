@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../cubits/product_detail/product_detail_cubit.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 
 class CartBottomSheet extends StatefulWidget {
-  const CartBottomSheet({super.key});
+  final double price;
+  final double totalPrice;
+  final int discountInterest;
+
+  const CartBottomSheet({
+    super.key,
+    required this.price,
+    required this.totalPrice,
+    required this.discountInterest,
+  });
 
   @override
   State<CartBottomSheet> createState() => _CartBottomSheetState();
 }
 
 class _CartBottomSheetState extends State<CartBottomSheet> {
-  String selectedSize = 'S';
-  int selectedColorIndex = 3;
+  String? selectedSize;
+  int? selectedColorId;
   int quantity = 1;
-
-  final List<Color> colors = [
-    AppColors.navalNight,
-    AppColors.sea,
-    AppColors.fatback,
-    AppColors.doctor,
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ProductDetailCubit>();
+    final product = cubit.productDetail;
+    
+    if (product == null) return const SizedBox.shrink();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -70,15 +79,15 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: ['S', 'M', 'L', 'XL'].map((size) {
-                            final isSelected = selectedSize == size;
+                          children: product.size.map((sizeOption) {
+                            final isSelected = selectedSize == sizeOption.size;
                             return Padding(
                               padding: EdgeInsets.only(right: 15.w),
                               child: InkWell(
-                                onTap: () => setState(() => selectedSize = size),
+                                onTap: () => setState(() => selectedSize = sizeOption.size),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: size == 'XL' ? 6.w : 10.w,
+                                    horizontal: 10.w,
                                     vertical: 5.h,
                                   ),
                                   decoration: BoxDecoration(
@@ -89,7 +98,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                                     borderRadius: BorderRadius.circular(5.r),
                                   ),
                                   child: Text(
-                                    size,
+                                    sizeOption.size,
                                     style: TextStyle(
                                       color: isSelected ? Colors.white : AppColors.textButtonColor,
                                       fontSize: 14.sp,
@@ -121,16 +130,16 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       ),
                     ),
                     SizedBox(width: 42.w),
-                    ...List.generate(colors.length, (index) {
-                      final isSelected = selectedColorIndex == index;
+                    ...product.color.map((colorOption) {
+                      final isSelected = selectedColorId == colorOption.id;
                       return GestureDetector(
-                        onTap: () => setState(() => selectedColorIndex = index),
+                        onTap: () => setState(() => selectedColorId = colorOption.id),
                         child: Container(
                           margin: EdgeInsets.only(right: 20.w),
                           width: 28.r,
                           height: 28.r,
                           decoration: BoxDecoration(
-                            color: colors[index],
+                            color: Color(int.parse('0xFF${colorOption.color.substring(1)}')),
                             shape: BoxShape.circle,
                             border: isSelected
                                 ? Border.all(color: AppColors.primary, width: 2)
@@ -201,14 +210,30 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Text(
-                      '\$${(quantity * 300).toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: AppColors.redmana,
-                        fontSize: 14.sp,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (widget.discountInterest > 0)
+                          Text(
+                            '\$${(widget.price * quantity).toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: AppColors.textButtonColor,
+                              fontSize: 12.sp,
+                              fontFamily: AppConstants.fontFamilyNunito,
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        Text(
+                          '\$${(widget.totalPrice * quantity).toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: AppColors.redmana,
+                            fontSize: 14.sp,
+                            fontFamily: AppConstants.fontFamilyNunito,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -216,7 +241,21 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
 
                 // Add to Cart Button
                 GestureDetector(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () {
+                    if (selectedSize == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please select a size')),
+                      );
+                      return;
+                    }
+                    if (selectedColorId == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please select a color')),
+                      );
+                      return;
+                    }
+                    Navigator.pop(context);
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 60.h,

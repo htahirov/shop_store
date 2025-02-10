@@ -1,13 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import '../../data/models/remote/response/product_detail_responce.dart';
+import '../../data/repo/product_detail_repo.dart';
 
 part 'product_detail_state.dart';
 
 class ProductDetailCubit extends Cubit<ProductDetailState> {
-  ProductDetailCubit() : super(ProductDetailInitial());
+  final ProductDetailRepo _productDetailRepo;
+
+  ProductDetailCubit(this._productDetailRepo) : super(ProductDetailInitial());
 
   bool isDescriptionExpanded = false;
   bool isReviewsExpanded = false;
+  ProductDetailResponse? productDetail;
 
   void toggleDescription() {
     isDescriptionExpanded = !isDescriptionExpanded;
@@ -17,6 +22,21 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
   void toggleReviews() {
     isReviewsExpanded = !isReviewsExpanded;
     emit(ProductDetailUpdated());
+  }
+
+  Future<void> getProductDetail(String slug) async {
+    try {
+      emit(ProductDetailLoading());
+      final response = await _productDetailRepo.getProductDetail(slug);
+      if (response != null) {
+        productDetail = response;
+        emit(ProductDetailSuccess());
+      } else {
+        emit(ProductDetailError('Failed to load product details'));
+      }
+    } catch (e) {
+      emit(ProductDetailError(e.toString()));
+    }
   }
 
   void addToFavorites() {
@@ -29,5 +49,3 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
     emit(ProductDetailSuccess());
   }
 }
-
-class ProductDetailUpdated extends ProductDetailState {}

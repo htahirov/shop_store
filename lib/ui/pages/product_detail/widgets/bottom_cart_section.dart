@@ -7,10 +7,21 @@ import '../../../../cubits/product_detail/product_detail_cubit.dart';
 import '../widgets/cart_bottom_sheet.dart';
 
 class BottomCartSection extends StatelessWidget {
-  const BottomCartSection({super.key});
+  final double price;
+  final double totalPrice;
+  final int discountInterest;
+
+  const BottomCartSection({
+    super.key,
+    required this.price,
+    required this.totalPrice,
+    required this.discountInterest,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ProductDetailCubit>();
+    
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
       decoration: BoxDecoration(
@@ -26,53 +37,74 @@ class BottomCartSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '\$300',
-            style: TextStyle(
-              color: AppColors.redmana,
-              fontSize: 26.sp,
-              fontFamily: AppConstants.fontFamilyNunito,
-              fontWeight: FontWeight.w700,
-              height: 1.35,
-              letterSpacing: -0.13,
-            ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (discountInterest > 0) 
+                Text(
+                  '\$$price',
+                  style: TextStyle(
+                    color: AppColors.textButtonColor,
+                    fontSize: 14.sp,
+                    fontFamily: AppConstants.fontFamilyNunito,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+              Text(
+                '\$$totalPrice',
+                style: TextStyle(
+                  color: AppColors.redmana,
+                  fontSize: 26.sp,
+                  fontFamily: AppConstants.fontFamilyNunito,
+                  fontWeight: FontWeight.w700,
+                  height: 1.35,
+                  letterSpacing: -0.13,
+                ),
+              ),
+            ],
           ),
-          BlocBuilder<ProductDetailCubit, ProductDetailState>(
-            builder: (context, state) {
-              return GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => const CartBottomSheet(),
-                  );
-                  context.read<ProductDetailCubit>().addToCart();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25.w,
-                    vertical: 7.h,
-                  ),
-                  decoration: ShapeDecoration(
-                    color: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.r),
-                    ),
-                  ),
-                  child: Text(
-                    'Add to Cart',
-                    style: TextStyle(
-                      color: AppColors.titleTextColor,
-                      fontSize: 14.sp,
-                      fontFamily: AppConstants.fontFamilyNunito,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -0.07,
-                    ),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: cubit),
+                  ],
+                  child: CartBottomSheet(
+                    price: price,
+                    totalPrice: totalPrice,
+                    discountInterest: discountInterest,
                   ),
                 ),
               );
             },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 25.w,
+                vertical: 7.h,
+              ),
+              decoration: ShapeDecoration(
+                color: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+              ),
+              child: Text(
+                'Add to Cart',
+                style: TextStyle(
+                  color: AppColors.titleTextColor,
+                  fontSize: 14.sp,
+                  fontFamily: AppConstants.fontFamilyNunito,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.07,
+                ),
+              ),
+            ),
           ),
         ],
       ),

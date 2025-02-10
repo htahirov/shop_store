@@ -15,3 +15,4 @@ class ProductDetailError extends ProductDetailState {
   ProductDetailError(this.message);
 }
 
+class ProductDetailUpdated extends ProductDetailState {}
