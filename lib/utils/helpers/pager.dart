@@ -89,3 +89,4 @@ class Pager {
         ],
         child: const SearchPage(),
       );
+}
