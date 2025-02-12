@@ -8,8 +8,9 @@ import 'custom_favorite_button.dart';
 
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
+  final void Function()? onTapMenu;
 
-  SimpleAppBar.home({super.key})
+  SimpleAppBar.home({super.key, this.onTapMenu})
       : actions = [
           SvgPicture.asset(
             AppAssets.search,
@@ -18,7 +19,7 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ];
 
-  SimpleAppBar.product({super.key})
+  SimpleAppBar.product({super.key, this.onTapMenu})
       : actions = [
           const CustomFavoriteButton(),
         ];
@@ -29,10 +30,13 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: AppPaddings.h40,
       child: AppBar(
         leading: Center(
-          child: SvgPicture.asset(
-            AppAssets.menu,
-            height: 20.r,
-            width: 20.r,
+          child: GestureDetector(
+            onTap: onTapMenu,
+            child: SvgPicture.asset(
+              AppAssets.menu,
+              height: 20.r,
+              width: 20.r,
+            ),
           ),
         ),
         actions: actions,

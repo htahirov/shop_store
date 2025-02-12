@@ -74,10 +74,9 @@ class Pager {
   static Widget get search => MultiBlocProvider(
         providers: [
           BlocProvider<SearchCubit>(
-            create: (_) => locator()..loadInitialData(),
-          ),
-          BlocProvider<SearchCubit>(
-            create: (_) => locator()..loadRecentSearches(),
+            create: (_) => locator()
+              ..getRecentSearches()
+              ..getProducts(),
           ),
         ],
         child: const SearchPage(),
