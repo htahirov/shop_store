@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
           home: Pager.splash,
           navigatorKey: navigatorKey,
         ),
-      ),
-    );
+        home: Pager.splash,
   }
 }
