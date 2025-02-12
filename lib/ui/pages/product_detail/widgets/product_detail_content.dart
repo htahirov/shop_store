@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../data/models/remote/response/product_detail_responce.dart';
+import 'package:html_unescape/html_unescape.dart';
+import '../../../../data/models/remote/response/product_detail_response.dart';
 import 'product_detail_expandable.dart';
 import 'product_images.dart';
 import 'product_info.dart';
@@ -13,7 +14,9 @@ class ProductDetailContent extends StatelessWidget {
   final VoidCallback onToggleDescription;
   final VoidCallback onToggleReviews;
 
-  const ProductDetailContent({
+  final _htmlUnescape = HtmlUnescape();
+
+  ProductDetailContent({
     super.key,
     required this.product,
     required this.isDescriptionExpanded,
@@ -24,6 +27,10 @@ class ProductDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final unescapedDescription = _htmlUnescape.convert(product.description)
+        .replaceAll(RegExp(r'<[^>]*>'), '')  // Remove HTML tags
+        .replaceAll('&nbsp;', ' ');  // Replace &nbsp; with space
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,12 +43,12 @@ class ProductDetailContent extends StatelessWidget {
               children: [
                 ProductInfo(product: product),
                 SizedBox(height: 20.h),
-                ExpandableSection(
+                ProductDetailExpandable(
                   title: 'Description',
                   isExpanded: isDescriptionExpanded,
                   onTap: onToggleDescription,
                   content: Text(
-                    product.description,
+                    unescapedDescription,
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 14.sp,
@@ -50,7 +57,7 @@ class ProductDetailContent extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20.h),
-                ExpandableSection(
+                ProductDetailExpandable(
                   title: 'Reviews (${product.reviewsCount})',
                   isExpanded: isReviewsExpanded,
                   onTap: onToggleReviews,
