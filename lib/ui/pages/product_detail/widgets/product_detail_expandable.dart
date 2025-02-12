@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 
-class ExpandableSection extends StatelessWidget {
+class ProductDetailExpandable extends StatelessWidget {
   final String title;
   final bool isExpanded;
   final VoidCallback onTap;
   final Widget content;
 
-  const ExpandableSection({
+  const ProductDetailExpandable({
     super.key,
     required this.title,
     required this.isExpanded,
@@ -20,6 +20,7 @@ class ExpandableSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
           onTap: onTap,
@@ -45,15 +46,10 @@ class ExpandableSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        Container(
-          decoration: const ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: 1,
-                color: AppColors.chefsHat,
-              ),
-            ),
-          ),
+        const Divider(
+          height: 1,
+          thickness: 1,
+          color: AppColors.chefsHat,
         ),
         if (isExpanded) ...[
           SizedBox(height: 20.h),

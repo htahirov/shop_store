@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import '../../data/models/remote/response/product_detail_responce.dart';
+import '../../data/models/remote/response/product_detail_response.dart';
 import '../../data/repo/product_detail_repo.dart';
 
 part 'product_detail_state.dart';

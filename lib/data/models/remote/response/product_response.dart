@@ -1,4 +1,3 @@
-import 'package:shop_store/utils/constants/api_keys.dart';
 
 class ProductResponse {
   final int? count;

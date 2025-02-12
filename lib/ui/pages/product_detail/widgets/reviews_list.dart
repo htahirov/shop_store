@@ -27,17 +27,15 @@ class ReviewsList extends StatelessWidget {
     }
 
     return Column(
-      children: [
-        ...reviews.map((review) => Padding(
-          padding: EdgeInsets.only(bottom: 20.h),
-          child: ReviewItem(
-            name: review['user'] ?? 'Anonymous',
-            review: review['comment'] ?? '',
-            time: review['created_at'] ?? '',
-            rating: review['rating'] ?? 0,
-          ),
-        )),
-      ],
+      children: reviews.map((review) => Padding(
+        padding: EdgeInsets.only(bottom: 20.h),
+        child: ReviewItem(
+          name: review['user'] ?? 'Anonymous',
+          review: review['comment'] ?? '',
+          time: review['created_at'] ?? '',
+          rating: review['rating'] ?? 0,
+        ),
+      )).toList(),
     );
   }
 }

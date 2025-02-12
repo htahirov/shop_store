@@ -23,9 +23,7 @@ class ReviewItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // User Avatar and Name
             CircleAvatar(
               radius: 15.r,
               backgroundColor: AppColors.superSilver,
@@ -50,7 +48,6 @@ class ReviewItem extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            // Star Rating
             Row(
               children: List.generate(
                 5,
