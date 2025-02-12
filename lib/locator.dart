@@ -40,28 +40,25 @@ void setupLocator() {
 
   // Product detail services
   locator.registerLazySingleton(() => ProductDetailService());
-  locator.registerLazySingleton<ProductDetailRepo>(() => ProductDetailRepoImpl(locator()));
+  locator.registerLazySingleton<ProductDetailRepo>(
+      () => ProductDetailRepoImpl(locator()));
 
   locator.registerLazySingleton(() => BasketService());
-locator.registerLazySingleton<BasketRepo>(() => BasketRepoImpl(locator()));
+  locator.registerLazySingleton<BasketRepo>(() => BasketRepoImpl(locator()));
 
   // Cubits
-    locator.registerFactory(() => SearchCubit());
+  locator.registerFactory(() => SearchCubit());
   locator.registerFactory(() => SplashCubit());
   locator.registerFactory(() => VerifyCubit());
   locator.registerFactory(() => ForgotPasswordCubit());
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
   locator.registerFactory(() => SignUpCubit());
-  locator.registerFactory(() => ProductDetailCubit(
-    locator<ProductDetailRepo>(),
-    locator<BasketRepo>(),
-  ));
   locator.registerFactory(() => HomeCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductCategoriesCubit(locator<ProductRepo>()));
   locator.registerFactory(() => BasketCubit(locator()));
   locator.registerFactory(() => ProductDetailCubit(
-    locator<ProductDetailRepo>(),
-    locator<BasketRepo>(),
-  ));
+        locator<ProductDetailRepo>(),
+        locator<BasketRepo>(),
+      ));
 }
