@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shop_store/utils/constants/api_keys.dart';
 import 'package:shop_store/utils/extensions/int_extensions.dart';
-import '../../models/remote/response/product_detail_responce.dart';
+import '../../models/remote/response/product_detail_response.dart';
 
 class ProductDetailService {
   Future<ProductDetailResponse?> getProductDetail(String slug) async {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../cubits/product_detail/product_detail_cubit.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
+import '../../../../cubits/product_detail/product_detail_cubit.dart';
+import '../../../../data/models/remote/response/product_detail_response.dart';
 
 class CartBottomSheet extends StatefulWidget {
   final double price;
@@ -33,7 +34,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     
     if (product == null) return const SizedBox.shrink();
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
@@ -49,225 +50,80 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 20.h),
-          Container(
+          // Handle at the top
+          SizedBox(
             width: 46.w,
             height: 5.h,
-            decoration: BoxDecoration(
-              color: AppColors.desiredDawn,
-              borderRadius: BorderRadius.circular(5.r),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.desiredDawn,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
             ),
           ),
+          // Content
           Padding(
             padding: EdgeInsets.all(40.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Size Selection
-                Row(
-                  children: [
-                    Text(
-                      'Size',
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 14.sp,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(width: 50.w),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: product.size.map((sizeOption) {
-                            final isSelected = selectedSize == sizeOption.size;
-                            return Padding(
-                              padding: EdgeInsets.only(right: 15.w),
-                              child: InkWell(
-                                onTap: () => setState(() => selectedSize = sizeOption.size),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w,
-                                    vertical: 5.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isSelected ? AppColors.primary : null,
-                                    border: Border.all(
-                                      color: isSelected ? AppColors.primary : AppColors.platinum,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.r),
-                                  ),
-                                  child: Text(
-                                    sizeOption.size,
-                                    style: TextStyle(
-                                      color: isSelected ? Colors.white : AppColors.textButtonColor,
-                                      fontSize: 14.sp,
-                                      fontFamily: AppConstants.fontFamilyNunito,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                _buildSizeSelection(product.size),
                 SizedBox(height: 20.h),
-
-                // Color Selection
-                Row(
-                  children: [
-                    Text(
-                      'Color',
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 14.sp,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(width: 42.w),
-                    ...product.color.map((colorOption) {
-                      final isSelected = selectedColorId == colorOption.id;
-                      return GestureDetector(
-                        onTap: () => setState(() => selectedColorId = colorOption.id),
-                        child: Container(
-                          margin: EdgeInsets.only(right: 20.w),
-                          width: 28.r,
-                          height: 28.r,
-                          decoration: BoxDecoration(
-                            color: Color(int.parse('0xFF${colorOption.color.substring(1)}')),
-                            shape: BoxShape.circle,
-                            border: isSelected
-                                ? Border.all(color: AppColors.primary, width: 2)
-                                : null,
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
+                _buildColorSelection(product.color),
                 SizedBox(height: 20.h),
-
-                // Quantity Selection
-                Row(
-                  children: [
-                    Text(
-                      'Total',
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 14.sp,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(width: 44.w),
-                    _buildQuantityButton(
-                      icon: Icons.remove,
-                      onTap: () {
-                        if (quantity > 1) {
-                          setState(() => quantity--);
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Text(
-                        quantity.toString(),
-                        style: TextStyle(
-                          color: AppColors.titleTextColor,
-                          fontSize: 14.sp,
-                          fontFamily: AppConstants.fontFamilyNunito,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    _buildQuantityButton(
-                      icon: Icons.add,
-                      onTap: () => setState(() => quantity++),
-                      color: const Color(0xFF9B99F5),
-                    ),
-                  ],
-                ),
+                _buildQuantitySelection(),
                 SizedBox(height: 20.h),
-
                 const Divider(color: AppColors.platinum),
                 SizedBox(height: 20.h),
-
-                // Total Payment
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total Payment',
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 14.sp,
-                        fontFamily: AppConstants.fontFamilyNunito,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (widget.discountInterest > 0)
-                          Text(
-                            '\$${(widget.price * quantity).toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: AppColors.textButtonColor,
-                              fontSize: 12.sp,
-                              fontFamily: AppConstants.fontFamilyNunito,
-                              fontWeight: FontWeight.w400,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        Text(
-                          '\$${(widget.totalPrice * quantity).toStringAsFixed(2)}',
-                          style: TextStyle(
-                            color: AppColors.redmana,
-                            fontSize: 14.sp,
-                            fontFamily: AppConstants.fontFamilyNunito,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                _buildTotalPayment(),
                 SizedBox(height: 30.h),
+                _buildAddToCartButton(context),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                // Add to Cart Button
-                GestureDetector(
-                  onTap: () {
-                    if (selectedSize == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please select a size')),
-                      );
-                      return;
-                    }
-                    if (selectedColorId == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please select a color')),
-                      );
-                      return;
-                    }
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 60.h,
+  Widget _buildSizeSelection(List<ProductSize> sizes) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Size',
+          style: _labelStyle,
+        ),
+        SizedBox(height: 10.h),
+        SizedBox(
+          height: 40.h,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: sizes.length,
+            itemBuilder: (context, index) {
+              final sizeOption = sizes[index];
+              final isSelected = selectedSize == sizeOption.size;
+              return Padding(
+                padding: EdgeInsets.only(right: 15.w),
+                child: InkWell(
+                  onTap: () => setState(() => selectedSize = sizeOption.size),
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(30.r),
+                      color: isSelected ? AppColors.primary : null,
+                      border: Border.all(
+                        color: isSelected ? AppColors.primary : AppColors.platinum,
+                      ),
+                      borderRadius: BorderRadius.circular(5.r),
                     ),
-                    child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 10.h,
+                      ),
                       child: Text(
-                        'Add to Cart',
+                        sizeOption.size,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: isSelected ? Colors.white : AppColors.textButtonColor,
                           fontSize: 14.sp,
                           fontFamily: AppConstants.fontFamilyNunito,
                           fontWeight: FontWeight.w600,
@@ -276,11 +132,84 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     ),
                   ),
                 ),
-              ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildColorSelection(List<ProductColor> colors) {
+    return Row(
+      children: [
+        Text(
+          'Color',
+          style: _labelStyle,
+        ),
+        SizedBox(width: 42.w),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: colors.map((colorOption) {
+                final isSelected = selectedColorId == colorOption.id;
+                return GestureDetector(
+                  onTap: () => setState(() => selectedColorId = colorOption.id),
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20.w),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: isSelected ? Border.all(color: AppColors.primary, width: 2) : null,
+                      ),
+                      child: Padding(
+                        padding: isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
+                        child: CircleAvatar(
+                          radius: 14.r,
+                          backgroundColor: Color(int.parse('0xFF${colorOption.color.substring(1)}')),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuantitySelection() {
+    return Row(
+      children: [
+        Text(
+          'Total',
+          style: _labelStyle,
+        ),
+        SizedBox(width: 44.w),
+        _buildQuantityButton(
+          icon: Icons.remove,
+          onTap: () {
+            if (quantity > 1) {
+              setState(() => quantity--);
+            }
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Text(
+            quantity.toString(),
+            style: _labelStyle,
+          ),
+        ),
+        _buildQuantityButton(
+          icon: Icons.add,
+          onTap: () => setState(() => quantity++),
+          color: AppColors.coldLips,
+        ),
+      ],
     );
   }
 
@@ -291,22 +220,109 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: 23.r,
         height: 23.r,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-          border: color == null
-              ? Border.all(color: AppColors.platinum, width: 1.5)
-              : null,
-        ),
-        child: Icon(
-          icon,
-          size: 14.r,
-          color: color == null ? AppColors.textButtonColor : Colors.white,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+            border: color == null
+                ? Border.all(color: AppColors.platinum, width: 1.5)
+                : null,
+          ),
+          child: Icon(
+            icon,
+            size: 14.r,
+            color: color == null ? AppColors.textButtonColor : Colors.white,
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildTotalPayment() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Total Payment',
+          style: _labelStyle,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            if (widget.discountInterest > 0)
+              Text(
+                '\$${(widget.price * quantity).toStringAsFixed(2)}',
+                style: TextStyle(
+                  color: AppColors.textButtonColor,
+                  fontSize: 12.sp,
+                  fontFamily: AppConstants.fontFamilyNunito,
+                  fontWeight: FontWeight.w400,
+                  decoration: TextDecoration.lineThrough,
+                ),
+              ),
+            Text(
+              '\$${(widget.totalPrice * quantity).toStringAsFixed(2)}',
+              style: TextStyle(
+                color: AppColors.redmana,
+                fontSize: 14.sp,
+                fontFamily: AppConstants.fontFamilyNunito,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddToCartButton(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (selectedSize == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select a size')),
+          );
+          return;
+        }
+        if (selectedColorId == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select a color')),
+          );
+          return;
+        }
+        Navigator.pop(context);
+      },
+      child: SizedBox(
+        width: double.infinity,
+        height: 60.h,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(30.r),
+          ),
+          child: Center(
+            child: Text(
+              'Add to Cart',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: AppConstants.fontFamilyNunito,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextStyle get _labelStyle => TextStyle(
+    color: AppColors.titleTextColor,
+    fontSize: 14.sp,
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontWeight: FontWeight.w600,
+  );
 }

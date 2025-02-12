@@ -18,9 +18,7 @@ import 'data/repo/product_detail_repo.dart';
 import 'data/services/remote/auth_service.dart';
 import 'data/services/remote/product_detail_service.dart';
 import 'data/i_repo/product_repo_impl.dart';
-import 'data/repo/auth_repo.dart';
 import 'data/repo/product_repo.dart';
-import 'data/services/remote/auth_service.dart';
 import 'data/services/remote/product_service.dart';
 
 final GetIt locator = GetIt.instance;

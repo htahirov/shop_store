@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../data/models/remote/response/product_detail_responce.dart';
+import '../../../../data/models/remote/response/product_detail_response.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 

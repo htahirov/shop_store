@@ -1,4 +1,4 @@
-import '../models/remote/response/product_detail_responce.dart';
+import '../models/remote/response/product_detail_response.dart';
 import '../repo/product_detail_repo.dart';
 import '../services/remote/product_detail_service.dart';
 
