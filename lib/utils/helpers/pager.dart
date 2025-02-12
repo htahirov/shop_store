@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/ui/pages/search/search_page.dart';
 
+import '../../cubits/cubit/search_cubit.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
 import '../../cubits/product_detail/product_detail_cubit.dart';
@@ -68,5 +70,16 @@ class Pager {
           ),
         ],
         child: const HomePage(),
+      );
+  static Widget get search => MultiBlocProvider(
+        providers: [
+          BlocProvider<SearchCubit>(
+            create: (_) => locator()..loadInitialData(),
+          ),
+          BlocProvider<SearchCubit>(
+            create: (_) => locator()..loadRecentSearches(),
+          ),
+        ],
+        child: const SearchPage(),
       );
 }
