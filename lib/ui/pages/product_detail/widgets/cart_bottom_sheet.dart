@@ -5,6 +5,9 @@ import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 import '../../../../cubits/product_detail/product_detail_cubit.dart';
 import '../../../../data/models/remote/response/product_detail_response.dart';
+import '../../../../utils/helpers/go.dart';
+import '../../../../utils/helpers/pager.dart';
+import '../../../../utils/screen/snackbars.dart';
 
 class CartBottomSheet extends StatefulWidget {
   final double price;
@@ -34,54 +37,62 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     
     if (product == null) return const SizedBox.shrink();
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 30,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 20.h),
-          // Handle at the top
-          SizedBox(
-            width: 46.w,
-            height: 5.h,
-            child: DecoratedBox(
+    return BlocListener<ProductDetailCubit, ProductDetailState>(
+      listener: (context, state) {
+        if (state is ProductDetailSuccess) {
+          Navigator.pop(context); // Close bottom sheet
+          Go.to(context, Pager.cart); // Navigate to cart
+        } else if (state is ProductDetailError) {
+          Navigator.pop(context);
+          Snackbars.showError(context, message: state.message);
+        }
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 30,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 20.h),
+            // Handle bar at the top
+            Container(
+              width: 46.w,
+              height: 5.h,
               decoration: BoxDecoration(
                 color: AppColors.desiredDawn,
                 borderRadius: BorderRadius.circular(5.r),
               ),
             ),
-          ),
-          // Content
-          Padding(
-            padding: EdgeInsets.all(40.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSizeSelection(product.size),
-                SizedBox(height: 20.h),
-                _buildColorSelection(product.color),
-                SizedBox(height: 20.h),
-                _buildQuantitySelection(),
-                SizedBox(height: 20.h),
-                const Divider(color: AppColors.platinum),
-                SizedBox(height: 20.h),
-                _buildTotalPayment(),
-                SizedBox(height: 30.h),
-                _buildAddToCartButton(context),
-              ],
+            Padding(
+              padding: EdgeInsets.all(40.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSizeSelection(product.size),
+                  SizedBox(height: 20.h),
+                  _buildColorSelection(product.color),
+                  SizedBox(height: 20.h),
+                  _buildQuantitySelection(),
+                  SizedBox(height: 20.h),
+                  const Divider(color: AppColors.platinum),
+                  SizedBox(height: 20.h),
+                  _buildTotalPayment(),
+                  SizedBox(height: 30.h),
+                  _buildAddToCartButton(context, product),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -90,10 +101,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Size',
-          style: _labelStyle,
-        ),
+        Text('Size', style: _labelStyle),
         SizedBox(height: 10.h),
         SizedBox(
           height: 40.h,
@@ -143,10 +151,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   Widget _buildColorSelection(List<ProductColor> colors) {
     return Row(
       children: [
-        Text(
-          'Color',
-          style: _labelStyle,
-        ),
+        Text('Color', style: _labelStyle),
         SizedBox(width: 42.w),
         Expanded(
           child: SingleChildScrollView(
@@ -161,13 +166,17 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: isSelected ? Border.all(color: AppColors.primary, width: 2) : null,
+                        border: isSelected 
+                            ? Border.all(color: AppColors.primary, width: 2) 
+                            : null,
                       ),
                       child: Padding(
                         padding: isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
                         child: CircleAvatar(
                           radius: 14.r,
-                          backgroundColor: Color(int.parse('0xFF${colorOption.color.substring(1)}')),
+                          backgroundColor: Color(
+                            int.parse('0xFF${colorOption.color.substring(1)}')
+                          ),
                         ),
                       ),
                     ),
@@ -184,10 +193,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   Widget _buildQuantitySelection() {
     return Row(
       children: [
-        Text(
-          'Total',
-          style: _labelStyle,
-        ),
+        Text('Total', style: _labelStyle),
         SizedBox(width: 44.w),
         _buildQuantityButton(
           icon: Icons.remove,
@@ -220,17 +226,17 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        width: 23.r,
-        height: 23.r,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-            border: color == null
-                ? Border.all(color: AppColors.platinum, width: 1.5)
-                : null,
-          ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+          border: color == null
+              ? Border.all(color: AppColors.platinum, width: 1.5)
+              : null,
+        ),
+        child: SizedBox(
+          width: 23.1.r,
+          height: 23.1.r,
           child: Icon(
             icon,
             size: 14.r,
@@ -245,10 +251,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Total Payment',
-          style: _labelStyle,
-        ),
+        Text('Total Payment', style: _labelStyle),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -278,44 +281,62 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     );
   }
 
-  Widget _buildAddToCartButton(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (selectedSize == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select a size')),
-          );
-          return;
-        }
-        if (selectedColorId == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select a color')),
-          );
-          return;
-        }
-        Navigator.pop(context);
-      },
-      child: SizedBox(
-        width: double.infinity,
-        height: 60.h,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(30.r),
-          ),
-          child: Center(
-            child: Text(
-              'Add to Cart',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontFamily: AppConstants.fontFamilyNunito,
-                fontWeight: FontWeight.w600,
+  Widget _buildAddToCartButton(BuildContext context, ProductDetailResponse product) {
+    return BlocBuilder<ProductDetailCubit, ProductDetailState>(
+      builder: (context, state) {
+        final isLoading = state is ProductDetailLoading;
+        
+        return InkWell(
+          onTap: isLoading ? null : () {
+            if (selectedSize == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please select a size')),
+              );
+              return;
+            }
+            if (selectedColorId == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please select a color')),
+              );
+              return;
+            }
+
+            final sizeId = product.size
+                .firstWhere((s) => s.size == selectedSize)
+                .id;
+
+            context.read<ProductDetailCubit>().addToCart(
+              productId: product.id,
+              colorId: selectedColorId!,
+              sizeId: sizeId,
+              quantity: quantity,
+            );
+          },
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(30.r),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: 60.h,
+              child: Center(
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                        'Add to Cart',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: AppConstants.fontFamilyNunito,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

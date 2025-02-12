@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
+import '../../cubits/basket/basket_cubit.dart';
 import '../../cubits/cubit/search_cubit.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
@@ -11,6 +12,7 @@ import '../../cubits/signup/signup_cubit.dart';
 import '../../cubits/splash/splash_cubit.dart';
 import '../../cubits/verify/verify_cubit.dart';
 import '../../locator.dart';
+import '../../ui/pages/cart/cart_page.dart';
 import '../../ui/pages/create_new_password/create_new_password_page.dart';
 import '../../ui/pages/filter/filter_page.dart';
 import '../../ui/pages/forgot_password/forgot_password_page.dart';
@@ -60,6 +62,11 @@ class Pager {
     );
   }
 
+  static Widget get cart => BlocProvider<BasketCubit>(
+        create: (_) => locator()..getBasketItems(),
+        child: const CartPage(),
+      );
+
   static Widget get home => MultiBlocProvider(
         providers: [
           BlocProvider<HomeCubit>(
@@ -71,6 +78,7 @@ class Pager {
         ],
         child: const HomePage(),
       );
+
   static Widget get search => MultiBlocProvider(
         providers: [
           BlocProvider<SearchCubit>(
@@ -81,4 +89,3 @@ class Pager {
         ],
         child: const SearchPage(),
       );
-}

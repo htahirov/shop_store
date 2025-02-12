@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../cubits/home/home_cubit.dart';
+import '../cubits/product_categories/product_categories_cubit.dart';
 import '../cubits/product_detail/product_detail_cubit.dart';
 import '../locator.dart';
 import '../utils/constants/app_colors.dart';
@@ -16,6 +18,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => locator<ProductDetailCubit>()),
+        BlocProvider<HomeCubit>(
+          create: (_) => locator()..getProducts(),
+        ),
+        BlocProvider<ProductCategoriesCubit>(
+          create: (_) => locator()..getProductCategories(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932),
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: AppColors.white,
           ),
-          home: Pager.home,
+          home: Pager.productDetail("men-s-502-taper-chino-shorts"),
           navigatorKey: navigatorKey,
         ),
       ),
