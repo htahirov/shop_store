@@ -19,6 +19,8 @@ class SplashPage extends StatelessWidget {
       listener: (_, state) {
         if (state == SplashEnum.finish) {
           Go.replace(context, Pager.onboard);
+        } else if (state == SplashEnum.authenticated) {
+          Go.replace(context, Pager.home);
         }
       },
       child: Scaffold(

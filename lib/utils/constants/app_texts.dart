@@ -14,11 +14,15 @@ class AppTexts {
   static const newPassword = 'New Password';
   static const confirmPassword = 'Confirm Password';
   static const termsOfService = 'Terms of Service';
-  static const verify= "Verification code";
+  static const verify = "Verification code";
   static const veritifactionText = "Please enter the 4 digit code sent to";
-  static const forgotPasswordText = "Enter your email we will send you a link to create your new password.";
+  static const forgotPasswordText =
+      "Enter your email we will send you a link to create your new password.";
   static const createNewPasswordText = "Enter your new password.";
   static const resendCode =  "Resend code";
   static const recevieCode =  "I didn’t recevie code.";
-
+  static const filter =  "Filter";
+  static const saleUpTo = "SALE UP TO";
+  static const positioned2 = "70%";
+  static const off = "OFF";
 }
