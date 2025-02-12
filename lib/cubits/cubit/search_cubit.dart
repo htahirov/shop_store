@@ -1,39 +1,68 @@
-
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:shop_store/data/models/remote/response/product_response.dart';
-import 'package:shop_store/data/services/remote/search_service.dart';
 
+import '../../data/models/remote/response/product_response.dart';
+import '../../data/services/remote/search_service.dart';
 import 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  List<Result> _allProducts = [];
-
   SearchCubit() : super(SearchInitial()) {
-    loadInitialData(); 
+    // loadInitialData();
   }
 
-  Future<void> loadInitialData() async {
-    emit(SearchLoading());
-    try {
-      _allProducts = await SearchService.getAllProducts();
-      await loadRecentSearches();
-      emit(SearchSuccess(_allProducts, _allProducts));
-    } catch (e) {
-      emit(SearchError("Məhsulları yükləyərkən xəta baş verdi!"));
-    }
-  }
+  final searchController = TextEditingController();
 
-  Future<void> loadRecentSearches() async {
+  final mockProducts = List.generate(6, (i) => Result.mock());
+
+  final searchHistoryController = StreamController<List<String>>();
+  final productController = StreamController<List<Result>?>();
+
+  void getRecentSearches() async {
     try {
       final searches = await SearchService.getRecentSearches();
-      emit(SearchRecentLoaded(searches));
-    } catch (e) {
+      searchHistoryController.add(searches);
+    } catch (e, s) {
       log("Recent searches error: $e");
+      log("Recent searches stack trace: $s");
+      searchHistoryController.addError(e);
     }
   }
+
+  void getProducts() async {
+    try {
+      final allProducts = await SearchService.getAllProducts();
+      productController.sink.add(allProducts);
+    } catch (e, s) {
+      log("Recent searches error: $e");
+      log("Recent searches stack trace: $s");
+      productController.addError(e);
+    }
+  }
+
+  void search(String query) async {
+    if (query.isEmpty) return;
+    try {
+      productController.add(null);
+      final results = await SearchService.searchProducts(query);
+      await SearchService.saveSearch(query);
+      getRecentSearches();
+      productController.add(results);
+    } catch (e, s) {
+      log("Searches error: $e");
+      log("Searches stack trace: $s");
+      productController.addError(e);
+    }
+  }
+
+  Future<void> clearSearches() async {
+    await SearchService.clearSearches();
+    getRecentSearches();
+  }
+
+  /*
 
   Future<void> search(String query) async {
     if (query.isEmpty) {
@@ -70,5 +99,10 @@ class SearchCubit extends Cubit<SearchState> {
       await box.deleteAt(index);
     }
     loadRecentSearches();
+  } */
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }
