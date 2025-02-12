@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'cubits/basket/basket_cubit.dart';
+import 'package:shop_store/cubits/cubit/search_cubit.dart';
+
 import 'cubits/forgot_password/forgot_password_cubit.dart';
 import 'cubits/home/home_cubit.dart';
 import 'cubits/new_password/new_password_cubit.dart';
@@ -44,6 +46,7 @@ void setupLocator() {
 locator.registerLazySingleton<BasketRepo>(() => BasketRepoImpl(locator()));
 
   // Cubits
+    locator.registerFactory(() => SearchCubit());
   locator.registerFactory(() => SplashCubit());
   locator.registerFactory(() => VerifyCubit());
   locator.registerFactory(() => ForgotPasswordCubit());

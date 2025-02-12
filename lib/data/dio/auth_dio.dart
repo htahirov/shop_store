@@ -1,4 +1,5 @@
-import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -21,7 +22,9 @@ class AuthDio {
       ),
     );
 
-    if (kDebugMode) _dio!.interceptors.add(AwesomeDioInterceptor());
+    // if (kDebugMode) {
+    //   _dio!.interceptors.add(LogInterceptor(logPrint: (a) => log('$a')));
+    // }
 
     return _dio!;
   }
