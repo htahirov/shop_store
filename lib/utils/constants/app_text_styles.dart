@@ -44,4 +44,13 @@ class AppTextStyles {
     letterSpacing: -0.5,
     color: AppColors.white,
   );
+
+  static final navbarButtonTextStyle = TextStyle(
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    height: 19.h / 14.sp,
+    letterSpacing: -0.5,
+    color: AppColors.titleTextColor,
+  );
 }
