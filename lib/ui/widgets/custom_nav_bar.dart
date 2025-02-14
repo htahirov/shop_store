@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_paddings.dart';
+import '../pages/favorite/favorite_page.dart';
 import 'nav_bar_elements.dart';
 
 class CustomNavbar extends StatefulWidget {
@@ -18,6 +19,11 @@ class _CustomNavbarState extends State<CustomNavbar> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (_selectedIndex == 3) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const FavoritePage()));
+    }
   }
 
   @override
@@ -31,7 +37,7 @@ class _CustomNavbarState extends State<CustomNavbar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-             NavBarElements(
+            NavBarElements(
               icon: Icons.home,
               index: 0,
               selectedIndex: _selectedIndex,

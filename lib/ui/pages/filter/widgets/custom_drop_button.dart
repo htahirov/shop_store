@@ -17,7 +17,7 @@ class CustomDropButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: AppRadiuses.c50, 
+        borderRadius: AppRadiuses.a50, 
         border: Border.all(color: AppColors.titaniumWhite), 
       ),
       child: Padding(

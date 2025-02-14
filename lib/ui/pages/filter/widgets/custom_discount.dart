@@ -32,9 +32,9 @@ class CustomDiscount extends StatelessWidget {
             selected: isSelected,
             onSelected: (selected) {},
             backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: AppRadiuses.c20,
-              side: const BorderSide(
+            shape: const RoundedRectangleBorder(
+              borderRadius: AppRadiuses.a20,
+              side: BorderSide(
                 color: AppColors.titaniumWhite,
                 width: 1.5,
               ),
