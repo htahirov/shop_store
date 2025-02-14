@@ -12,6 +12,15 @@ class AppTextStyles {
     fontSize: 16,
   );
 
+  static final mainTextStyle = TextStyle(
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    height: 19.h / 14.sp,
+    letterSpacing: -0.5,
+    color: AppColors.titleTextColor,
+  );
+
   static final h6 = TextStyle(
     fontFamily: AppConstants.fontFamilyInter,
     fontSize: 64.sp,
@@ -46,6 +55,15 @@ class AppTextStyles {
   );
 
   static final navbarButtonTextStyle = TextStyle(
+    fontFamily: AppConstants.fontFamilyNunito,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    height: 19.h / 14.sp,
+    letterSpacing: -0.5,
+    color: AppColors.titleTextColor,
+  );
+
+   static final priceDetailsTextStyle = TextStyle(
     fontFamily: AppConstants.fontFamilyNunito,
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,

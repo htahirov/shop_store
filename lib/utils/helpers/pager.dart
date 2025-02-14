@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
@@ -89,4 +90,6 @@ class Pager {
         ],
         child: const SearchPage(),
       );
+
+  static Widget get payment => const PaymentPage();
 }
