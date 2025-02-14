@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
@@ -63,6 +64,9 @@ class Pager {
           BlocProvider<HomeCubit>(
             create: (_) => locator()..getProducts(),
           ),
+          // BlocProvider<FavoriteCubit>(
+          //   create: (context) => FavoriteCubit(),
+          // ),
           BlocProvider<ProductCategoriesCubit>(
             create: (context) => locator()..getProductCategories(),
           ),
