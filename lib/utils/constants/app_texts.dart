@@ -19,10 +19,16 @@ class AppTexts {
   static const forgotPasswordText =
       "Enter your email we will send you a link to create your new password.";
   static const createNewPasswordText = "Enter your new password.";
-  static const resendCode =  "Resend code";
-  static const recevieCode =  "I didn’t recevie code.";
-  static const filter =  "Filter";
+  static const resendCode = "Resend code";
+  static const recevieCode = "I didn’t recevie code.";
+  static const filter = "Filter";
   static const saleUpTo = "SALE UP TO";
   static const positioned2 = "70%";
   static const off = "OFF";
+  static const payment = "Payment";
+  static const weAccept = "We accept";
+  static const subTotal = "Sub Total";
+  static const shipping = "Shipping";
+  static const total = "Total";
+  static const placeOrder = "Place Order";
 }

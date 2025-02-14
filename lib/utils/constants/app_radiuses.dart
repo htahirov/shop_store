@@ -9,5 +9,7 @@ class AppRadiuses {
   static final c50 = BorderRadius.circular(50);
   static final c20 = BorderRadius.circular(20);
   static const a50 = BorderRadius.all(Radius.circular(50));
+  static const aR6 = RoundedRectangleBorder(borderRadius: AppRadiuses.a6);
+  static const aR10 = RoundedRectangleBorder(borderRadius: AppRadiuses.a10);
   static const aR16 = RoundedRectangleBorder(borderRadius: AppRadiuses.a16);
 }
