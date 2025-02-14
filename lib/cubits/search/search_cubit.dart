@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../data/models/remote/response/product_response.dart';
 import '../../data/services/remote/search_service.dart';
@@ -12,6 +13,7 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(SearchInitial()) {
     // loadInitialData();
   }
+  Timer? _debounce;
 
   final searchController = TextEditingController();
 
@@ -43,7 +45,12 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void search(String query) async {
-    if (query.isEmpty) return;
+   _debounce?.cancel();
+
+    _debounce = Timer(const Duration(seconds:1), () async {
+      if (query.isEmpty){ 
+        getProducts();
+        return;}
     try {
       productController.add(null);
       final results = await SearchService.searchProducts(query);
@@ -55,6 +62,19 @@ class SearchCubit extends Cubit<SearchState> {
       log("Searches stack trace: $s");
       productController.addError(e);
     }
+   }
+    );
+   }
+  
+
+ void removeSearch(String query) async {
+    final box = await Hive.openBox<String>('recent_searches');
+    final searchList = box.values.toList();
+    final index = searchList.indexOf(query);
+    if (index != -1) {
+      await box.deleteAt(index);
+    }
+    getRecentSearches();
   }
 
   Future<void> clearSearches() async {
@@ -62,47 +82,9 @@ class SearchCubit extends Cubit<SearchState> {
     getRecentSearches();
   }
 
-  /*
-
-  Future<void> search(String query) async {
-    if (query.isEmpty) {
-      emit(SearchSuccess(_allProducts, _allProducts));
-      return;
-    }
-
-    emit(SearchLoading());
-
-    try {
-      final results = await SearchService.searchProducts(query);
-      await SearchService.saveSearch(query);
-      await loadRecentSearches();
-      emit(SearchSuccess(_allProducts, results));
-    } catch (e) {
-      emit(SearchError("Axtarış zamanı xəta baş verdi: ${e.toString()}"));
-    }
-  }
-
-  void resetSearch() {
-    emit(SearchSuccess(_allProducts, _allProducts));
-  }
-
-  Future<void> clearSearches() async {
-    await SearchService.clearSearches();
-    loadRecentSearches();
-  }
-
-  Future<void> removeSearch(String query) async {
-    final box = await Hive.openBox<String>('recent_searches');
-    final searchList = box.values.toList();
-    final index = searchList.indexOf(query);
-    if (index != -1) {
-      await box.deleteAt(index);
-    }
-    loadRecentSearches();
-  } */
-
   @override
   Future<void> close() {
+    _debounce?.cancel();
     return super.close();
   }
 }

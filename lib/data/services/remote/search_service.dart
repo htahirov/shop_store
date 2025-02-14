@@ -58,4 +58,12 @@ class SearchService {
     final box = await Hive.openBox<String>(_searchBox);
     await box.clear();
   }
+   void removeSearch(String query) async {
+    final box = await Hive.openBox<String>('recent_searches');
+    final searchList = box.values.toList();
+    final index = searchList.indexOf(query);
+    if (index != -1) {
+      await box.deleteAt(index);
+    }
+  }
 }

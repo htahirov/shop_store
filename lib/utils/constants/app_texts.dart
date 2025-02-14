@@ -25,4 +25,7 @@ class AppTexts {
   static const saleUpTo = "SALE UP TO";
   static const positioned2 = "70%";
   static const off = "OFF";
+  static const search = "Search Items";
+    static const reSearch = "Recent Searches";
+
 }
