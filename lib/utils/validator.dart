@@ -43,6 +43,12 @@ class ValidatorUtils {
     if (value == null || value.isEmpty) {
       return 'Password is required';
     }
+  }
+
+  static String? validateCreateNewPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
 
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
@@ -62,6 +68,18 @@ class ValidatorUtils {
 
     if (!value.contains(RegExp(r'[!@#\$&*~]'))) {
       return 'Password must contain at least one special character (!@#\$&*~)';
+    }
+
+    return null;
+  }
+
+  static String? validateConfirmPassword(String? value, String newPassword) {
+    if (value == null || value.isEmpty) {
+      return 'Confirm Password is required';
+    }
+
+    if (value != newPassword) {
+      return 'Passwords do not match';
     }
 
     return null;

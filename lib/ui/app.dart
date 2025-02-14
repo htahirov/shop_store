@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 
+import '../cubits/home/home_cubit.dart';
+import '../cubits/product_categories/product_categories_cubit.dart';
 import '../cubits/product_detail/product_detail_cubit.dart';
 import '../locator.dart';
 import '../utils/constants/app_colors.dart';
@@ -18,8 +20,11 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => locator<ProductDetailCubit>()),
         BlocProvider(create: (_) => locator<FavoriteCubit>()),
-      ],
-      child: ScreenUtilInit(
+          create: (_) => locator()..getProducts(),
+        ),
+        BlocProvider<ProductCategoriesCubit>(
+          create: (_) => locator()..getProductCategories(),
+        ),
         designSize: const Size(430, 932),
         builder: (_, __) => MaterialApp(
           title: 'ShopStore',
@@ -35,7 +40,6 @@ class MyApp extends StatelessWidget {
           home: Pager.home,
           navigatorKey: navigatorKey,
         ),
-      ),
-    );
+        home: Pager.splash,
   }
 }

@@ -1,5 +1,3 @@
-
-
 class ProductResponse {
   final int? count;
   final String? next;

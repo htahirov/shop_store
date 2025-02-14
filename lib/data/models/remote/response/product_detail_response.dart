@@ -2,8 +2,8 @@ class ProductDetailResponse {
   final int id;
   final String slug;
   final String name;
-  final List<Size> size;
-  final List<Color> color;
+  final List<ProductSize> size;
+  final List<ProductColor> color;
   final double price;
   final List<ProductImage> images;
   final double rating;
@@ -36,8 +36,8 @@ class ProductDetailResponse {
       id: json['id'],
       slug: json['slug'],
       name: json['name'],
-      size: (json['size'] as List).map((x) => Size.fromJson(x)).toList(),
-      color: (json['color'] as List).map((x) => Color.fromJson(x)).toList(),
+      size: (json['size'] as List).map((x) => ProductSize.fromJson(x)).toList(),
+      color: (json['color'] as List).map((x) => ProductColor.fromJson(x)).toList(),
       price: json['price'].toDouble(),
       images: (json['images'] as List).map((x) => ProductImage.fromJson(x)).toList(),
       rating: json['rating'].toDouble(),
@@ -51,28 +51,28 @@ class ProductDetailResponse {
   }
 }
 
-class Size {
+class ProductSize {
   final int id;
   final String size;
 
-  Size({required this.id, required this.size});
+  ProductSize({required this.id, required this.size});
 
-  factory Size.fromJson(Map<String, dynamic> json) {
-    return Size(
+  factory ProductSize.fromJson(Map<String, dynamic> json) {
+    return ProductSize(
       id: json['id'],
       size: json['size'],
     );
   }
 }
 
-class Color {
+class ProductColor {
   final int id;
   final String color;
 
-  Color({required this.id, required this.color});
+  ProductColor({required this.id, required this.color});
 
-  factory Color.fromJson(Map<String, dynamic> json) {
-    return Color(
+  factory ProductColor.fromJson(Map<String, dynamic> json) {
+    return ProductColor(
       id: json['id'],
       color: json['color'],
     );
