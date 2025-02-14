@@ -35,7 +35,9 @@ class PriceDetails extends StatelessWidget {
           ],
         ),
         20.verticalSpace,
-        const Divider(thickness: 0.5,),
+        const Divider(
+          thickness: 0.5,
+        ),
         20.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

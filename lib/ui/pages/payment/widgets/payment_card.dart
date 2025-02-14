@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_store/utils/constants/app_constants.dart';
-import 'package:shop_store/utils/constants/app_paddings.dart';
 
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/constants/app_constants.dart';
+import '../../../../utils/constants/app_paddings.dart';
+import '../../../../utils/constants/app_radiuses.dart';
+import '../../../../utils/constants/app_texts.dart';
 
 class CustomPaymentCard extends StatelessWidget {
   final String cardNumber;
@@ -25,9 +27,9 @@ class CustomPaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.darkRift,
-        borderRadius: BorderRadius.circular(15.r),
+        borderRadius: AppRadiuses.a10,
       ),
       child: SizedBox(
         width: 128.w,
@@ -39,7 +41,7 @@ class CustomPaymentCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Credit Card",
+                AppTexts.creditCard,
                 style: TextStyle(
                   color: AppColors.white,
                   fontSize: 14.sp,

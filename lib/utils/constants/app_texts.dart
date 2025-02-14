@@ -31,4 +31,5 @@ class AppTexts {
   static const shipping = "Shipping";
   static const total = "Total";
   static const placeOrder = "Place Order";
+  static const creditCard = "Credit Card";
 }
