@@ -15,17 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => locator<ProductDetailCubit>()),
-        BlocProvider<HomeCubit>(
-          create: (_) => locator()..getProducts(),
-        ),
-        BlocProvider<ProductCategoriesCubit>(
-          create: (_) => locator()..getProductCategories(),
-        ),
-      ],
-      child: ScreenUtilInit(
+    return ScreenUtilInit(
         designSize: const Size(430, 932),
         builder: (_, __) => MaterialApp(
           title: 'ShopStore',
@@ -41,6 +31,6 @@ class MyApp extends StatelessWidget {
           home: Pager.splash,
           navigatorKey: navigatorKey,
         ),
-        home: Pager.splash,
+    );
   }
 }
