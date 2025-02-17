@@ -24,8 +24,8 @@ class ProductDetailAppBar extends StatelessWidget {
             onTap: () => Go.pop(context),
             child: SvgPicture.asset(
               AppAssets.arrowLeft,
-              width: 24.w,
-              height: 24.h,
+              width: 24.r,
+              height: 24.r,
             ),
           ),
           InkWell(
