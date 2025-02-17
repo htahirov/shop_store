@@ -5,8 +5,6 @@ import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 import '../../../../cubits/product_detail/product_detail_cubit.dart';
 import '../../../../data/models/remote/response/product_detail_response.dart';
-import '../../../../utils/helpers/go.dart';
-import '../../../../utils/helpers/pager.dart';
 import '../../../../utils/screen/snackbars.dart';
 
 class CartBottomSheet extends StatefulWidget {
@@ -34,14 +32,22 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   Widget build(BuildContext context) {
     final cubit = context.read<ProductDetailCubit>();
     final product = cubit.productDetail;
-    
+
     if (product == null) return const SizedBox.shrink();
 
     return BlocListener<ProductDetailCubit, ProductDetailState>(
       listener: (context, state) {
         if (state is ProductDetailSuccess) {
-          Navigator.pop(context); // Close bottom sheet
-          Go.to(context, Pager.cart); // Navigate to cart
+          // First close the bottom sheet
+          Navigator.pop(context);
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Added to cart successfully'),
+              backgroundColor: AppColors.primary,
+              duration: Duration(seconds: 2),
+            ),
+          );
         } else if (state is ProductDetailError) {
           Navigator.pop(context);
           Snackbars.showError(context, message: state.message);
@@ -119,7 +125,8 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     decoration: BoxDecoration(
                       color: isSelected ? AppColors.primary : null,
                       border: Border.all(
-                        color: isSelected ? AppColors.primary : AppColors.platinum,
+                        color:
+                            isSelected ? AppColors.primary : AppColors.platinum,
                       ),
                       borderRadius: BorderRadius.circular(5.r),
                     ),
@@ -131,7 +138,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       child: Text(
                         sizeOption.size,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : AppColors.textButtonColor,
+                          color: isSelected
+                              ? Colors.white
+                              : AppColors.textButtonColor,
                           fontSize: 14.sp,
                           fontFamily: AppConstants.fontFamilyNunito,
                           fontWeight: FontWeight.w600,
@@ -166,17 +175,17 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: isSelected 
-                            ? Border.all(color: AppColors.primary, width: 2) 
+                        border: isSelected
+                            ? Border.all(color: AppColors.primary, width: 2)
                             : null,
                       ),
                       child: Padding(
-                        padding: isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
+                        padding:
+                            isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
                         child: CircleAvatar(
                           radius: 14.r,
-                          backgroundColor: Color(
-                            int.parse('0xFF${colorOption.color.substring(1)}')
-                          ),
+                          backgroundColor: Color(int.parse(
+                              '0xFF${colorOption.color.substring(1)}')),
                         ),
                       ),
                     ),
@@ -281,37 +290,39 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     );
   }
 
-  Widget _buildAddToCartButton(BuildContext context, ProductDetailResponse product) {
+  Widget _buildAddToCartButton(
+      BuildContext context, ProductDetailResponse product) {
     return BlocBuilder<ProductDetailCubit, ProductDetailState>(
       builder: (context, state) {
         final isLoading = state is ProductDetailLoading;
-        
+
         return InkWell(
-          onTap: isLoading ? null : () {
-            if (selectedSize == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Please select a size')),
-              );
-              return;
-            }
-            if (selectedColorId == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Please select a color')),
-              );
-              return;
-            }
+          onTap: isLoading
+              ? null
+              : () {
+                  if (selectedSize == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please select a size')),
+                    );
+                    return;
+                  }
+                  if (selectedColorId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please select a color')),
+                    );
+                    return;
+                  }
 
-            final sizeId = product.size
-                .firstWhere((s) => s.size == selectedSize)
-                .id;
+                  final sizeId =
+                      product.size.firstWhere((s) => s.size == selectedSize).id;
 
-            context.read<ProductDetailCubit>().addToCart(
-              productId: product.id,
-              colorId: selectedColorId!,
-              sizeId: sizeId,
-              quantity: quantity,
-            );
-          },
+                  context.read<ProductDetailCubit>().addToCart(
+                        productId: product.id,
+                        colorId: selectedColorId!,
+                        sizeId: sizeId,
+                        quantity: quantity,
+                      );
+                },
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: AppColors.primary,
@@ -341,9 +352,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   }
 
   TextStyle get _labelStyle => TextStyle(
-    color: AppColors.titleTextColor,
-    fontSize: 14.sp,
-    fontFamily: AppConstants.fontFamilyNunito,
-    fontWeight: FontWeight.w600,
-  );
+        color: AppColors.titleTextColor,
+        fontSize: 14.sp,
+        fontFamily: AppConstants.fontFamilyNunito,
+        fontWeight: FontWeight.w600,
+      );
 }

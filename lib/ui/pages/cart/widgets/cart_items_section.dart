@@ -13,13 +13,15 @@ class CartItemsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
-      separatorBuilder: (_, __) => SizedBox(height: 30.h),
-      itemBuilder: (context, index) => CartItem(
-        item: items[index],
+      itemBuilder: (context, index) => Padding(
+        padding: EdgeInsets.only(bottom: 20.h),
+        child: CartItem(
+          item: items[index],
+        ),
       ),
     );
   }
