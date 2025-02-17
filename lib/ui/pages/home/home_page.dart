@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 import 'package:shop_store/utils/helpers/pager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -8,6 +9,7 @@ import '../../../cubits/home/home_cubit.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/simple_app_bar.dart';
 import 'widgets/carousel/custom_carousel_slider.dart';

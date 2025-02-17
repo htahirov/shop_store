@@ -4,15 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../data/models/remote/response/product_response.dart';
 import '../../../../../utils/constants/app_colors.dart';
 import '../../../../../utils/constants/app_text_styles.dart';
-import '../../../../widgets/custom_favorite_button.dart';
+import '../../../widgets/custom_favorite_button.dart';
 
-class CardDescription extends StatelessWidget {
+class FavoriteCardDescription extends StatelessWidget {
   final String title;
   final double amount;
   final Result product;
   final VoidCallback onFavoritePressed;
 
-  const CardDescription({
+  const FavoriteCardDescription({
     super.key,
     required this.title,
     required this.amount,
@@ -34,21 +34,25 @@ class CardDescription extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.cardDescriptionTextStyle,
-                  overflow: TextOverflow.visible,
+                  overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 1.verticalSpace,
-                Text('$amount \$',
-                    style: AppTextStyles.cardDescriptionTextStyle.copyWith(
-                      color: AppColors.redmana,
-                    )),
+                Text(
+                  "\$$amount",
+                  style: AppTextStyles.cardDescriptionTextStyle.copyWith(
+                    color: AppColors.redmana,
+                  ),
+                ),
               ],
             ),
           ),
           26.verticalSpace,
           Align(
             alignment: Alignment.center,
-            child: CustomFavoriteButton(product: product, onFavoritePressed: onFavoritePressed
+            child: CustomFavoriteButton(
+              product: product,
+              onFavoritePressed: onFavoritePressed,
             ),
           ),
         ],

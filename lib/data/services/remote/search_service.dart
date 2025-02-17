@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:dio/dio.dart';
-import 'package:shop_store/data/dio/auth_dio.dart';
-import 'package:shop_store/data/models/remote/response/product_response.dart';
-import 'package:shop_store/utils/constants/api_keys.dart';
+
+import '../../../utils/constants/api_keys.dart';
+import '../../dio/auth_dio.dart';
+import '../../models/remote/response/product_response.dart';
 
 class SearchService {
   static const String _searchBox = 'recent_searches';
