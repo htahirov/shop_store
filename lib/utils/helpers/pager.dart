@@ -6,7 +6,7 @@ import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
-import '../../cubits/cubit/search_cubit.dart';
+import '../../cubits/search/search_cubit.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
 import '../../cubits/product_detail/product_detail_cubit.dart';
