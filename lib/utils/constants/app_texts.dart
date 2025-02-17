@@ -32,4 +32,10 @@ class AppTexts {
   static const total = "Total";
   static const placeOrder = "Place Order";
   static const creditCard = "Credit Card";
+  static const addNewCard = "Add New Card";
+  static const cardHolderName = "Cardholder Name";
+  static const cardNumber = "Card Number";
+  static const expires = "Expires";
+  static const cvv = "CVV";
+  static const save = "Save";
 }

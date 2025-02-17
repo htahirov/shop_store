@@ -38,6 +38,7 @@ class PaymentPage extends StatelessWidget {
                     cardNumber: "1234567898765432",
                     expiryDate: "12/24",
                     logoPath: AppAssets.master,
+                    cardHolderName: "Nihad",
                   )
                 ],
               ),
