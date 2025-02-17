@@ -38,13 +38,13 @@ class _CustomNavbarState extends State<CustomNavbar> {
   ];
 
   void _onIconPressed(int index) {
-  if (_selectedIndex == index) return;
+    if (_selectedIndex == index) return;
 
-  setState(() {
-    _selectedIndex = index;
-  });
-  Go.to(context, _pages[index]);
-}
+    setState(() {
+      _selectedIndex = index;
+    });
+    Go.to(context, _pages[index]);
+  }
 
   @override
   Widget build(BuildContext context) {

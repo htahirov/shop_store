@@ -32,4 +32,5 @@ class AppColors {
   static const starBorderColor = titaniumWhite;
   static const sliderTrackColor = dryadBark;
   static const redmana = Color(0xffF45959);
+  static const darkGray = Color(0xffAAAAAA);
 }

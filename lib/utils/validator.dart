@@ -43,6 +43,7 @@ class ValidatorUtils {
     if (value == null || value.isEmpty) {
       return 'Password is required';
     }
+    return null;
   }
 
   static String? validateCreateNewPassword(String? value) {
