@@ -101,8 +101,4 @@ class SearchCubit extends Cubit<SearchState> {
     loadRecentSearches();
   } */
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }

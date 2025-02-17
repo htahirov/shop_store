@@ -62,10 +62,14 @@ class Pager {
     );
   }
 
-  static Widget get cart => BlocProvider<BasketCubit>(
-        create: (_) => locator()..getBasketItems(),
-        child: const CartPage(),
-      );
+  static Widget get cart => MultiBlocProvider(
+      providers: [
+        BlocProvider<BasketCubit>(
+          create: (_) => locator()..getBasketItems(),
+        ),
+      ],
+      child: const CartPage(),
+    );
 
   static Widget get home => MultiBlocProvider(
         providers: [

@@ -34,7 +34,7 @@ class CartTotalSection extends StatelessWidget {
                 if (state is BasketSuccess) {
                   final total = state.items.fold<double>(
                     0,
-                    (sum, item) => sum + double.parse(item.totalPrice),
+                    (sum, item) => sum + (item.totalPrice * item.quantity),
                   );
                   return Text(
                     '\$${total.toStringAsFixed(2)}',

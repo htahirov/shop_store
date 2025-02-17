@@ -1,35 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../../cubits/basket/basket_cubit.dart';
+import '../../../../data/models/remote/request/basket_update_request.dart';
 import '../../../../data/models/remote/response/basket_item_response.dart';
+import '../../../../utils/constants/api_keys.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_constants.dart';
 
 class CartItem extends StatelessWidget {
   final BasketItem item;
-  final VoidCallback onQuantityDecrease;
-  final VoidCallback onQuantityIncrease;
 
   const CartItem({
     super.key,
     required this.item,
-    required this.onQuantityDecrease,
-    required this.onQuantityIncrease,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildImage(),
-        SizedBox(width: 20.w),
-        Expanded(
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // Product Image
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10.r),
+        child: Image.network(
+          '${ApiKeys.baseUrl}${item.image.image}',
+          width: 169.w,
+          height: 146.h,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => ColoredBox(
+            color: AppColors.ghostWhite,
+            child: SizedBox(
+              width: 169.w,
+              height: 146.h,
+            ),
+          ),
+        ),
+      ),
+      SizedBox(width: 15.w),
+
+      // Product Details Column
+      Expanded(
+        child: SizedBox(
+          height: 146.h,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Product Name
               Text(
                 item.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: AppColors.titleTextColor,
                   fontSize: 14.sp,
@@ -38,7 +61,9 @@ class CartItem extends StatelessWidget {
                   letterSpacing: -0.07,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 5.h),
+
+              // Price
               Text(
                 '\$${item.totalPrice}',
                 style: TextStyle(
@@ -49,92 +74,216 @@ class CartItem extends StatelessWidget {
                   letterSpacing: -0.07,
                 ),
               ),
-              SizedBox(height: 10.h),
-              _buildQuantityControl(),
+              SizedBox(height: 5.h),
+
+              // Colors Row
+              SizedBox(
+                height: 22.h,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: item.colorChoices.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                  itemBuilder: (_, index) {
+                    final color = item.colorChoices[index];
+                    final isSelected = color.id == item.productColor.id;
+                    return _buildColorItem(context, color, isSelected);
+                  },
+                ),
+              ),
+              SizedBox(height: 5.h),
+
+              // Quantity Row
+              SizedBox(
+                height: 24.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildQuantityControl(context),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(
+                        minWidth: 24.w,
+                        minHeight: 24.h,
+                      ),
+                      onPressed: () {
+                        context.read<BasketCubit>().removeFromBasket(
+                          item.id.toString(),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: AppColors.redmana,
+                        size: 20.r,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 5.h),
+
+              // Sizes Row
+              SizedBox(
+                height: 26.h,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: item.sizeChoices.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                  itemBuilder: (_, index) {
+                    final size = item.sizeChoices[index];
+                    final isSelected = size.id == item.productSize.id;
+                    return _buildSizeItem(context, size, isSelected);
+                  },
+                ),
+              ),
             ],
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildImage() => ClipRRect(
-    borderRadius: BorderRadius.circular(10.r),
-    child: Image.network(
-      item.image,
-      width: 169.w,
-      height: 146.h,
-      fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => ColoredBox(
-        color: AppColors.ghostWhite,
-        child: SizedBox(
-          width: 169.w,
-          height: 146.h,
-        ),
-      ),
-    ),
-  );
-
-  Widget _buildQuantityControl() => Row(
-    children: [
-      _QuantityButton(
-        onTap: onQuantityDecrease,
-        icon: Icons.remove,
-      ),
-      SizedBox(width: 15.w),
-      Text(
-        item.quantity.toString(),
-        style: TextStyle(
-          color: AppColors.titleTextColor,
-          fontSize: 14.sp,
-          fontFamily: AppConstants.fontFamilyNunito,
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.07,
-        ),
-      ),
-      SizedBox(width: 15.w),
-      _QuantityButton(
-        onTap: onQuantityIncrease,
-        icon: Icons.add,
-        color: AppColors.coldLips,
       ),
     ],
   );
 }
 
-class _QuantityButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final IconData icon;
-  final Color? color;
-
-  const _QuantityButton({
-    required this.onTap,
-    required this.icon,
-    this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-          border: color == null
-              ? Border.all(color: AppColors.platinum, width: 1.5)
-              : null,
+// Update the color item size
+Widget _buildColorItem(BuildContext context, ColorChoice color, bool isSelected) {
+  return GestureDetector(
+    onTap: () {
+      context.read<BasketCubit>().updateBasketItem(
+        item.id.toString(),
+        BasketUpdateRequest(
+          quantity: item.quantity,
+          colorId: color.id,
+          sizeId: item.productSize.id,
         ),
-        child: SizedBox(
-          width: 23.1.r,
-          height: 23.1.r,
-          child: Icon(
-            icon,
-            size: 14.r,
-            color: color == null ? AppColors.textButtonColor : AppColors.white,
-          ),
+      );
+    },
+    child: Container(
+      width: 24.w,
+      height: 24.w,
+      decoration: BoxDecoration(
+        color: Color(int.parse('0xFF${color.color.substring(1)}')),
+        shape: BoxShape.circle,
+        border: isSelected
+            ? Border.all(width: 2.w, color: AppColors.jadePalace)
+            : null,
+      ),
+    ),
+  );
+}
+
+// Update the size item dimensions
+Widget _buildSizeItem(BuildContext context, SizeChoice size, bool isSelected) {
+  return GestureDetector(
+    onTap: () {
+      context.read<BasketCubit>().updateBasketItem(
+        item.id.toString(),
+        BasketUpdateRequest(
+          quantity: item.quantity,
+          colorId: item.productColor.id,
+          sizeId: size.id,
+        ),
+      );
+    },
+    child: Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 8.w,
+        vertical: 4.h,
+      ),
+      decoration: BoxDecoration(
+        color: isSelected ? AppColors.jadePalace : Colors.white,
+        borderRadius: BorderRadius.circular(5.r),
+        border: Border.all(
+          width: 1,
+          color: isSelected ? AppColors.jadePalace : AppColors.titaniumWhite,
         ),
       ),
-    );
-  }
+      alignment: Alignment.center,
+      child: Text(
+        size.size,
+        style: TextStyle(
+          color: isSelected ? Colors.white : AppColors.madeInTheShade,
+          fontSize: 12.sp,
+          fontFamily: AppConstants.fontFamilyNunito,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.07,
+        ),
+      ),
+    ),
+  );
+}
+
+// Update quantity control size
+Widget _buildQuantityControl(BuildContext context) {
+  return SizedBox(
+    height: 24.h,
+    child: Row(
+      children: [
+        _buildQuantityButton(
+          icon: Icons.remove,
+          onTap: () {
+            if (item.quantity > 1) {
+              context.read<BasketCubit>().updateBasketItem(
+                item.id.toString(),
+                BasketUpdateRequest(
+                  quantity: item.quantity - 1,
+                  colorId: item.productColor.id,
+                  sizeId: item.productSize.id,
+                ),
+              );
+            }
+          },
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Text(
+            item.quantity.toString(),
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        _buildQuantityButton(
+          icon: Icons.add,
+          onTap: () {
+            context.read<BasketCubit>().updateBasketItem(
+              item.id.toString(),
+              BasketUpdateRequest(
+                quantity: item.quantity + 1,
+                colorId: item.productColor.id,
+                sizeId: item.productSize.id,
+              ),
+            );
+          },
+          isPlus: true,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildQuantityButton({
+  required IconData icon,
+  required VoidCallback onTap,
+  bool isPlus = false,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      width: 24.w,
+      height: 24.h,
+      decoration: BoxDecoration(
+        color: isPlus ? AppColors.coldLips : Colors.white,
+        shape: BoxShape.circle,
+        border: !isPlus
+            ? Border.all(width: 1.5, color: const Color(0xFFE4E4E4))
+            : null,
+      ),
+      child: Icon(
+        icon,
+        size: 12.r,
+        color: isPlus ? Colors.white : const Color(0xFF6C6D76),  
+      ),
+    ),
+  );
+}
 }
