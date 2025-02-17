@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../cubits/favorite/favorite_cubit.dart';
 import '../../../../../data/models/remote/response/product_response.dart';
 import '../../../../../utils/constants/app_paddings.dart';
-
 import 'product_card.dart';
 
 class ProductGrid extends StatelessWidget {
@@ -16,22 +17,28 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: AppPaddings.h24,
-      itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 11,
-        mainAxisSpacing: 20,
-        childAspectRatio: 263.h / 1.sw,
-      ),
-      itemBuilder: (context, index) {
-        final product = products[index];
-        return ProductCard(
-          product: product,
-          onFavoritePressed: () {},
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
+      builder: (context, state) {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: AppPaddings.h24,
+          itemCount: products.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 11,
+            mainAxisSpacing: 20,
+            childAspectRatio: 263.h / 1.sw,
+          ),
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return ProductCard(
+              product: product,
+              onFavoritePressed: () {
+                context.read<FavoriteCubit>().toggleFavorite(product);
+              },
+            );
+          },
         );
       },
     );

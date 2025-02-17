@@ -31,7 +31,8 @@ class ProductCard extends StatelessWidget {
             CardDescription(
               title: product.name!,
               amount: product.totalPrice!,
-              onFavoritePressed: onFavoritePressed,
+              onFavoritePressed: onFavoritePressed, 
+              product: product,
             ),
           ],
         ),
