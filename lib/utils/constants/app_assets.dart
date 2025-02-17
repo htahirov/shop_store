@@ -6,7 +6,7 @@ class AppAssets {
   static const _carouselPath = 'assets/carousel';
   static const _gridPath = 'assets/grid';
   static const _favoritePath = 'assets/favorite';
-
+  static const _paymentPath = 'assets/payment';
   static const arrowRight = '$_iconsPath/arrow_right.svg';
   static const arrowLeft = '$_iconsPath/arrow_left.svg';
   static const menu = '$_iconsPath/menu.svg';
@@ -18,4 +18,9 @@ class AppAssets {
   static const gridImage2 = '$_gridPath/grid_image2.png';
   static const gridImage3 = '$_gridPath/grid_image3.png';
   static const gridImage4 = '$_gridPath/grid_image4.png';
+  static const master = '$_paymentPath/Mastercard.svg';
+  static const visa = '$_paymentPath/Visa.svg';
+  static const amex = '$_paymentPath/Amex.svg';
+  static const alipay = '$_paymentPath/Alipay.svg';
+  static const paypal = '$_paymentPath/PayPal.svg';
 }

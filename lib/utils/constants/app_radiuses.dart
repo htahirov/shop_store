@@ -8,5 +8,7 @@ class AppRadiuses {
   static const a6 = BorderRadius.all(Radius.circular(6));
   static const a20 = BorderRadius.all(Radius.circular(20));
   static const a50 = BorderRadius.all(Radius.circular(50));
+  static const aR6 = RoundedRectangleBorder(borderRadius: AppRadiuses.a6);
+  static const aR10 = RoundedRectangleBorder(borderRadius: AppRadiuses.a10);
   static const aR16 = RoundedRectangleBorder(borderRadius: AppRadiuses.a16);
 }

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 
-import '../cubits/home/home_cubit.dart';
-import '../cubits/product_categories/product_categories_cubit.dart';
-import '../cubits/product_detail/product_detail_cubit.dart';
 import '../locator.dart';
 import '../utils/constants/app_colors.dart';
 import '../utils/extensions/color_extensions.dart';
@@ -16,30 +11,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => locator<ProductDetailCubit>()),
-        BlocProvider(create: (_) => locator<FavoriteCubit>()),
-          create: (_) => locator()..getProducts(),
-        ),
-        BlocProvider<ProductCategoriesCubit>(
-          create: (_) => locator()..getProductCategories(),
-        ),
-        designSize: const Size(430, 932),
-        builder: (_, __) => MaterialApp(
-          title: 'ShopStore',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'Nunito',
-            colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: AppColors.primary.toMaterialColor,
-            ),
-            useMaterial3: true,
-            scaffoldBackgroundColor: AppColors.white,
+    return ScreenUtilInit(
+      designSize: const Size(430, 932),
+      builder: (_, __) => MaterialApp(
+        title: 'ShopStore',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Nunito',
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: AppColors.primary.toMaterialColor,
           ),
-          home: Pager.home,
-          navigatorKey: navigatorKey,
+          useMaterial3: true,
+          scaffoldBackgroundColor: AppColors.white,
         ),
         home: Pager.splash,
+        navigatorKey: navigatorKey,
+      ),
+    );
   }
 }

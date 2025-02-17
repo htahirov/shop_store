@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_paddings.dart';
-import '../pages/favorite/favorite_page.dart';
+import '../../utils/helpers/go.dart';
+import '../../utils/helpers/pager.dart';
+import 'custom_nav_bar_button.dart';
 import 'nav_bar_elements.dart';
 
 class CustomNavbar extends StatefulWidget {
-  const CustomNavbar({super.key});
+  final bool showButton;
+  final String? buttonTitle;
+  final VoidCallback? onButtonPressed;
+  final bool showIcon;
+
+  const CustomNavbar({
+    super.key,
+    this.showButton = false,
+    this.buttonTitle,
+    this.onButtonPressed,
+    this.showIcon = false,
+  });
 
   @override
   State<CustomNavbar> createState() => _CustomNavbarState();
@@ -15,16 +30,21 @@ class CustomNavbar extends StatefulWidget {
 class _CustomNavbarState extends State<CustomNavbar> {
   int _selectedIndex = 0;
 
-  void _onIconPressed(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  final List<Widget> _pages = [
+    Pager.home,
+    //Cart screen
+    //Notifacation screen
+    //Favorite screen
+  ];
 
-    if (_selectedIndex == 3) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const FavoritePage()));
-    }
-  }
+  void _onIconPressed(int index) {
+  if (_selectedIndex == index) return;
+
+  setState(() {
+    _selectedIndex = index;
+  });
+  Go.to(context, _pages[index]);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +53,47 @@ class _CustomNavbarState extends State<CustomNavbar> {
         color: AppColors.white,
       ),
       child: Padding(
-        padding: AppPaddings.a16,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        padding: AppPaddings.h24,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            NavBarElements(
-              icon: Icons.home,
-              index: 0,
-              selectedIndex: _selectedIndex,
-              onPressed: _onIconPressed,
-            ),
-            NavBarElements(
-              icon: Icons.shopping_bag,
-              index: 1,
-              selectedIndex: _selectedIndex,
-              onPressed: _onIconPressed,
-            ),
-            NavBarElements(
-              icon: Icons.notifications,
-              index: 2,
-              selectedIndex: _selectedIndex,
-              onPressed: _onIconPressed,
-            ),
-            NavBarElements(
-              icon: Icons.favorite,
-              index: 3,
-              selectedIndex: _selectedIndex,
-              onPressed: _onIconPressed,
+            if (widget.showButton) 13.verticalSpace,
+            if (widget.showButton)
+              CustomNavbarButton(
+                title: widget.buttonTitle ?? "Button",
+                onPressed: widget.onButtonPressed ?? () {},
+                showIcon: widget.showIcon,
+                iconPath: AppAssets.arrowRight,
+              ),
+            if (widget.showButton) 19.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                NavBarElements(
+                  icon: Icons.home,
+                  index: 0,
+                  selectedIndex: _selectedIndex,
+                  onPressed: _onIconPressed,
+                ),
+                NavBarElements(
+                  icon: Icons.shopping_bag,
+                  index: 1,
+                  selectedIndex: _selectedIndex,
+                  onPressed: _onIconPressed,
+                ),
+                NavBarElements(
+                  icon: Icons.notifications,
+                  index: 2,
+                  selectedIndex: _selectedIndex,
+                  onPressed: _onIconPressed,
+                ),
+                NavBarElements(
+                  icon: Icons.favorite,
+                  index: 3,
+                  selectedIndex: _selectedIndex,
+                  onPressed: _onIconPressed,
+                ),
+              ],
             ),
           ],
         ),
