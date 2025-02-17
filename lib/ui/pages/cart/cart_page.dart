@@ -51,7 +51,7 @@ class _CartPageState extends State<CartPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 20.h),
-                          const CartStepsIndicator(),
+                          const CartStepsIndicator(title: "Cart",),
                           SizedBox(height: 30.h),
                           CartItemList(items: items),
                           SizedBox(height: 30.h),
