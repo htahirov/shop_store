@@ -26,7 +26,7 @@ class PaymentPage extends StatelessWidget {
             children: [
               const Center(
                 child: CartStepsIndicator(
-                  title: AppTexts.payment,
+                  AppTexts.payment,
                 ),
               ),
               30.verticalSpace,

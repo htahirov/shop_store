@@ -39,82 +39,83 @@ class CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      body: SafeArea(
-        child: BlocBuilder<BasketCubit, BasketState>(
-          builder: (context, state) {
-            if (state is BasketLoading) {
-              return const Center(
-                child: CustomProgressLoading(size: 50),
-              );
-            }
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        color: AppColors.white,
+        child: SafeArea(
+          child: BlocBuilder<BasketCubit, BasketState>(
+            builder: (context, state) {
+              if (state is BasketLoading) {
+                return const Center(
+                  child: CustomProgressLoading(size: 50),
+                );
+              }
 
-            if (state is BasketError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: TextStyle(
-                    color: AppColors.redmana,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              );
-            }
-
-            if (state is BasketSuccess && state.items.isNotEmpty) {
-              return Column(
-                children: [
-                  const CartHeader(),
-                  Expanded(
-                    child: Stack(
-                      children: [
-                        CustomScrollView(
-                          slivers: [
-                            SliverPadding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                              sliver: SliverList(
-                                delegate: SliverChildListDelegate([
-                                  CartItemsSection(items: state.items),
-                                  SizedBox(height: 20.h),
-                                  PromoCodeSection(
-                                    controller: _promoController,
-                                    onApply: () {
-                                      // TODO: Implement promo code
-                                    },
-                                  ),
-                                  SizedBox(height: 30.h),
-                                  TotalSection(items: state.items),
-                                  
-                                  SizedBox(height: 80.h),
-                                ]),
-                              ),
-                            ),
-                          ],
-                        ),
-                        
-                        Positioned(
-                          left: 20.w,
-                          right: 20.w,
-                          bottom: 14.h,
-                          child: AddressButtonCart(
-                            onTap: () {
-                              // TODO: Navigate to address page
-                            },
-                          ),
-                        ),
-                      ],
+              if (state is BasketError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: TextStyle(
+                      color: AppColors.redmana,
+                      fontSize: 14.sp,
                     ),
                   ),
-                ],
-              );
-            }
+                );
+              }
 
-            return const EmptyCartContent();
-          },
+              if (state is BasketSuccess && state.items.isNotEmpty) {
+                return Column(
+                  children: [
+                    const CartHeader(),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          CustomScrollView(
+                            slivers: [
+                              SliverPadding(
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                sliver: SliverList(
+                                  delegate: SliverChildListDelegate([
+                                    CartItemsSection(items: state.items),
+                                    SizedBox(height: 20.h),
+                                    PromoCodeSection(
+                                      controller: _promoController,
+                                      onApply: () {
+                                        // TODO: Implement promo code
+                                      },
+                                    ),
+                                    SizedBox(height: 30.h),
+                                    TotalSection(items: state.items),
+                                    SizedBox(height: 80.h),
+                                  ]),
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                          Positioned(
+                            left: 20.w,
+                            right: 20.w,
+                            bottom: 14.h,
+                            child: AddressButtonCart(
+                              onTap: () {
+                                // TODO: Navigate to address page
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return const EmptyCartContent();
+            },
+          ),
         ),
       ),
-      bottomNavigationBar: const CustomNavbar(),
     );
   }
 }
