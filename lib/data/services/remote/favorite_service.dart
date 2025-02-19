@@ -13,7 +13,7 @@ class FavoriteService {
     try {
       final response = await _dio.post(
         endpoint,
-        data: {"product_id": productId},
+        data: {"product": productId},
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -46,7 +46,7 @@ class FavoriteService {
 
       if (response.statusCode == 200) {
         return (response.data as List)
-            .map((item) => Result.fromJson(item['product']))
+            .map((item) => Result.fromJson(item))
             .toList();
       } else {
         throw Exception("Favoritləri gətirərkən xəta baş verdi");

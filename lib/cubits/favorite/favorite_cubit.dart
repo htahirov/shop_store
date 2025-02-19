@@ -25,31 +25,42 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       emit(FavoriteError("Xəta baş verdi"));
     }
   }
-  Future<void> toggleFavorite(Result product) async {
-  emit(FavoriteLoading());
-  try {
-    log("Favorite düyməsinə basıldı: ${product.id}");
-
-    if (_favorites.any((item) => item.id == product.id)) {
-      await _favoriteRepository.removeFromFavorites(product.id!);
-      _favorites.removeWhere((item) => item.id == product.id);
-      log("Məhsul favoritdən çıxarıldı: ${product.id}");
-    } else {
+  
+  Future<void> addToFavorite(Result product) async {
+    emit(FavoriteLoading());
+    try {
       await _favoriteRepository.addToFavorites(product.id!);
-      _favorites.add(product);
-      log("Məhsul favoritlərə əlavə olundu: ${product.id}");
+      emit(FavoriteSuccess(_favorites));
+    } catch (e) {
+      emit(FavoriteError("Xəta baş verdi"));
     }
-
-    emit(FavoriteSuccess(List.from(_favorites)));
-    fetchFavorites();
-  } on SocketException catch (e) {
-    log("Şəbəkə Xətası: $e");
-    emit(FavoriteNetworkError(e.toString()));
-  } catch (e) {
-    log("Xəta: $e");
-    emit(FavoriteError("Xəta baş verdi"));
   }
-}
+
+//   Future<void> toggleFavorite(Result product) async {
+//   emit(FavoriteLoading());
+//   try {
+//     log("Favorite düyməsinə basıldı: ${product.id}");
+
+//     if (_favorites.any((item) => item.id == product.id)) {
+//       await _favoriteRepository.removeFromFavorites(product.id!);
+//       _favorites.removeWhere((item) => item.id == product.id);
+//       log("Məhsul favoritdən çıxarıldı: ${product.id}");
+//     } else {
+//       await _favoriteRepository.addToFavorites(product.id!);
+//       _favorites.add(product);
+//       log("Məhsul favoritlərə əlavə olundu: ${product.id}");
+//     }
+
+//     emit(FavoriteSuccess(List.from(_favorites)));
+//     fetchFavorites();
+//   } on SocketException catch (e) {
+//     log("Şəbəkə Xətası: $e");
+//     emit(FavoriteNetworkError(e.toString()));
+//   } catch (e) {
+//     log("Xəta: $e");
+//     emit(FavoriteError("Xəta baş verdi"));
+//   }
+// }
 
   bool isFavorite(Result product) {
     return _favorites.any((item) => item.id == product.id);

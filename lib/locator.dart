@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'cubits/cubit/search_cubit.dart';
 import 'cubits/basket/basket_cubit.dart';
 import 'cubits/favorite/favorite_cubit.dart';
 import 'cubits/forgot_password/forgot_password_cubit.dart';
