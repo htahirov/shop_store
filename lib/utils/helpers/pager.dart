@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 import 'package:shop_store/ui/pages/add_new_card/add_new_card_page.dart';
+import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
 import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
@@ -69,22 +70,22 @@ class Pager {
   }
 
   static Widget get cart => MultiBlocProvider(
-      providers: [
-        BlocProvider<BasketCubit>(
-          create: (_) => locator()..getBasketItems(),
-        ),
-      ],
-      child: const CartPage(),
-    );
+        providers: [
+          BlocProvider<BasketCubit>(
+            create: (_) => locator()..getBasketItems(),
+          ),
+        ],
+        child: const CartPage(),
+      );
 
   static Widget get home => MultiBlocProvider(
         providers: [
           BlocProvider<HomeCubit>(
             create: (_) => locator()..getProducts(),
           ),
-          // BlocProvider<FavoriteCubit>(
-          //   create: (context) => FavoriteCubit(),
-          // ),
+          BlocProvider<FavoriteCubit>(
+            create: (context) => FavoriteCubit(),
+          ),
           BlocProvider<ProductCategoriesCubit>(
             create: (context) => locator()..getProductCategories(),
           ),
@@ -99,12 +100,20 @@ class Pager {
               ..getRecentSearches()
               ..getProducts(),
           ),
+          BlocProvider<FavoriteCubit>(
+            create: (_) => locator(),
+          ),
         ],
         child: const SearchPage(),
       );
 
   static Widget get payment => const PaymentPage();
   static Widget get addNewCard => const AddNewCardPage();
+
+  static Widget get favorite => BlocProvider<FavoriteCubit>(
+        create: (_) => locator(),
+        child: const FavoritePage(),
+      );
 
   static Widget get order => MultiBlocProvider(
     providers: [
