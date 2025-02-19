@@ -17,7 +17,7 @@ class EmptyCartContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 30.h),
-            Center( 
+            Center(
               child: Text(
                 'Cart',
                 style: TextStyle(
@@ -35,7 +35,7 @@ class EmptyCartContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.network(
-                    'https://d1766v6rpl2wri.cloudfront.net/e98one%2Fpreview%2F64509272%2Fmain_large.png?response-content-disposition=inline%3Bfilename%3D%22main_large.png%22%3B&response-content-type=image%2Fpng&Expires=1739547457&Signature=H12eWNRrWFbxrkOA4hD5YUXWGcpHE4a0DI2O-AqEAg13czqY~HFpfWq10mGjb5U6LkJtZ4EoBK3RrK9NPfD9BIorhS9vlIfQAeFfKHnWVvKgVmsxXmcEYCpLhJg5vIa86n6NWPFVyMQP2zQetSD5AqX3k5PCCmnODhb1MtyoR-L3wVJvOE3JxkhImkRRDhNtHfjDa5hRmzajADFBuvDCGMLAtAuFI-cXKin6~eXB7juwAwgde4i5MsPenL45iURzubibjxu7yDI6VmAHebNJFzWaQx3af97P2QmaMzJt0xdVtNFXGCIl8EQUxZcdWV3Xqft1XOprb-oJk6V5TXnktQ__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ',
+                    'https://media.wired.com/photos/5b899992404e112d2df1e94e/16:9/w_2495,h_1403,c_limit/trash2-01.jpg',
                     width: 173.w,
                     height: 224.h,
                     fit: BoxFit.contain,

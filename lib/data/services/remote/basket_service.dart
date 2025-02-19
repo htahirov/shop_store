@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shop_store/data/dio/client_dio.dart';
 import 'dart:developer';
 import '../../../utils/constants/api_keys.dart';
 import '../../../utils/extensions/int_extensions.dart';
@@ -8,19 +9,21 @@ import '../../models/remote/response/basket_item_response.dart';
 import '../local/auth_hive_service.dart';
 
 class BasketService {
-  final _dio = Dio(
-    BaseOptions(
-      headers: {
-        'Accept': '*/*',
-        'User-Agent': 'PostmanRuntime/7.43.0',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-      },
-      validateStatus: (status) {
-        return status! < 500;
-      },
-    ),
-  );
+  // final _dio = Dio(
+  //   BaseOptions(
+  //     headers: {
+  //       'Accept': '*/*',
+  //       'User-Agent': 'PostmanRuntime/7.43.0',
+  //       'Accept-Encoding': 'gzip, deflate, br',
+  //       'Connection': 'keep-alive',
+  //     },
+  //     validateStatus: (status) {
+  //       return status! < 500;
+  //     },
+  //   ),
+  // );
+
+  final _dio = ClientDio.instance.dio;
 
   Future<List<BasketItem>> getBasketItems() async {
     try {
@@ -28,7 +31,8 @@ class BasketService {
         ApiKeys.basketList,
         options: Options(
           headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
+            'Authorization':
+                'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
           },
         ),
       );
@@ -44,7 +48,8 @@ class BasketService {
           final results = response.data['results'];
           if (results is List) {
             return results
-                .map((json) => BasketItem.fromJson(json as Map<String, dynamic>))
+                .map(
+                    (json) => BasketItem.fromJson(json as Map<String, dynamic>))
                 .toList();
           }
         }
@@ -70,7 +75,8 @@ class BasketService {
         data: request.toJson(),
         options: Options(
           headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
+            'Authorization':
+                'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
           },
         ),
       );
@@ -95,7 +101,8 @@ class BasketService {
         '${ApiKeys.basketDelete}/$id/',
         options: Options(
           headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
+            'Authorization':
+                'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
           },
         ),
       );
@@ -114,14 +121,16 @@ class BasketService {
     }
   }
 
-  Future<BasketItem> updateBasketItem(String id, BasketUpdateRequest request) async {
+  Future<BasketItem> updateBasketItem(
+      String id, BasketUpdateRequest request) async {
     try {
       final response = await _dio.patch(
         '${ApiKeys.basketUpdate}/$id/',
         data: request.toJson(),
         options: Options(
           headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
+            'Authorization':
+                'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
           },
         ),
       );
