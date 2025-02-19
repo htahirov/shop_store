@@ -1,5 +1,10 @@
 class OrderResponse {
   final String code;
+  final String productName;
+  final int quantity;
+  final double price;
+  final String imageUrl;
+  final String colorHex;
   final double total;
   final String status;
   final String address;
@@ -13,6 +18,11 @@ class OrderResponse {
 
   OrderResponse({
     required this.code,
+    required this.productName,
+    required this.quantity,
+    required this.price,
+    required this.imageUrl,
+    required this.colorHex,
     required this.total,
     required this.status,
     required this.address,
@@ -27,6 +37,11 @@ class OrderResponse {
 
   factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
     code: json['code'],
+    productName: json['product_name'],
+    quantity: json['quantity'],
+    price: json['price'].toDouble(),
+    imageUrl: json['image_url'],
+    colorHex: json['color_hex'],
     total: json['total']?.toDouble() ?? 0.0,
     status: json['status'],
     address: json['address'],

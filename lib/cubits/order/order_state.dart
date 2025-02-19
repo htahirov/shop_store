@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../data/models/remote/response/order_detail_response.dart';
 import '../../data/models/remote/response/order_response.dart';
 import '../../data/models/remote/response/promo_code_response.dart';
 
@@ -27,4 +28,8 @@ class PromoCodeSuccess extends OrderState {
 class OrderTrackingSuccess extends OrderState {
   final Map<String, String> tracking;
   OrderTrackingSuccess(this.tracking);
+}
+class OrderDetailSuccess extends OrderState {
+  final OrderDetailResponse order;
+  OrderDetailSuccess(this.order);
 }
