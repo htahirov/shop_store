@@ -23,6 +23,11 @@ class ApiKeys {
   static const basketDelete = '$_basket/delete/';  // Note: Requires ID parameter
   static const basketUpdate = '$_basket/update/';  // Note: Requires ID parameter
 
+  
+  //Favorite endpoints
+  static const favorite = '$baseUrl/favorite/';  
+  static const favoriteCreate = '$baseUrl/favorite/create/';  
+
   // Order endpoints
   static const orderCreate = '$_order/create/';
   static const orderCancel = '$_order/cancel/';
@@ -30,5 +35,6 @@ class ApiKeys {
   static const orderDetail = '$_order/detail/';
   static const orderList = '$_order/list/';
   static const orderTrack = '$_order/track/';
+
 }
 

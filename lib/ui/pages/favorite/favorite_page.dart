@@ -13,6 +13,7 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      context.read<FavoriteCubit>().fetchFavorites();
     return Scaffold(
       appBar: const CustomAppBar(title: "Favorite"),
       body: BlocBuilder<FavoriteCubit, FavoriteState>(

@@ -84,7 +84,10 @@ class Pager {
             create: (_) => locator()..getProducts(),
           ),
           BlocProvider<FavoriteCubit>(
+
+            create: (_) => locator<FavoriteCubit>()..fetchFavorites(), 
             create: (context) => FavoriteCubit(),
+
           ),
           BlocProvider<ProductCategoriesCubit>(
             create: (context) => locator()..getProductCategories(),
@@ -110,6 +113,11 @@ class Pager {
   static Widget get payment => const PaymentPage();
   static Widget get addNewCard => const AddNewCardPage();
 
+  static Widget get favorite => BlocProvider.value(
+        value: locator<FavoriteCubit>(), 
+        child: const FavoritePage(),
+      );
+
   static Widget get favorite => BlocProvider<FavoriteCubit>(
         create: (_) => locator(),
         child: const FavoritePage(),
@@ -128,4 +136,5 @@ class Pager {
     value: locator<OrderCubit>(),
     child: OrderDetailPage(orderId: code),
   );
+
 }

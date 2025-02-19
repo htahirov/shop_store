@@ -9,11 +9,31 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final void Function()? onTapMenu;
 
+
+  SimpleAppBar.home({super.key, this.onTapMenu})
+      : actions = [
+          SvgPicture.asset(
+            AppAssets.search,
+            height: 29.r,
+            width: 29.r,
+          ),
+        ];
+
+  // SimpleAppBar.product({super.key})
+  //     : actions = [
+  //         const CustomFavoriteButton(),
+  //       ];
+  // SimpleAppBar.product({super.key, this.onTapMenu})
+  //     : actions = [
+  //         const CustomFavoriteButton(),
+  //       ];
+
   const SimpleAppBar({
     super.key,
     this.onTapMenu,
     required this.actions,
   });
+
 
   @override
   Widget build(BuildContext context) {
