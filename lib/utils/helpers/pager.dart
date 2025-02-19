@@ -6,6 +6,7 @@ import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
+import '../../cubits/order/order_cubit.dart';
 import '../../cubits/search/search_cubit.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/product_categories/product_categories_cubit.dart';
@@ -21,6 +22,8 @@ import '../../ui/pages/filter/filter_page.dart';
 import '../../ui/pages/forgot_password/forgot_password_page.dart';
 import '../../ui/pages/home/home_page.dart';
 import '../../ui/pages/onboard/onboard_page.dart';
+import '../../ui/pages/order/order_detail_page.dart';
+import '../../ui/pages/order/order_page.dart';
 import '../../ui/pages/product_detail/product_detail_page.dart';
 import '../../ui/pages/sign_in/signin_page.dart';
 import '../../ui/pages/sign_up/signup_page.dart';
@@ -102,4 +105,18 @@ class Pager {
 
   static Widget get payment => const PaymentPage();
   static Widget get addNewCard => const AddNewCardPage();
+
+  static Widget get order => MultiBlocProvider(
+    providers: [
+      BlocProvider<OrderCubit>(
+        create: (_) => locator()..getOrders(),
+      ),
+    ],
+    child: const OrderPage(),
+  );
+
+  static Widget orderDetail(String code) => BlocProvider.value(
+    value: locator<OrderCubit>(),
+    child: OrderDetailPage(orderId: code),
+  );
 }
