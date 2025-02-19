@@ -30,9 +30,9 @@ class IFavoriteRepository implements FavoriteRepository {
   }
 
   @override
-  Future<List<Result>> getFavorites() async {
+  Future<List<Result>> getFavorites() {
     try {
-      return await _favoriteService.getFavorites();
+      return _favoriteService.getFavorites();
     } catch (e) {
       log("Error fetching favorites: $e");
       throw Exception("Xəta baş verdi");

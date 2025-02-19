@@ -29,9 +29,8 @@ class FavoriteProductCard extends StatelessWidget {
               title: product.name!,
               amount: product.totalPrice!,
               product: product,
-              onFavoritePressed: () {
-                context.read<FavoriteCubit>().toggleFavorite(product);
-              },
+              onFavoritePressed: () =>
+                  context.read<FavoriteCubit>().addToFavorite(product),
             ),
           ],
         ),
