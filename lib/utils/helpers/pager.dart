@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
 import 'package:shop_store/ui/pages/add_new_card/add_new_card_page.dart';
+import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
 import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/search/search_page.dart';
 
@@ -75,9 +76,9 @@ class Pager {
           BlocProvider<HomeCubit>(
             create: (_) => locator()..getProducts(),
           ),
-          // BlocProvider<FavoriteCubit>(
-          //   create: (context) => FavoriteCubit(),
-          // ),
+          BlocProvider<FavoriteCubit>(
+            create: (_) => locator<FavoriteCubit>()..fetchFavorites(), 
+          ),
           BlocProvider<ProductCategoriesCubit>(
             create: (context) => locator()..getProductCategories(),
           ),
@@ -98,4 +99,9 @@ class Pager {
 
   static Widget get payment => const PaymentPage();
   static Widget get addNewCard => const AddNewCardPage();
+
+  static Widget get favorite => BlocProvider.value(
+        value: locator<FavoriteCubit>(), 
+        child: const FavoritePage(),
+      );
 }

@@ -37,14 +37,23 @@ class _CustomNavbarState extends State<CustomNavbar> {
     //Favorite screen
   ];
 
-  void _onIconPressed(int index) {
+void _onIconPressed(int index) {
   if (_selectedIndex == index) return;
 
   setState(() {
     _selectedIndex = index;
   });
-  Go.to(context, _pages[index]);
+
+  if (_selectedIndex == 3) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Pager.favorite),
+    );
+  } else {
+    Go.to(context, _pages[index]);
+  }
 }
+
 
   @override
   Widget build(BuildContext context) {

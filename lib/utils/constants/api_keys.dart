@@ -22,4 +22,8 @@ class ApiKeys {
   static const basketList = '$_basket/list/';
   static const basketDelete = '$_basket/delete/';  // Note: Requires ID parameter
   static const basketUpdate = '$_basket/update/';  // Note: Requires ID parameter
+  
+  //Favorite endpoints
+  static const favorite = '$baseUrl/favorite/';  
+  static const favoriteCreate = '$baseUrl/favorite/create/';  
 }

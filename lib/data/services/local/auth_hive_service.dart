@@ -14,6 +14,7 @@ class AuthHiveService {
     final data = response.toJson();
     final encodedData = jsonEncode(data);
     await box.put('authKey', encodedData);
+      log("✅ [saveData] Token saxlandı: $encodedData"); // 🛠 Debug log
   }
 
   static Future<LoginResponse?> getData() async {
