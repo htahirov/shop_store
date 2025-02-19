@@ -25,6 +25,8 @@ class AppTexts {
   static const saleUpTo = "SALE UP TO";
   static const positioned2 = "70%";
   static const off = "OFF";
+  static const search = "Search Items";
+  static const reSearch = "Recent Searches";
   static const payment = "Payment";
   static const weAccept = "We accept";
   static const subTotal = "Sub Total";

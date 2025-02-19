@@ -4,11 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_paddings.dart';
-import 'custom_favorite_button.dart';
 
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final void Function()? onTapMenu;
+
 
   SimpleAppBar.home({super.key, this.onTapMenu})
       : actions = [
@@ -27,6 +27,13 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   //     : actions = [
   //         const CustomFavoriteButton(),
   //       ];
+
+  const SimpleAppBar({
+    super.key,
+    this.onTapMenu,
+    required this.actions,
+  });
+
 
   @override
   Widget build(BuildContext context) {

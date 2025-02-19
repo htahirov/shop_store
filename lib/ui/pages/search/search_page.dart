@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_store/utils/constants/app_assets.dart';
+import 'package:shop_store/utils/constants/app_texts.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../cubits/cubit/search_cubit.dart';
+import '../../../cubits/search/search_cubit.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_constants.dart';
 import '../../../utils/constants/app_paddings.dart';
@@ -23,50 +25,50 @@ class SearchPage extends StatelessWidget {
     final cubit = context.read<SearchCubit>();
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/arrow_left.svg",
-          ),
-          onPressed: () {
-            Go.replace(context, Pager.home);
-          },
-        ),
-        title: Padding(
-          padding: AppPaddings.h40,
-          child: Container(
-            height: 37.h,
-            width: 289.w,
-            decoration: BoxDecoration(
-              color: AppColors.inputTextColor,
-              borderRadius: BorderRadius.circular(8),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: SvgPicture.asset(
+              AppAssets.arrowLeft,
+              height: 32.r,
+              width: 32.r,
             ),
-            child: TextField(
-              controller: cubit.searchController,
-              style: const TextStyle(
+            onPressed: () {
+              Go.replace(context, Pager.home);
+            },
+          ),
+        ),
+        title: Container(
+          height: 37.h,
+          width: 289.w,
+          decoration: BoxDecoration(
+            color: AppColors.inputTextColor,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: TextField(
+            controller: cubit.searchController,
+            style: const TextStyle(
+              color: AppColors.starBorderColor,
+            ),
+            decoration: const InputDecoration(
+              hintText: AppTexts.search,
+              hintStyle: TextStyle(
+                color: AppColors.starBorderColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                fontFamily: AppConstants.fontFamilyNunito,
+              ),
+              prefixIcon: Icon(
+                Icons.search,
                 color: AppColors.starBorderColor,
               ),
-              decoration: const InputDecoration(
-                hintText: "Search Items",
-                hintStyle: TextStyle(
-                  color: AppColors.starBorderColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: AppConstants.fontFamilyNunito,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: AppColors.starBorderColor,
-                ),
-                border: InputBorder.none,
-                suffixIcon: Icon(
-                  Icons.tune,
-                  color: AppColors.primary,
-                ),
-                contentPadding: AppPaddings.v8,
+              border: InputBorder.none,
+              suffixIcon: Icon(
+                Icons.tune,
+                color: AppColors.primary,
               ),
-              onSubmitted: (query) => cubit.search(query),
             ),
+            onChanged: (query) => cubit.search(query),
           ),
         ),
       ),
@@ -79,7 +81,7 @@ class SearchPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Recent Searches",
+                    AppTexts.reSearch,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -121,9 +123,7 @@ class SearchPage extends StatelessWidget {
                               child: Chip(
                                 label: Text(search),
                                 deleteIcon: const Icon(Icons.close),
-                                onDeleted: () {
-                                  // context.read<SearchCubit>().removeSearch(search);
-                                },
+                                onDeleted: () => cubit.removeSearch(search),
                               ),
                             );
                           },
@@ -132,65 +132,19 @@ class SearchPage extends StatelessWidget {
                     ),
                   );
                 }),
-
-            /* BlocBuilder<SearchCubit, SearchState>(
-              builder: (context, state) {
-                if (state is SearchRecentLoaded &&
-                    state.recentSearches.isNotEmpty) {
-                  return Padding(
-                    padding: AppPaddings.h24,
-                    child: Wrap(
-                      spacing: 8.0,
-                      children: state.recentSearches.map(
-                        (search) {
-                          return Chip(
-                            label: Text(search),
-                            deleteIcon: const Icon(Icons.close),
-                            onDeleted: () {
-                              context.read<SearchCubit>().removeSearch(search);
-                            },
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ), */
             40.verticalSpace,
             StreamBuilder(
-                stream: cubit.productController.stream,
-                builder: (_, snapshot) {
-                  return Skeletonizer(
-                    enableSwitchAnimation: true,
-                    enabled: !snapshot.hasData,
-                    child: ProductGrid(
-                      products: snapshot.data ?? cubit.mockProducts,
-                    ),
-                  );
-                }),
-
-            /* BlocBuilder<SearchCubit, SearchState>(
-              builder: (_, state) {
-                if (state is SearchError || state is SearchNetworkError) {
-                  return Center(
-                    child: Text(
-                      (state as dynamic).message,
-                      style: const TextStyle(color: AppColors.redmana),
-                    ),
-                  );
-                }
-                final List<Result> product =
-                    state is SearchSuccess ? state.searchResults : [];
-                log(product.toString());
+              stream: cubit.productController.stream,
+              builder: (_, snapshot) {
                 return Skeletonizer(
                   enableSwitchAnimation: true,
-                  enabled: state is SearchLoading || state is SearchInitial,
-                  child: ProductGrid(products: product),
+                  enabled: !snapshot.hasData,
+                  child: ProductGrid(
+                    products: snapshot.data ?? cubit.mockProducts,
+                  ),
                 );
               },
-            ), */
+            ),
           ],
         ),
       ),

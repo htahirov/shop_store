@@ -32,6 +32,9 @@ class _CustomNavbarState extends State<CustomNavbar> {
 
   final List<Widget> _pages = [
     Pager.home,
+    Pager.cart,
+    Container(),
+    Pager.favorite,
     //Cart screen
     //Notifacation screen
     //Favorite screen
@@ -53,6 +56,15 @@ void _onIconPressed(int index) {
     Go.to(context, _pages[index]);
   }
 }
+
+  void _onIconPressed(int index) {
+    if (_selectedIndex == index) return;
+
+    setState(() {
+      _selectedIndex = index;
+    });
+    Go.to(context, _pages[index]);
+  }
 
 
   @override
