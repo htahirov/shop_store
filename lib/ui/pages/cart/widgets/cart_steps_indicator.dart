@@ -6,7 +6,7 @@ import '../../../../utils/constants/app_colors.dart';
 class CartStepsIndicator extends StatelessWidget {
   final int currentStep;
 
-  const CartStepsIndicator({
+  const CartStepsIndicator(String payment, {
     super.key,
     this.currentStep = 1,
   });

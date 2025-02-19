@@ -35,8 +35,6 @@ void setupLocator() {
   // Services
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ProductService());
-  locator.registerLazySingleton(() => ProductDetailService());
-  locator.registerLazySingleton(() => BasketService());
 
   // Repositories
   locator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(locator()));
