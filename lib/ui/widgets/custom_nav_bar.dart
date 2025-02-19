@@ -32,6 +32,9 @@ class _CustomNavbarState extends State<CustomNavbar> {
 
   final List<Widget> _pages = [
     Pager.home,
+    Pager.cart,
+    Container(),
+    Pager.favorite,
     //Cart screen
     //Notifacation screen
     //Favorite screen
