@@ -7,6 +7,7 @@ class TokenDioInterceptor implements Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     final data = await AuthHiveService.getData();
     options.headers['Authorization'] = 'Bearer ${data?.tokens.access}';
+    handler.next(options);
   }
 
   @override
@@ -19,5 +20,6 @@ class TokenDioInterceptor implements Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // TODO: implement onResponse
+    handler.resolve(response);
   }
 }

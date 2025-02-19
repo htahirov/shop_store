@@ -22,8 +22,8 @@ class ClientDio {
       ),
     );
 
-    _dio!.interceptors.add(TokenDioInterceptor());
     if (kDebugMode) _dio!.interceptors.add(AwesomeDioInterceptor());
+    _dio!.interceptors.add(TokenDioInterceptor());
 
     return _dio!;
   }

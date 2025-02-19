@@ -25,7 +25,7 @@ class PaymentPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Center(
-                child: CartStepsIndicator(),
+                child: CartStepsIndicator('Payments'),
               ),
               30.verticalSpace,
               Row(
