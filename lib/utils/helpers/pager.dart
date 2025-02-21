@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
+
+import '../../cubits/favorite/favorite_cubit.dart';
+import '../../cubits/payment/payment_cubit.dart';
+import '../../ui/pages/add_new_card/add_new_card_page.dart';
+import '../../ui/pages/favorite/favorite_page.dart';
+import '../../ui/pages/payment/payment_page.dart';
+import '../../ui/pages/search/search_page.dart';
+
 import 'package:shop_store/cubits/profile/profile_cubit.dart';
-import 'package:shop_store/ui/pages/add_new_card/add_new_card_page.dart';
 import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
-import 'package:shop_store/ui/pages/payment/payment_page.dart';
 import 'package:shop_store/ui/pages/profile/profile_page.dart';
-import 'package:shop_store/ui/pages/search/search_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
 import '../../cubits/order/order_cubit.dart';
@@ -109,8 +113,14 @@ class Pager {
         child: const SearchPage(),
       );
 
-  static Widget get payment => const PaymentPage();
-  static Widget get addNewCard => const AddNewCardPage();
+  static Widget get payment => BlocProvider(
+        create: (context) => PaymentCubit()..getPaymentData(),
+        child: const PaymentPage(),
+      );
+  static Widget get addNewCard => BlocProvider(
+        create: (context) => PaymentCubit()..getPaymentData(),
+        child: AddNewCardPage(),
+      );
 
   static Widget get favorite => BlocProvider.value(
         value: locator<FavoriteCubit>()..fetchFavorites(),

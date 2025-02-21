@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shop_store/cubits/payment/payment_cubit.dart';
 import 'package:shop_store/cubits/profile/profile_cubit.dart';
 import 'package:shop_store/data/repo/signup_repo.dart';
 import 'package:shop_store/data/services/remote/signup_service.dart';
@@ -69,6 +70,7 @@ void setupLocator() {
   locator.registerFactory(() => ForgotPasswordCubit());
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
+  locator.registerFactory(() => PaymentCubit());
   locator.registerFactory(() => SignUpCubit(locator<SignUpRepo>())); 
   locator.registerFactory(() => HomeCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductCategoriesCubit(locator<ProductRepo>()));

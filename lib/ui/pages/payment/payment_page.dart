@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/constants/app_texts.dart';
+import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_add_button.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../cart/widgets/cart_steps_indicator.dart';
 import 'widgets/accepted_payment_method.dart';
-import 'widgets/payment_card.dart';
+import 'widgets/payment_cards_list.dart';
 import 'widgets/price_details.dart';
 
 class PaymentPage extends StatelessWidget {
@@ -30,14 +31,11 @@ class PaymentPage extends StatelessWidget {
               30.verticalSpace,
               Row(
                 children: [
-                  const CustomAddButton(),
+                  CustomAddButton(
+                    onPressed: () => Go.to(context, Pager.addNewCard),
+                  ),
                   18.horizontalSpace,
-                  const CustomPaymentCard(
-                    cardNumber: "1234567898765432",
-                    expiryDate: "12/24",
-                    logoPath: AppAssets.master,
-                    cardHolderName: "Nihad",
-                  )
+                  const PaymentCardsList()
                 ],
               ),
               20.verticalSpace,
