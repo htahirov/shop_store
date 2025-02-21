@@ -1,45 +1,51 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/repo/signup_repo.dart';
+import '../../data/models/remote/request/signup_request.dart';
+import '../profile/profile_cubit.dart';
 
 part 'signup_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(SignUpInitial());
+  SignUpCubit(this._signUpRepo) : super(SignUpInitial());
 
+  final SignUpRepo _signUpRepo;
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  void handleSignUp() async {
-    if (!formKey.currentState!.validate()) return;
+ void handleSignUp(BuildContext context) async {
+  if (!formKey.currentState!.validate()) return;
 
-    try {
-      emit(SignUpLoading());
-      
-      await signUp(
-        username: usernameController.text,
-        phoneNumber: phoneController.text,
-        email: emailController.text,
-        password: passwordController.text,
-      );
+  try {
+    emit(SignUpLoading());
+
+    final request = SignUpRequest(
+      username: usernameController.text,
+      phoneNumber: phoneController.text,
+      email: emailController.text,
+      password: passwordController.text,
+      passwordConfirm: confirmPasswordController.text
+    );
+
+    final response = await _signUpRepo.signUp(request: request);
+
+    if (response != null) {
+      context.read<ProfileCubit>().saveUserProfile(response);
       
       emit(SignUpSuccess());
-    } catch (e) {
-      emit(SignUpError(e.toString()));
+    } else {
+      emit(SignUpError('Sign up failed.'));
     }
+  } catch (e, s) {
+    log("SignUp error: $e", stackTrace: s);
+    emit(SignUpError(e.toString()));
   }
-
-  Future<void> signUp({
-    required String username,
-    required String phoneNumber,
-    required String email,
-    required String password,
-  }) async {
-    // TODO: Implement API call
-    await Future.delayed(const Duration(seconds: 2));
-  }
+}
 
   @override
   Future<void> close() {
@@ -47,6 +53,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     phoneController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     return super.close();
   }
 }

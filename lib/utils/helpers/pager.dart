@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../cubits/payment/payment_cubit.dart';
 import '../../ui/pages/add_new_card/add_new_card_page.dart';
 import '../../ui/pages/favorite/favorite_page.dart';
 import '../../ui/pages/payment/payment_page.dart';
 import '../../ui/pages/search/search_page.dart';
+
+import 'package:shop_store/cubits/profile/profile_cubit.dart';
+import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
+import 'package:shop_store/ui/pages/profile/profile_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
 import '../../cubits/order/order_cubit.dart';
@@ -91,7 +96,7 @@ class Pager {
             create: (context) => locator()..getProductCategories(),
           ),
         ],
-        child: const HomePage(),
+        child:  HomePage(),
       );
 
   static Widget get search => MultiBlocProvider(
@@ -134,5 +139,9 @@ class Pager {
   static Widget orderDetail(String code) => BlocProvider.value(
         value: locator<OrderCubit>(),
         child: OrderDetailPage(orderId: code),
+      );
+ static Widget get profile => BlocProvider<ProfileCubit>(
+        create: (_) => locator(),
+        child:  const ProfilePage(email: '',),
       );
 }
