@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
-import 'package:shop_store/ui/pages/add_new_card/add_new_card_page.dart';
+
+import '../../cubits/favorite/favorite_cubit.dart';
+import '../../cubits/payment/payment_cubit.dart';
+import '../../ui/pages/add_new_card/add_new_card_page.dart';
+import '../../ui/pages/favorite/favorite_page.dart';
+import '../../ui/pages/payment/payment_page.dart';
+import '../../ui/pages/search/search_page.dart';
+
+import 'package:shop_store/cubits/profile/profile_cubit.dart';
 import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
-import 'package:shop_store/ui/pages/payment/payment_page.dart';
-import 'package:shop_store/ui/pages/search/search_page.dart';
+import 'package:shop_store/ui/pages/profile/profile_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
 import '../../cubits/order/order_cubit.dart';
@@ -25,6 +31,7 @@ import '../../ui/pages/home/home_page.dart';
 import '../../ui/pages/onboard/onboard_page.dart';
 import '../../ui/pages/order/order_detail_page.dart';
 import '../../ui/pages/order/order_page.dart';
+import '../../ui/pages/order/order_track_page.dart';
 import '../../ui/pages/product_detail/product_detail_page.dart';
 import '../../ui/pages/sign_in/signin_page.dart';
 import '../../ui/pages/sign_up/signup_page.dart';
@@ -90,7 +97,7 @@ class Pager {
             create: (context) => locator()..getProductCategories(),
           ),
         ],
-        child: const HomePage(),
+        child:  HomePage(),
       );
 
   static Widget get search => MultiBlocProvider(
@@ -107,8 +114,14 @@ class Pager {
         child: const SearchPage(),
       );
 
-  static Widget get payment => const PaymentPage();
-  static Widget get addNewCard => const AddNewCardPage();
+  static Widget get payment => BlocProvider(
+        create: (context) => PaymentCubit()..getPaymentData(),
+        child: const PaymentPage(),
+      );
+  static Widget get addNewCard => BlocProvider(
+        create: (context) => PaymentCubit()..getPaymentData(),
+        child: AddNewCardPage(),
+      );
 
   static Widget get favorite => BlocProvider.value(
         value: locator<FavoriteCubit>()..fetchFavorites(),
@@ -127,5 +140,15 @@ class Pager {
   static Widget orderDetail(String code) => BlocProvider.value(
         value: locator<OrderCubit>(),
         child: OrderDetailPage(orderId: code),
+      );
+
+  static Widget orderTrack(String code) => BlocProvider.value(
+        value: locator<OrderCubit>(),
+        child: OrderTrackPage(orderId: code),
+    );
+    
+ static Widget get profile => BlocProvider<ProfileCubit>(
+        create: (_) => locator(),
+        child:  const ProfilePage(email: '',),
       );
 }

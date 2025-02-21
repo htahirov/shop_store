@@ -27,7 +27,7 @@ class SignUpButtons extends StatelessWidget {
             builder: (context, state) {
               return CustomFabButton(
                 isLoading: state is SignUpLoading,
-                onPressed: () => signUpCubit.handleSignUp(),
+                onPressed: () => signUpCubit.handleSignUp(context),
               );
             },
           ),

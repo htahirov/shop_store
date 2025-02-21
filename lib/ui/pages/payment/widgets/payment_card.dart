@@ -9,7 +9,7 @@ import '../../../../utils/constants/app_paddings.dart';
 import '../../../../utils/constants/app_radiuses.dart';
 import '../../../../utils/constants/app_text_styles.dart';
 
-class CustomPaymentCard extends StatelessWidget {
+class PaymentCard extends StatelessWidget {
   final String cardNumber;
   final String expiryDate;
   final String logoPath;
@@ -19,7 +19,7 @@ class CustomPaymentCard extends StatelessWidget {
   final String cardHolderName;
   final bool isCompact;
 
-  const CustomPaymentCard({
+  const PaymentCard({
     super.key,
     required this.cardNumber,
     required this.expiryDate,
@@ -31,7 +31,7 @@ class CustomPaymentCard extends StatelessWidget {
     this.isCompact = false,
   });
 
-  const CustomPaymentCard.compact({
+  const PaymentCard.compact({
     super.key,
     required this.cardNumber,
     required this.expiryDate,

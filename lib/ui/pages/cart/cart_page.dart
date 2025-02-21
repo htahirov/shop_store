@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../cubits/basket/basket_cubit.dart';
 import '../../../cubits/basket/basket_state.dart';
+import '../../../data/models/remote/response/basket_item_response.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/custom_progress_loading.dart';
@@ -64,51 +65,13 @@ class CartPageState extends State<CartPage> {
                 );
               }
 
+              // Handle deleting state - show items with loading indicator
+              if (state is BasketItemDeleting) {
+                return _buildCartContent(state.items);
+              }
+
               if (state is BasketSuccess && state.items.isNotEmpty) {
-                return Column(
-                  children: [
-                    const CartHeader(),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          CustomScrollView(
-                            slivers: [
-                              SliverPadding(
-                                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                sliver: SliverList(
-                                  delegate: SliverChildListDelegate([
-                                    CartItemsSection(items: state.items),
-                                    SizedBox(height: 20.h),
-                                    PromoCodeSection(
-                                      controller: _promoController,
-                                      onApply: () {
-                                        // TODO: Implement promo code
-                                      },
-                                    ),
-                                    SizedBox(height: 30.h),
-                                    TotalSection(items: state.items),
-                                    SizedBox(height: 80.h),
-                                  ]),
-                                ),
-                              ),
-                            ],
-                          ),
-                          
-                          Positioned(
-                            left: 20.w,
-                            right: 20.w,
-                            bottom: 14.h,
-                            child: AddressButtonCart(
-                              onTap: () {
-                                // TODO: Navigate to address page
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
+                return _buildCartContent(state.items);
               }
 
               return const EmptyCartContent();
@@ -116,6 +79,54 @@ class CartPageState extends State<CartPage> {
           ),
         ),
       ),
+    );
+  }
+  
+  // Extract cart content to a separate method to avoid duplication
+  Widget _buildCartContent(List<BasketItem> items) {
+    return Column(
+      children: [
+        const CartHeader(),
+        Expanded(
+          child: Stack(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        CartItemsSection(items: items),
+                        SizedBox(height: 20.h),
+                        PromoCodeSection(
+                          controller: _promoController,
+                          onApply: () {
+                            // TODO: Implement promo code
+                          },
+                        ),
+                        SizedBox(height: 30.h),
+                        TotalSection(items: items),
+                        SizedBox(height: 80.h),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+              
+              Positioned(
+                left: 20.w,
+                right: 20.w,
+                bottom: 14.h,
+                child: AddressButtonCart(
+                  onTap: () {
+                    // TODO: Navigate to address page
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
