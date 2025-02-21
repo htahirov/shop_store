@@ -24,3 +24,4 @@ final class FavoriteNetworkError extends FavoriteState {
 
   FavoriteNetworkError(this.message);
 }
+

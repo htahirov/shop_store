@@ -34,7 +34,7 @@ class FavoriteCardDescription extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.cardDescriptionTextStyle,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.visible,
                   maxLines: 1,
                 ),
                 1.verticalSpace,

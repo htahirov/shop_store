@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_store/cubits/favorite/favorite_cubit.dart';
-import 'package:shop_store/utils/helpers/pager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../cubits/home/home_cubit.dart';

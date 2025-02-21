@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../cubits/favorite/favorite_cubit.dart';
 import '../../../../data/models/remote/response/product_response.dart';
-import '../../../../utils/constants/app_radiuses.dart';
 import '../../../../utils/helpers/go.dart';
 import '../../../../utils/helpers/pager.dart';
 import '../../home/widgets/product/card_image.dart';
@@ -19,7 +18,7 @@ class FavoriteProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Go.to(context, Pager.productDetail(product.slug!)),
       child: Card(
-        shape: const RoundedRectangleBorder(borderRadius: AppRadiuses.a10),
+        elevation: 0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +29,7 @@ class FavoriteProductCard extends StatelessWidget {
               amount: product.totalPrice!,
               product: product,
               onFavoritePressed: () =>
-                  context.read<FavoriteCubit>().addToFavorite(product),
+                  context.read<FavoriteCubit>().toggleFavorite(product),
             ),
           ],
         ),
