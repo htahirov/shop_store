@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class DrawerItem extends StatelessWidget {
   final String title;
   final bool isActive;
-  final VoidCallback? onTap; // Yeni onTap funksiyası
+  final VoidCallback onTap; 
 
   const DrawerItem({
     required this.title,
     this.isActive = false,
-    this.onTap, 
+    required this.onTap, 
     super.key,
   });
 

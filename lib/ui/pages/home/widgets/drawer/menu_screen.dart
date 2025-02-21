@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/cubits/profile/profile_cubit.dart';
-import 'package:shop_store/cubits/signup/signup_cubit.dart';
+import '../../../../../utils/helpers/pager.dart';
 import 'drawer_item.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -22,7 +22,6 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final profileCubit = context.read<ProfileCubit>();
     return Scaffold(
       backgroundColor: Colors.black87,
       body: SafeArea(
@@ -45,6 +44,11 @@ class _MenuScreenState extends State<MenuScreen> {
                 style: TextStyle(color: Colors.white70, fontSize: 14),
               ),
               const SizedBox(height: 30),
+               DrawerItem(
+                title: "Profile",
+                isActive: selectedItem == "Profile",
+                onTap: () =>Pager.profile,
+              ),
               DrawerItem(
                 title: "Address",
                 isActive: selectedItem == "Address",

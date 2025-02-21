@@ -8,6 +8,8 @@ import 'package:shop_store/utils/constants/app_paddings.dart';
 import 'package:shop_store/utils/helpers/go.dart';
 import 'package:shop_store/utils/helpers/pager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../../cubits/profile/profile_cubit.dart';
+import '../../../locator.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/simple_app_bar.dart';
 import 'widgets/carousel/custom_carousel_slider.dart';
@@ -26,7 +28,10 @@ class HomePage extends StatelessWidget {
 
     return ZoomDrawer(
       controller: drawerController,
-      menuScreen: const MenuScreen(),
+      menuScreen:  BlocProvider(
+        create: (_) => locator<ProfileCubit>(),
+        child: const MenuScreen(),
+      ),
       mainScreen: Scaffold(
         appBar: SimpleAppBar(
           onTapMenu: () => drawerController.toggle?.call(),
