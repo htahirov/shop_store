@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shop_store/cubits/profile/profile_cubit.dart';
+import 'package:shop_store/data/repo/signup_repo.dart';
+import 'package:shop_store/data/services/remote/signup_service.dart';
 import 'cubits/basket/basket_cubit.dart';
 import 'cubits/favorite/favorite_cubit.dart';
 import 'cubits/forgot_password/forgot_password_cubit.dart';
@@ -19,6 +22,7 @@ import 'data/i_repo/favorite_repo_impl.dart';
 import 'data/i_repo/order_repo_impl.dart';
 import 'data/i_repo/product_detail_repo_impl.dart';
 import 'data/i_repo/product_repo_impl.dart';
+import 'data/i_repo/signup_repo_impl.dart';
 import 'data/repo/auth_repo.dart';
 import 'data/repo/basket_repo.dart';
 import 'data/repo/favorite_repo.dart';
@@ -41,11 +45,12 @@ void setupLocator() {
   // Services
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ProductService());
+  locator.registerLazySingleton(()=>SignUpService());
 
   // Repositories
   locator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(locator()));
   locator.registerLazySingleton<ProductRepo>(() => ProductRepoImpl(locator()));
-
+ locator.registerLazySingleton<SignUpRepo>(() => SignUpRepoImpl(locator()));
 
   // Services
   locator.registerLazySingleton(() => ProductDetailService());
@@ -57,13 +62,14 @@ void setupLocator() {
 
   
   // Cubits
+  locator.registerFactory(()=>ProfileCubit());
   locator.registerFactory(() => SearchCubit());
   locator.registerFactory(() => SplashCubit());
   locator.registerFactory(() => VerifyCubit());
   locator.registerFactory(() => ForgotPasswordCubit());
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
-  locator.registerFactory(() => SignUpCubit());
+  locator.registerFactory(() => SignUpCubit(locator<SignUpRepo>())); 
   locator.registerFactory(() => HomeCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductCategoriesCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductDetailCubit(
