@@ -6,18 +6,8 @@ import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_paddings.dart';
 
 class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final List<Widget> actions;
   final void Function()? onTapMenu;
-
-
-  SimpleAppBar.home({super.key, this.onTapMenu})
-      : actions = [
-          SvgPicture.asset(
-            AppAssets.search,
-            height: 29.r,
-            width: 29.r,
-          ),
-        ];
+  final void Function()? onTap;
 
   // SimpleAppBar.product({super.key})
   //     : actions = [
@@ -31,9 +21,8 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SimpleAppBar({
     super.key,
     this.onTapMenu,
-    required this.actions,
+    this.onTap,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +39,16 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        actions: actions,
+        actions: [
+          GestureDetector(
+            onTap: onTap,
+            child: SvgPicture.asset(
+              AppAssets.search,
+              height: 29.r,
+              width: 29.r,
+            ),
+          ),
+        ],
       ),
     );
   }
