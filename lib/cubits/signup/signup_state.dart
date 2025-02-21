@@ -14,3 +14,8 @@ class SignUpError extends SignUpState {
 
   SignUpError(this.message);
 }
+class SignUpNetworkError extends SignUpState {
+  final String message;
+
+  SignUpNetworkError(this.message);
+}
