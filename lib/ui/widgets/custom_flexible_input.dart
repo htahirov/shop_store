@@ -8,14 +8,20 @@ class CustomFlexibleInput extends StatelessWidget {
   final double width;
   final double height;
   final TextEditingController controller;
-  final String? label; 
+  final String? label;
+  final TextInputType? keyboardType;
+  final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   const CustomFlexibleInput({
     super.key,
     required this.width,
     this.height = 44,
     required this.controller,
-    this.label, 
+    this.label,
+    this.keyboardType,
+    this.onChanged, 
+    this.validator,
   });
 
   const CustomFlexibleInput.small({
@@ -23,6 +29,9 @@ class CustomFlexibleInput extends StatelessWidget {
     this.width = 110,
     required this.controller,
     this.label,
+    this.keyboardType,
+    this.onChanged, 
+    this.validator,
   }) : height = 44;
 
   const CustomFlexibleInput.medium({
@@ -30,6 +39,9 @@ class CustomFlexibleInput extends StatelessWidget {
     this.width = 165,
     required this.controller,
     this.label,
+    this.keyboardType,
+    this.onChanged, 
+    this.validator,
   }) : height = 44;
 
   const CustomFlexibleInput.large({
@@ -37,6 +49,9 @@ class CustomFlexibleInput extends StatelessWidget {
     this.width = 350,
     required this.controller,
     this.label,
+    this.keyboardType,
+    this.onChanged, 
+    this.validator,
   }) : height = 44;
 
   @override
@@ -51,8 +66,11 @@ class CustomFlexibleInput extends StatelessWidget {
         SizedBox(
           width: width.w,
           height: height.h,
-          child: TextField(
+          child: TextFormField(
+            keyboardType: keyboardType,
             controller: controller,
+            onChanged: onChanged,
+            validator: validator,
             decoration: const InputDecoration(
               fillColor: AppColors.inputFillColor,
               filled: true,
@@ -60,6 +78,26 @@ class CustomFlexibleInput extends StatelessWidget {
                 borderRadius: AppRadiuses.a10,
                 borderSide: BorderSide.none,
               ),
+              enabledBorder: OutlineInputBorder(
+              borderRadius: AppRadiuses.a10,
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: AppRadiuses.a10,
+              borderSide: BorderSide.none,
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: AppRadiuses.a10,
+              borderSide: BorderSide.none,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: AppRadiuses.a10,
+              borderSide: BorderSide.none,
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: AppRadiuses.a10,
+              borderSide: BorderSide.none,
+            ),
             ),
           ),
         ),

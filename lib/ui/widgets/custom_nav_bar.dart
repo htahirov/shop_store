@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_paddings.dart';
-import '../../utils/helpers/go.dart';
 import '../../utils/helpers/pager.dart';
 import 'custom_nav_bar_button.dart';
 import 'nav_bar_elements.dart';
@@ -46,9 +45,7 @@ class _CustomNavbarState extends State<CustomNavbar> {
     setState(() {
       _selectedIndex = index;
     });
-    Go.to(context, _pages[index]);
   }
-
 
   @override
   Widget build(BuildContext context) {
