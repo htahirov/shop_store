@@ -31,6 +31,7 @@ import '../../ui/pages/home/home_page.dart';
 import '../../ui/pages/onboard/onboard_page.dart';
 import '../../ui/pages/order/order_detail_page.dart';
 import '../../ui/pages/order/order_page.dart';
+import '../../ui/pages/order/order_track_page.dart';
 import '../../ui/pages/product_detail/product_detail_page.dart';
 import '../../ui/pages/sign_in/signin_page.dart';
 import '../../ui/pages/sign_up/signup_page.dart';
@@ -140,6 +141,12 @@ class Pager {
         value: locator<OrderCubit>(),
         child: OrderDetailPage(orderId: code),
       );
+
+  static Widget orderTrack(String code) => BlocProvider.value(
+        value: locator<OrderCubit>(),
+        child: OrderTrackPage(orderId: code),
+    );
+    
  static Widget get profile => BlocProvider<ProfileCubit>(
         create: (_) => locator(),
         child:  const ProfilePage(email: '',),

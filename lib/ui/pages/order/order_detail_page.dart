@@ -204,7 +204,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           title: 'Track Order',
           onPressed: () => Go.to(
             context,
-            Pager.home //orderTrack(widget.orderId),
+            Pager.orderTrack(widget.orderId),
           ),
         ),
       ),

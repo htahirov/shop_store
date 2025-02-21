@@ -20,3 +20,14 @@ class BasketError extends BasketState {
 }
 
 class BasketOperationSuccess extends BasketState {}
+
+// Updated state to include current items while deleting
+class BasketItemDeleting extends BasketState {
+  final String itemId;
+  final List<BasketItem> currentItems;
+  
+  BasketItemDeleting(this.itemId, this.currentItems);
+  
+  // Helper method to get properly typed items
+  List<BasketItem> get items => currentItems;
+}
