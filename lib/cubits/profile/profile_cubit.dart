@@ -1,32 +1,76 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../data/models/remote/response/user_profile.dart';
 import '../../data/services/local/profile_hive_service.dart';
+import '../../utils/enums/gender_enum.dart';
 
-class ProfileCubit extends Cubit<UserProfile?> {
-  ProfileCubit() : super(null);
+enum ProfileState { initial, loading, success, error }
 
-  Future<void> loadUserData(String email) async {
-    try {
-      final user = await ProfileHiveService.getUser(email);
-      emit(user);
-    } catch (e,s) {
-      emit(null);
-      log('Error loading user data: $e');
-            log('Error loading user data: $s');
+class ProfileCubit extends Cubit<ProfileState> {
+  ProfileCubit() : super(ProfileState.initial);
 
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final bioController = TextEditingController();
+  final emailController = TextEditingController();
+  final birthdayController = TextEditingController();
+
+  final selectedGenderNotifier = ValueNotifier<Gender?>(null);
+
+  UserProfile? user;
+
+  Future<void> fillInputs() async {
+    if (user != null) {
+      firstNameController.text = user!.firstName ?? '';
+      emailController.text = user!.email;
+      lastNameController.text = user!.lastName ?? '';
+      bioController.text = user!.bio ?? '';
+      birthdayController.text = user!.dateOfBirth ?? '';
+      selectedGenderNotifier.value = Gender.fromText(user!.gender);
     }
   }
 
-  Future<void> saveUserProfile(UserProfile user) async {
+  void loadUserData() async {
     try {
-      await ProfileHiveService.saveUser(user);
-      emit(user);
-    } catch (e,s) {
-      log('Error saving user profile: $e');
-            log('Error saving user profile: $s');
-
+      emit(ProfileState.loading);
+      user = await ProfileHiveService.getUser();
+      await fillInputs();
+      emit(ProfileState.success);
+    } catch (e, s) {
+      emit(ProfileState.error);
+      log('Error loading user data: $e');
+      log('Error loading user data: $s');
     }
+  }
+
+  void saveProfile() async {
+    try {
+      emit(ProfileState.loading);
+      final updatedUser = UserProfile(
+        email: emailController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        bio: bioController.text,
+        dateOfBirth: birthdayController.text,
+        gender: selectedGenderNotifier.value?.name,
+      );
+
+      await ProfileHiveService.saveUser(updatedUser);
+
+      emit(ProfileState.success);
+    } catch (e) {
+      emit(ProfileState.error);
+    }
+  }
+
+  @override
+  Future<void> close() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    bioController.dispose();
+    return super.close();
   }
 }

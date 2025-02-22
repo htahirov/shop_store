@@ -97,7 +97,7 @@ class Pager {
             create: (context) => locator()..getProductCategories(),
           ),
         ],
-        child:  HomePage(),
+        child: HomePage(),
       );
 
   static Widget get search => MultiBlocProvider(
@@ -145,10 +145,10 @@ class Pager {
   static Widget orderTrack(String code) => BlocProvider.value(
         value: locator<OrderCubit>(),
         child: OrderTrackPage(orderId: code),
-    );
-    
- static Widget get profile => BlocProvider<ProfileCubit>(
-        create: (_) => locator(),
-        child:  const ProfilePage(email: '',),
+      );
+
+  static Widget get profile => BlocProvider<ProfileCubit>(
+        create: (_) => locator()..loadUserData(),
+        child: const ProfilePage(),
       );
 }

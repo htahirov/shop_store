@@ -1,4 +1,5 @@
-enum Gender { male, female }
+
+
 class UserProfile {
   final String email;
   String? username;
@@ -6,9 +7,9 @@ class UserProfile {
   String? lastName;
   String? phoneNumber;
   String? password;
-  DateTime? dateOfBirth;
+  String? dateOfBirth;
   String? bio;
-  Gender? gender;
+  String? gender;
 
   UserProfile({
     required this.email,
@@ -30,9 +31,9 @@ class UserProfile {
       'lastName': lastName,
       'phoneNumber': phoneNumber,
       'password': password,
-      'dateOfBirth': dateOfBirth?.toIso8601String(),
+      'dateOfBirth': dateOfBirth,
       'bio': bio,
-      'gender': gender?.index,
+      'gender': gender,
     };
   }
 
@@ -44,11 +45,9 @@ class UserProfile {
       lastName: map['lastName'],
       phoneNumber: map['phoneNumber'],
       password: map['password'],
-      dateOfBirth: map['dateOfBirth'] != null
-          ? DateTime.parse(map['dateOfBirth'])
-          : null,
+      dateOfBirth: map['dateOfBirth'],
       bio: map['bio'],
-      gender: map['gender'] != null ? Gender.values[map['gender']] : null,
+      gender: map['gender'],
     );
   }
 }
