@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/cubits/profile/profile_cubit.dart';
+import '../../../../../utils/helpers/go.dart';
 import '../../../../../utils/helpers/pager.dart';
 import 'drawer_item.dart';
 
@@ -12,7 +13,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  String selectedItem = "Women"; 
+  String selectedItem = "Women";
 
   void _onDrawerItemTap(String title) {
     setState(() {
@@ -37,17 +38,20 @@ class _MenuScreenState extends State<MenuScreen> {
               const SizedBox(height: 10),
               const Text(
                 "Braxton Stark",
-                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               const Text(
                 "braxton@gmail.com",
                 style: TextStyle(color: Colors.white70, fontSize: 14),
               ),
               const SizedBox(height: 30),
-               DrawerItem(
+              DrawerItem(
                 title: "Profile",
                 isActive: selectedItem == "Profile",
-                onTap: () =>Pager.profile,
+                onTap: () => Go.to(context, Pager.profile),
               ),
               DrawerItem(
                 title: "Address",

@@ -5,28 +5,22 @@ import '../../models/remote/response/user_profile.dart';
 
 class ProfileHiveService {
   static const String _boxName = 'userBox';
+  static const String _userKey = 'userKey';
 
   static Future<void> saveUser(UserProfile user) async {
-    final box = await Hive.openBox<Map<String, dynamic>>(_boxName);
-    await box.put(user.email, user.toMap());
-    log(" ${jsonEncode(user.toMap())}");
+    final box = await Hive.openBox(_boxName);
+    await box.put(_userKey, jsonEncode(user.toMap()));
   }
 
-  static Future<UserProfile?> getUser(String email) async {
-    final box = await Hive.openBox<Map<String, dynamic>>(_boxName);
-    final data = box.get(email);
+  static Future<UserProfile?> getUser() async {
+    final box = await Hive.openBox(_boxName);
+    final data = box.get(_userKey);
     log('Saved data: $data');
-    return data != null ? UserProfile.fromMap(Map<String, dynamic>.from(data)) : null;
-  }
-
-  static Future<void> updateUser(UserProfile user) async {
-    final box = await Hive.openBox<Map<String, dynamic>>(_boxName);
-    await box.put(user.email, user.toMap());
-    log(" ${jsonEncode(user.toMap())}");
+    return data != null ? UserProfile.fromMap(jsonDecode(data)) : null;
   }
 
   static Future<void> clearAllProfiles() async {
-    final box = await Hive.openBox<Map<String, dynamic>>(_boxName);
+    final box = await Hive.openBox(_boxName);
     await box.clear();
   }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_constants.dart';
+import '../../utils/extensions/date_time_extensions.dart';
 import '../../utils/helpers/password_condition_indicator.dart';
 import '../../utils/models/password_validation.dart';
 
-class CustomInput extends StatelessWidget {
+class CustomInput extends StatefulWidget {
   const CustomInput({
     super.key,
     this.title,
@@ -16,7 +18,19 @@ class CustomInput extends StatelessWidget {
     this.onChanged,
     this.showPasswordConditions = false,
     this.isPassword = false,
-  });
+  }) : isDate = false;
+
+  const CustomInput.date({
+    super.key,
+    this.title,
+    this.controller,
+    this.isObsecure = false,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
+    this.showPasswordConditions = false,
+    this.isPassword = false,
+  }) : isDate = true;
 
   final String? title;
   final TextEditingController? controller;
@@ -26,6 +40,14 @@ class CustomInput extends StatelessWidget {
   final void Function(String)? onChanged;
   final bool showPasswordConditions;
   final bool isPassword;
+  final bool isDate;
+
+  @override
+  State<CustomInput> createState() => _CustomInputState();
+}
+
+class _CustomInputState extends State<CustomInput> {
+  DateTime? selectedDate;
 
   PasswordValidationState _getPasswordValidationState(String value) {
     return PasswordValidationState(
@@ -42,9 +64,9 @@ class CustomInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
+        if (widget.title != null)
           Text(
-            title!,
+            widget.title!,
             style: TextStyle(
               fontSize: 14.sp,
               color: AppColors.titleTextColor,
@@ -56,20 +78,22 @@ class CustomInput extends StatelessWidget {
           ),
         15.verticalSpace,
         TextFormField(
-          controller: controller,
-          obscureText: isObsecure,
+          controller: widget.controller,
+          obscureText: widget.isObsecure,
           obscuringCharacter: '⬤',
-          keyboardType: keyboardType,
+          keyboardType: widget.keyboardType,
+          onTap: widget.isDate ? () => _selectDate(context) : null,
+          readOnly: widget.isDate,
           style: TextStyle(
             fontSize: 14.sp,
             color: AppColors.inputTextColor,
             fontWeight: FontWeight.w400,
             fontFamily: AppConstants.fontFamilyNunito,
             height: 22.h / 14.sp,
-            letterSpacing: isObsecure ? 10 : -0.5,
+            letterSpacing: widget.isObsecure ? 10 : -0.5,
           ),
-          validator: validator,
-          onChanged: onChanged,
+          validator: widget.validator,
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
             fillColor: AppColors.inputFillColor,
             filled: true,
@@ -97,11 +121,17 @@ class CustomInput extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
+            suffixIcon: widget.isDate
+                ? IconButton(
+                    onPressed: () => _selectDate(context),
+                    icon: const Icon(Icons.date_range),
+                  )
+                : null,
           ),
         ),
-        if (isPassword && controller != null)
+        if (widget.isPassword && widget.controller != null)
           ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller!,
+            valueListenable: widget.controller!,
             builder: (context, value, child) {
               if (value.text.isEmpty) return const SizedBox.shrink();
               final validationState = _getPasswordValidationState(value.text);
@@ -114,5 +144,20 @@ class CustomInput extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        widget.controller?.text = selectedDate.formatDate;
+      });
+    }
   }
 }

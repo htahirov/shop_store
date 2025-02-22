@@ -5,8 +5,7 @@ import 'ui/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox<Map<String, dynamic>>('userBox'); 
+  await Hive.initFlutter(); 
   setupLocator();
   runApp(const MyApp());
 }
