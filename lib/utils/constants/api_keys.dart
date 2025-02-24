@@ -36,5 +36,8 @@ class ApiKeys {
   static const orderList = '$_order/list/';
   static const orderTrack = '$_order/track/';
 
+  //Settings
+  static const settingsPrivacy = '$baseUrl/privacy/';  
+
 }
 
