@@ -6,7 +6,6 @@ import 'package:shop_store/utils/constants/app_assets.dart';
 import 'package:shop_store/utils/helpers/go.dart';
 
 import '../../../cubits/payment/payment_cubit.dart';
-import '../../../data/models/local/payment_card_model.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/constants/app_text_styles.dart';
 import '../../../utils/constants/app_texts.dart';
@@ -23,6 +22,7 @@ class AddNewCardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentCubit=context.read<PaymentCubit>();
     return Scaffold(
       appBar: CustomAppBar(
         title: "Add New Card",
@@ -30,58 +30,55 @@ class AddNewCardPage extends StatelessWidget {
         onLeadingPressed: () => Go.replace(context,Pager.home),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: AppPaddings.h40,
-          child: Form(
-            key: context.read<PaymentCubit>().formKey,
-            child: Column(
-              children: [
-                
-                30.verticalSpace,
-                const CardList(),
-                30.verticalSpace,
-                CardHolderNameInput(
-                  controller: context.read<PaymentCubit>().cardNameController,
-                ),
-                20.verticalSpace,
-                CardNumberInput(
-                  controller: context.read<PaymentCubit>().cardNumberController,
-                ),
-                20.verticalSpace,
-                Row(
-                  children: [
-                    ExpiresInput(
-                      controller:
-                          context.read<PaymentCubit>().expiresDateController,
-                    ),
-                    15.horizontalSpace,
-                    CvvInput(
-                      controller: context.read<PaymentCubit>().cvvController,
-                    ),
-                  ],
-                )
-              ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: AppPaddings.h40,
+            child: Form(
+              key: paymentCubit.formKey,
+              child: Column(
+                children: [
+                  27.verticalSpace,
+                  Text(
+                    AppTexts.addNewCard,
+                    style: AppTextStyles.headerTextStyle,
+                  ),
+                  30.verticalSpace,
+                  const CardList(),
+                  30.verticalSpace,
+                  CardHolderNameInput(
+                    controller: paymentCubit.cardNameController,
+                  ),
+                  20.verticalSpace,
+                  CardNumberInput(
+                    controller: paymentCubit.cardNumberController,
+                  ),
+                  20.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExpiresInput(
+                          controller:
+                              paymentCubit.expiresDateController,
+                        ),
+                      ),
+                      15.horizontalSpace,
+                      Expanded(
+                        child: CvvInput(
+                          controller:paymentCubit.cvvController,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
       ),
-      bottomNavigationBar: BlocBuilder<PaymentCubit, PaymentState>(
-        builder: (context, state) {
-          return CustomNavbar(
-            showButton: true,
-            buttonTitle: AppTexts.save,
-            onButtonPressed: () {
-              final paymentCard = PaymentCardModel(
-                id: DateTime.now().millisecondsSinceEpoch,
-                name: context.read<PaymentCubit>().cardNameController.text,
-                number: context.read<PaymentCubit>().cardNumberController.text,
-                date: context.read<PaymentCubit>().expiresDateController.text,
-                code: context.read<PaymentCubit>().cvvController.text,
-              );
-              context.read<PaymentCubit>().savePaymentData(paymentCard);
-            },
-          );
-        },
+      bottomNavigationBar: CustomNavbar(
+        showButton: true,
+        buttonTitle: AppTexts.save,
+         onButtonPressed: () => paymentCubit.savePaymentData(),
       ),
     );
   }

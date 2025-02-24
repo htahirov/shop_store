@@ -22,7 +22,7 @@ class BasketCubit extends Cubit<BasketState> {
       _currentItems = items;
       
       if (items.isEmpty) {
-        emit(BasketSuccess([]));
+        emit(BasketSuccess(const []));
       } else {
         emit(BasketSuccess(items));
       }

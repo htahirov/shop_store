@@ -5,7 +5,6 @@ import 'package:shop_store/data/models/remote/response/user_profile.dart';
 import '../../data/repo/signup_repo.dart';
 import '../../data/models/remote/request/signup_request.dart';
 import '../../data/services/local/profile_hive_service.dart';
-import '../profile/profile_cubit.dart';
 
 part 'signup_state.dart';
 

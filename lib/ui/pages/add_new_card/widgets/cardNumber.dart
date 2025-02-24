@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/app_texts.dart';
-import '../../../widgets/custom_flexible_input.dart';
+import '../../../widgets/custom_input.dart';
 
 class CardNumberInput extends StatelessWidget {
   const CardNumberInput({super.key, required this.controller});
@@ -10,15 +10,15 @@ class CardNumberInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomFlexibleInput.large(
+    return CustomInput(
       controller: controller,
-      label: AppTexts.cardNumber,
+      title: AppTexts.cardNumber,
       keyboardType: TextInputType.number,
       validator: (text) {
         if (text == null || text.isEmpty) {
-          return 'Kart nömrəsi boş saxlanıla bilməz';
+          return 'Card number is required';
         } else if (text.replaceAll(RegExp(r'\D'), '').length != 16) {
-          return 'Kart nömrəsi 16 rəqəm olmalıdır.Zəhmət olmasa düzgün daxil edin';
+          return 'The card number must be 16 digits.';
         }
         return null;
       },

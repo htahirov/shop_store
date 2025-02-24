@@ -15,8 +15,16 @@ class PaymentCubit extends Cubit<PaymentState> {
   final expiresDateController = TextEditingController();
   final cvvController = TextEditingController();
 
-  Future<void> savePaymentData(PaymentCardModel paymentCard) async {
-    if (formKey.currentState!.validate()) { 
+  Future<void> savePaymentData() async {
+    if (formKey.currentState!.validate()) {
+      final paymentCard = PaymentCardModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        name: cardNameController.text,
+        number: cardNumberController.text,
+        date: expiresDateController.text,
+        code: cvvController.text,
+      );
+
       try {
         await PaymentHiveService.saveData(paymentCard);
         getPaymentData();
