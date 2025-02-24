@@ -5,6 +5,7 @@ class AppTexts {
   static const email = 'Email';
   static const phoneNumber = 'Phone Number';
   static const password = 'Password';
+   static const confirmPassword= 'Confirm Password';
   static const login = 'Log in';
   static const signUp = 'Sign up';
   static const signIn = 'Sign in';
@@ -12,7 +13,6 @@ class AppTexts {
   static const forgotPassword = 'Forgot Password';
   static const createNewPassword = 'Create New Password';
   static const newPassword = 'New Password';
-  static const confirmPassword = 'Confirm Password';
   static const termsOfService = 'Terms of Service';
   static const verify = "Verification code";
   static const veritifactionText = "Please enter the 4 digit code sent to";

@@ -45,7 +45,7 @@ class SignUpForm extends StatelessWidget {
             isPassword: true,
           ),
            CustomInput(
-            title: AppTexts.password,
+            title: AppTexts.confirmPassword,
             controller: signUpCubit.confirmPasswordController,
             isObsecure: true,
             validator: ValidatorUtils.validatePassword,

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_store/ui/widgets/custom_app_bar.dart';
+import 'package:shop_store/utils/constants/app_assets.dart';
+import 'package:shop_store/utils/helpers/go.dart';
 
 import '../../../cubits/payment/payment_cubit.dart';
 import '../../../data/models/local/payment_card_model.dart';
 import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/constants/app_text_styles.dart';
 import '../../../utils/constants/app_texts.dart';
+import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_nav_bar.dart';
 import 'widgets/cardHolderInput.dart';
 import 'widgets/cardNumber.dart';
@@ -20,6 +24,11 @@ class AddNewCardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        title: "Add New Card",
+        leadIcon: AppAssets.arrowLeft,
+        onLeadingPressed: () => Go.replace(context,Pager.home),
+      ),
       body: SafeArea(
         child: Padding(
           padding: AppPaddings.h40,
@@ -27,11 +36,7 @@ class AddNewCardPage extends StatelessWidget {
             key: context.read<PaymentCubit>().formKey,
             child: Column(
               children: [
-                27.verticalSpace,
-                Text(
-                  AppTexts.addNewCard,
-                  style: AppTextStyles.headerTextStyle,
-                ),
+                
                 30.verticalSpace,
                 const CardList(),
                 30.verticalSpace,
