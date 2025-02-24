@@ -1,7 +1,5 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/models/remote/response/product_response.dart';
 import '../../data/repo/favorite_repo.dart';
 
@@ -13,54 +11,46 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit(this._favoriteRepository) : super(FavoriteInitial());
 
   List<Result> _favorites = [];
+  bool wasFavoriteUpdated = false;
 
   Future<void> fetchFavorites() async {
     emit(FavoriteLoading());
     try {
-      _favorites = await _favoriteRepository.getFavorites();
-      emit(FavoriteSuccess(_favorites));
+      List<Result> fetchedFavorites = await _favoriteRepository.getFavorites();
+
+      for (var fav in _favorites) {
+        if (!fetchedFavorites.any((serverFav) => serverFav.id == fav.id)) {
+          fetchedFavorites.add(fav);
+        }
+      }
+
+      _favorites = List.from(fetchedFavorites);
+      emit(FavoriteSuccess(List.from(_favorites)));
     } catch (e) {
       emit(FavoriteError("Xəta baş verdi"));
     }
   }
-  
-  Future<void> addToFavorite(Result product) async {
-    emit(FavoriteLoading());
+
+  Future<void> toggleFavorite(Result product) async {
     try {
-      await _favoriteRepository.addToFavorites(product.id!);
-      emit(FavoriteSuccess(_favorites));
+      final isAlreadyFavorite = _favorites.any((p) => p.id == product.id);
+
+      if (isAlreadyFavorite) {
+        _favorites.removeWhere((p) => p.id == product.id);
+      } else {
+        await _favoriteRepository.addToFavorites(product.id!);
+        _favorites.add(product);
+      }
+
+      wasFavoriteUpdated = true;
+      emit(FavoriteSuccess(List.from(_favorites)));
     } catch (e) {
       emit(FavoriteError("Xəta baş verdi"));
     }
   }
 
-//   Future<void> toggleFavorite(Result product) async {
-//   emit(FavoriteLoading());
-//   try {
-//     log("Favorite düyməsinə basıldı: ${product.id}");
-
-//     if (_favorites.any((item) => item.id == product.id)) {
-//       await _favoriteRepository.removeFromFavorites(product.id!);
-//       _favorites.removeWhere((item) => item.id == product.id);
-//       log("Məhsul favoritdən çıxarıldı: ${product.id}");
-//     } else {
-//       await _favoriteRepository.addToFavorites(product.id!);
-//       _favorites.add(product);
-//       log("Məhsul favoritlərə əlavə olundu: ${product.id}");
-//     }
-
-//     emit(FavoriteSuccess(List.from(_favorites)));
-//     fetchFavorites();
-//   } on SocketException catch (e) {
-//     log("Şəbəkə Xətası: $e");
-//     emit(FavoriteNetworkError(e.toString()));
-//   } catch (e) {
-//     log("Xəta: $e");
-//     emit(FavoriteError("Xəta baş verdi"));
-//   }
-// }
-
-  bool isFavorite(Result product) {
-    return _favorites.any((item) => item.id == product.id);
+  bool isFavorite(int? productId) {
+    if (productId == null) return false;
+    return _favorites.any((p) => p.id == productId);
   }
 }
