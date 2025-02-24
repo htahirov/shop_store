@@ -21,10 +21,10 @@ class DrawerItem extends StatelessWidget {
         child: Row(
           children: [
             if (isActive)
-              Icon(Icons.circle, size: 8, color: Colors.white)
+              const Icon(Icons.circle, size: 8, color: Colors.white)
             else
-              SizedBox(width: 8),
-            SizedBox(width: 10),
+              const SizedBox(width: 8),
+            const SizedBox(width: 10),
             Text(
               title,
               style: TextStyle(
