@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/app_texts.dart';
-import '../../../widgets/custom_flexible_input.dart';
+import '../../../widgets/custom_input.dart';
 
 class ExpiresInput extends StatelessWidget {
   const ExpiresInput({super.key, required this.controller});
@@ -10,24 +10,24 @@ class ExpiresInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomFlexibleInput.medium(
+    return CustomInput(
       controller: controller,
-      label: AppTexts.expires,
+      title: AppTexts.expires,
       keyboardType: TextInputType.number,
       validator: (text) {
         if (text == null || text.isEmpty) {
-          return 'Bitmə tarixi boş saxlanıla bilməz';
+          return 'Expire date required';
         }
 
         String digits = text.replaceAll(RegExp(r'\D'), '');
 
         if (digits.length != 4) {
-          return 'Tarix formatını düzgün daxil edin. (MM/YY)';
+          return 'Please enter the correct date format. (MM/YY)';
         }
 
         int month = int.tryParse(digits.substring(0, 2)) ?? 0;
         if (month < 1 || month > 12) {
-          return 'Ay dəyəri 01-12 arasında olmalıdır';
+          return 'Month value must be between 01-12';
         }
 
         return null;
