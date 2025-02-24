@@ -7,6 +7,7 @@ class AppAssets {
   static const _gridPath = 'assets/grid';
   static const _favoritePath = 'assets/favorite';
   static const _paymentPath = 'assets/payment';
+  static const _settingsPath = 'assets/settings';
   static const arrowRight = '$_iconsPath/arrow_right.svg';
   static const arrowLeft = '$_iconsPath/arrow_left.svg';
   static const menu = '$_iconsPath/menu.svg';
@@ -23,4 +24,7 @@ class AppAssets {
   static const amex = '$_paymentPath/Amex.svg';
   static const alipay = '$_paymentPath/Alipay.svg';
   static const paypal = '$_paymentPath/PayPal.svg';
+  static const terms  = '$_settingsPath/Terms.svg';
+  static const language  = '$_settingsPath/Language.svg';
+  static const info  = '$_settingsPath/Info.svg';
 }

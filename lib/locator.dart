@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shop_store/cubits/payment/payment_cubit.dart';
-import 'package:shop_store/cubits/profile/profile_cubit.dart';
-import 'package:shop_store/data/repo/signup_repo.dart';
-import 'package:shop_store/data/services/remote/signup_service.dart';
+
 import 'cubits/basket/basket_cubit.dart';
 import 'cubits/favorite/favorite_cubit.dart';
 import 'cubits/forgot_password/forgot_password_cubit.dart';
 import 'cubits/home/home_cubit.dart';
 import 'cubits/new_password/new_password_cubit.dart';
 import 'cubits/order/order_cubit.dart';
+import 'cubits/payment/payment_cubit.dart';
 import 'cubits/product_categories/product_categories_cubit.dart';
 import 'cubits/product_detail/product_detail_cubit.dart';
+import 'cubits/profile/profile_cubit.dart';
 import 'cubits/search/search_cubit.dart';
+import 'cubits/settings/settings_cubit.dart';
 import 'cubits/signin/signin_cubit.dart';
 import 'cubits/signup/signup_cubit.dart';
 import 'cubits/splash/splash_cubit.dart';
@@ -30,12 +30,16 @@ import 'data/repo/favorite_repo.dart';
 import 'data/repo/order_repo.dart';
 import 'data/repo/product_detail_repo.dart';
 import 'data/repo/product_repo.dart';
+import 'data/repo/settings_privacy_policy_repo.dart';
+import 'data/repo/signup_repo.dart';
 import 'data/services/remote/auth_service.dart';
 import 'data/services/remote/basket_service.dart';
 import 'data/services/remote/favorite_service.dart';
 import 'data/services/remote/order_service.dart';
 import 'data/services/remote/product_detail_service.dart';
 import 'data/services/remote/product_service.dart';
+import 'data/services/remote/settings_privacy_policy_service.dart';
+import 'data/services/remote/signup_service.dart';
 
 final GetIt locator = GetIt.instance;
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -89,4 +93,9 @@ locator.registerFactory(() => FavoriteCubit(locator<FavoriteRepository>()));
   locator.registerLazySingleton(() => OrderService());
   locator.registerLazySingleton<OrderRepo>(() => OrderRepoImpl(locator()));
   locator.registerFactory(() => OrderCubit(locator()));
+
+  //Settings
+  locator.registerFactory(() => SettingsCubit(locator<SettingsPrivacyPolicyRepo>()));
+  locator.registerLazySingleton(() => SettingsPrivacyPolicyService());
+
 }
