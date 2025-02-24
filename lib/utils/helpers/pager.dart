@@ -120,7 +120,7 @@ class Pager {
       );
   static Widget get addNewCard => BlocProvider(
         create: (context) => PaymentCubit()..getPaymentData(),
-        child: AddNewCardPage(),
+        child: const AddNewCardPage(),
       );
 
   static Widget get favorite => BlocProvider.value(

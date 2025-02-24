@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_store/ui/widgets/custom_input.dart';
 
 import '../../../../utils/constants/app_texts.dart';
-import '../../../widgets/custom_flexible_input.dart';
 
 class CvvInput extends StatelessWidget {
   const CvvInput({super.key, required this.controller});
@@ -10,15 +10,15 @@ class CvvInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CustomFlexibleInput.medium(
+    return  CustomInput(
       controller: controller,
-      label: AppTexts.cvv,
+      title: AppTexts.cvv,
       keyboardType: TextInputType.number,
       validator: (text) {
         if (text == null || text.isEmpty) {
-          return 'CVV nömrəsi boş saxlanıla bilməz';
+          return 'CVV number required';
         } else if (text.replaceAll(RegExp(r'\D'), '').length != 3) {
-          return 'CVV 3 rəqəm olmalıdır.Zəhmət olmasa düzgün daxil edin';
+          return 'CVV must be 3 digits.';
         }
         return null;
       },
