@@ -9,7 +9,6 @@ import '../../ui/pages/payment/payment_page.dart';
 import '../../ui/pages/search/search_page.dart';
 
 import 'package:shop_store/cubits/profile/profile_cubit.dart';
-import 'package:shop_store/ui/pages/favorite/favorite_page.dart';
 import 'package:shop_store/ui/pages/profile/profile_page.dart';
 
 import '../../cubits/basket/basket_cubit.dart';
@@ -120,7 +119,7 @@ class Pager {
       );
   static Widget get addNewCard => BlocProvider(
         create: (context) => PaymentCubit()..getPaymentData(),
-        child: AddNewCardPage(),
+        child: const AddNewCardPage(),
       );
 
   static Widget get favorite => BlocProvider.value(

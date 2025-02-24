@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_store/cubits/profile/profile_cubit.dart';
 import '../../../../../utils/helpers/go.dart';
 import '../../../../../utils/helpers/pager.dart';
 import 'drawer_item.dart';

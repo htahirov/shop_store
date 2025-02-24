@@ -4,34 +4,64 @@ import 'package:shop_store/utils/constants/app_colors.dart';
 class Snackbars {
   Snackbars._();
 
+  static void _showSnackBar(
+    BuildContext context, {
+    required String message,
+    Color? backgroundColor,
+    Duration? duration,
+  }) {
+    final uniqueKey = UniqueKey();
+    
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          key: uniqueKey, 
+          content: Text(message),
+          backgroundColor: backgroundColor,
+          duration: duration ?? const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating, 
+        ),
+      );
+  }
+
   static void showError(
     BuildContext context, {
-    String message = 'Error Occured',
+    String message = 'Error Occurred',
   }) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
+      _showSnackBar(
+        context,
+        message: message,
+        backgroundColor: Colors.red,
       );
 
   static void showSuccess(
     BuildContext context, {
     String message = 'Successful!',
   }) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: AppColors.sea,
-        ),
+      _showSnackBar(
+        context,
+        message: message,
+        backgroundColor: AppColors.sea,
       );
 
   static void showNetworkError(
     BuildContext context, {
-    String message = 'Network Error Occured',
+    String message = 'Network Error Occurred',
   }) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
+      _showSnackBar(
+        context,
+        message: message,
+        backgroundColor: Colors.red,
+      );
+
+  static void showWarning(
+    BuildContext context, {
+    String message = 'Warning',
+  }) =>
+      _showSnackBar(
+        context,
+        message: message,
+        backgroundColor: Colors.orange,
       );
 }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../cubits/order/order_cubit.dart';
 import '../../../cubits/order/order_state.dart';
 import '../../../utils/constants/app_colors.dart';
-import '../../../utils/constants/app_constants.dart';
 import '../../../utils/constants/app_text_styles.dart';
 import '../../../utils/helpers/go.dart';
 import '../../../utils/helpers/pager.dart';
