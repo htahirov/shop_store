@@ -38,15 +38,10 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     return BlocListener<ProductDetailCubit, ProductDetailState>(
       listener: (context, state) {
         if (state is ProductDetailSuccess) {
-          // First close the bottom sheet
           Navigator.pop(context);
-          // Show success message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Added to cart successfully'),
-              backgroundColor: AppColors.primary,
-              duration: Duration(seconds: 2),
-            ),
+          Snackbars.showSuccess(
+            context,
+            message: 'Added to cart successfully.',
           );
         } else if (state is ProductDetailError) {
           Navigator.pop(context);
@@ -125,8 +120,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     decoration: BoxDecoration(
                       color: isSelected ? AppColors.primary : null,
                       border: Border.all(
-                        color:
-                            isSelected ? AppColors.primary : AppColors.platinum,
+                        color: isSelected ? AppColors.primary : AppColors.platinum,
                       ),
                       borderRadius: BorderRadius.circular(5.r),
                     ),
@@ -138,9 +132,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       child: Text(
                         sizeOption.size,
                         style: TextStyle(
-                          color: isSelected
-                              ? Colors.white
-                              : AppColors.textButtonColor,
+                          color: isSelected ? Colors.white : AppColors.textButtonColor,
                           fontSize: 14.sp,
                           fontFamily: AppConstants.fontFamilyNunito,
                           fontWeight: FontWeight.w600,
@@ -180,8 +172,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                             : null,
                       ),
                       child: Padding(
-                        padding:
-                            isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
+                        padding: isSelected ? EdgeInsets.all(2.r) : EdgeInsets.zero,
                         child: CircleAvatar(
                           radius: 14.r,
                           backgroundColor: Color(int.parse(
@@ -290,8 +281,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     );
   }
 
-  Widget _buildAddToCartButton(
-      BuildContext context, ProductDetailResponse product) {
+  Widget _buildAddToCartButton(BuildContext context, ProductDetailResponse product) {
     return BlocBuilder<ProductDetailCubit, ProductDetailState>(
       builder: (context, state) {
         final isLoading = state is ProductDetailLoading;
@@ -301,20 +291,15 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
               ? null
               : () {
                   if (selectedSize == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please select a size')),
-                    );
+                    Snackbars.showWarning(context, message: 'Please select a size');
                     return;
                   }
                   if (selectedColorId == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please select a color')),
-                    );
+                    Snackbars.showWarning(context, message: 'Please select a color');
                     return;
                   }
 
-                  final sizeId =
-                      product.size.firstWhere((s) => s.size == selectedSize).id;
+                  final sizeId = product.size.firstWhere((s) => s.size == selectedSize).id;
 
                   context.read<ProductDetailCubit>().addToCart(
                         productId: product.id,

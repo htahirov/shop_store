@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../cubits/favorite/favorite_cubit.dart';
 import '../../../utils/constants/app_paddings.dart';
+import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_nav_bar.dart';
 import 'widgets/favorite_empty.dart';
@@ -15,9 +18,16 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
       context.read<FavoriteCubit>().fetchFavorites();
     return Scaffold(
-      appBar: const CustomAppBar(title: "Favorite"),
+      appBar: CustomAppBar(title: "Favorite", onLeadingPressed: () => Go.replace(context, Pager.home)),
       body: BlocBuilder<FavoriteCubit, FavoriteState>(
         builder: (context, state) {
+          if (state is FavoriteInitial) {
+            context.read<FavoriteCubit>().fetchFavorites(); 
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is FavoriteLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
           if (state is FavoriteSuccess) {
             final favorites = state.favorites;
             if (favorites.isEmpty) {
@@ -27,11 +37,11 @@ class FavoritePage extends StatelessWidget {
               padding: AppPaddings.a16,
               child: GridView.builder(
                 itemCount: favorites.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.75,
+                  crossAxisSpacing: 11,
+                  mainAxisSpacing: 20,
+                  childAspectRatio: 263.h / 1.sw,
                 ),
                 itemBuilder: (context, index) {
                   final product = favorites[index];

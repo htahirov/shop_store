@@ -18,11 +18,18 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FavoriteCubit, FavoriteState>(
+        return BlocListener<FavoriteCubit, FavoriteState>(
+        listenWhen: (previous, current) {
+        return previous is! FavoriteSuccess &&
+            current is FavoriteSuccess &&
+            context.read<FavoriteCubit>().wasFavoriteUpdated;
+      },
       listener: (context, state) {
         if (state is FavoriteSuccess) {
-          Snackbars.showSuccess(context,
-              message: 'Successfully added to favorites');
+          context.read<FavoriteCubit>().wasFavoriteUpdated = true; 
+          if (context.mounted) {
+            Snackbars.showSuccess(context, message: 'Successfully added to favorites');
+          }
         }
       },
       child: GridView.builder(
@@ -41,7 +48,7 @@ class ProductGrid extends StatelessWidget {
           return ProductCard(
             product: product,
             onFavoritePressed: () =>
-                context.read<FavoriteCubit>().addToFavorite(product),
+                context.read<FavoriteCubit>().toggleFavorite(product),
           );
         },
       ),

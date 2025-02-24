@@ -5,7 +5,6 @@ import '../../../cubits/basket/basket_cubit.dart';
 import '../../../cubits/basket/basket_state.dart';
 import '../../../data/models/remote/response/basket_item_response.dart';
 import '../../../utils/constants/app_colors.dart';
-import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/custom_progress_loading.dart';
 import 'widgets/address_button_cart.dart';
 import 'widgets/cart_header.dart';

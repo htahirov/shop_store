@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_store/cubits/profile/profile_cubit.dart';
 import '../../../../../utils/helpers/go.dart';
 import '../../../../../utils/helpers/pager.dart';
 import 'drawer_item.dart';
@@ -56,32 +54,32 @@ class _MenuScreenState extends State<MenuScreen> {
               DrawerItem(
                 title: "Address",
                 isActive: selectedItem == "Address",
-                onTap: () => _onDrawerItemTap("New Arrival"),
+                onTap: () =>  Go.to(context, Pager.profile),
               ),
               DrawerItem(
                 title: "Payment method",
                 isActive: selectedItem == "Payment method",
-                onTap: () => _onDrawerItemTap("Women"),
+                onTap: () =>  Go.to(context, Pager.payment),
               ),
               DrawerItem(
                 title: "Password",
                 isActive: selectedItem == "Password",
-                onTap: () => _onDrawerItemTap("Men"),
+                onTap: () =>  Go.to(context, Pager.createNewPassword),
               ),
               DrawerItem(
                 title: "My Order",
                 isActive: selectedItem == "My Order",
-                onTap: () => _onDrawerItemTap("Accessories"),
+                onTap: () =>  Go.to(context, Pager.order),
               ),
               DrawerItem(
                 title: "Invite friends",
                 isActive: selectedItem == "Invite friends",
-                onTap: () => _onDrawerItemTap("Jewellery"),
+                onTap: () =>  Go.to(context, Pager.profile),
               ),
               DrawerItem(
                 title: "Log out",
                 isActive: selectedItem == "Log out",
-                onTap: () => _onDrawerItemTap("Jewellery"),
+                onTap: () => Go.replace(context, Pager.signIn),
               ),
             ],
           ),

@@ -1,37 +1,21 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import '../../../utils/extensions/int_extensions.dart';
 import '../../../utils/constants/api_keys.dart';
+import '../../dio/client_dio.dart';
 import '../../models/remote/request/order_create_request.dart';
 import '../../models/remote/response/order_response.dart';
 import '../../models/remote/response/promo_code_response.dart';
-import '../local/auth_hive_service.dart';
+
 
 class OrderService {
-  final _dio = Dio(
-    BaseOptions(
-      headers: {
-        'Accept': '*/*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-      },
-      validateStatus: (status) {
-        return status! < 500;
-      },
-    ),
-  );
+  final _dio = ClientDio.instance.dio;
 
   Future<OrderResponse> createOrder(OrderCreateRequest request) async {
     try {
       final response = await _dio.post(
         ApiKeys.orderCreate,
         data: request.toJson(),
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (response.statusCode!.isSuccess) {
@@ -54,11 +38,6 @@ class OrderService {
       final response = await _dio.post(
         ApiKeys.orderCancel,
         data: {'code': code},
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (!response.statusCode!.isSuccess) {
@@ -79,11 +58,6 @@ class OrderService {
       final response = await _dio.post(
         ApiKeys.orderCheckPromo,
         data: {'promo_code': promoCode},
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (response.statusCode!.isSuccess) {
@@ -105,11 +79,6 @@ class OrderService {
     try {
       final response = await _dio.get(
         '${ApiKeys.orderDetail}/$code/',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (response.statusCode!.isSuccess) {
@@ -131,11 +100,6 @@ class OrderService {
     try {
       final response = await _dio.get(
         ApiKeys.orderList,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (response.statusCode!.isSuccess) {
@@ -158,11 +122,6 @@ class OrderService {
     try {
       final response = await _dio.get(
         '${ApiKeys.orderTrack}/$orderCode/',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${(await AuthHiveService.getData())?.tokens.access}',
-          },
-        ),
       );
 
       if (response.statusCode!.isSuccess) {

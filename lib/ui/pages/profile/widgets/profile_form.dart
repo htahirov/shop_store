@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_store/utils/constants/app_colors.dart';
 import 'package:shop_store/utils/screen/snackbars.dart';
 
 import '../../../../cubits/profile/profile_cubit.dart';
@@ -14,49 +15,49 @@ class ProfileForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileCubit = context.read<ProfileCubit>();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextField(
-          controller: profileCubit.firstNameController,
-          decoration: InputDecoration(
-            labelText: "First Name",
-            prefixIcon: const Icon(Icons.person),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
+        const CircleAvatar(
+          radius: 65,
+          backgroundImage: AssetImage("assets/logo/profile.png"),
+        ),
+        60.verticalSpace,
+        Row(
+          children: [
+            Expanded(
+              child:CustomInput(
+                title: "First Name",
+                controller: profileCubit.firstNameController,
+              )
+            ),
+            12.horizontalSpace,
+            Expanded(
+              child: CustomInput(
+                title: "Last Name",
+                controller: profileCubit.lastNameController,
+
+              )
+            ),
+          ],
         ),
         12.verticalSpace,
-        TextField(
-          controller: profileCubit.lastNameController,
-          decoration: InputDecoration(
-            labelText: "Last Name",
-            prefixIcon: const Icon(Icons.person_outline),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        ),
-        12.verticalSpace,
-        TextField(
-          readOnly: true,
-          decoration: InputDecoration(
-            labelText: "Email Address",
-            prefixIcon: const Icon(Icons.email),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          controller: profileCubit.emailController,
-        ),
+      CustomInput(
+        title: "Email",
+        controller: profileCubit.emailController,
+
+
+      ),
         12.verticalSpace,
         CustomInput.date(
-          title: 'Birthday',
+          title: 'Date of Birth',
           controller: profileCubit.birthdayController,
         ),
         12.verticalSpace,
-        TextField(
-          controller: profileCubit.bioController,
-          decoration: InputDecoration(
-            labelText: "Bio",
-            prefixIcon: const Icon(Icons.edit),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        ),
+      CustomInput(
+        title: "Bio",
+        controller: profileCubit.bioController,
+        maxLines: 3,
+      ),
         const SizedBox(height: 12),
         ValueListenableBuilder(
             valueListenable: profileCubit.selectedGenderNotifier,
@@ -69,10 +70,12 @@ class ProfileForm extends StatelessWidget {
                           .selectedGenderNotifier.value = Gender.male,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedGender == Gender.male
-                            ? Colors.green[200]
-                            : Colors.grey[200],
+                            ?AppColors.primary
+                            : AppColors.chefsHat,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: const Text("Male"),
+                      child: const Text("Male", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor)),
                     ),
                   ),
                   8.horizontalSpace,
@@ -82,10 +85,13 @@ class ProfileForm extends StatelessWidget {
                           .selectedGenderNotifier.value = Gender.female,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedGender == Gender.female
-                            ? Colors.green[200]
-                            : Colors.grey[200],
+                           ?AppColors.primary
+                            : AppColors.chefsHat,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: const Text("Female"),
+                      child:
+                          const Text("Female", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor )),
                     ),
                   ),
                 ],
@@ -108,11 +114,13 @@ class ProfileForm extends StatelessWidget {
                   ? null
                   : () => profileCubit.saveProfile(),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[200],
+                backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
               ),
               child:
-                  const Text("Update Profile", style: TextStyle(fontSize: 16)),
+                  const Text("Update Profile", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor)),
             ),
           ),
         ),

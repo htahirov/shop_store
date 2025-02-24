@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubits/payment/payment_cubit.dart';
+import '../../ui/pages/add_new_card/add_new_card_page.dart';
+import '../../ui/pages/favorite/favorite_page.dart';
+import '../../ui/pages/payment/payment_page.dart';
+import '../../ui/pages/search/search_page.dart';
+
+import 'package:shop_store/cubits/profile/profile_cubit.dart';
+import 'package:shop_store/ui/pages/profile/profile_page.dart';
+
 import '../../cubits/basket/basket_cubit.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../cubits/home/home_cubit.dart';
@@ -121,7 +130,7 @@ class Pager {
       );
   static Widget get addNewCard => BlocProvider(
         create: (context) => PaymentCubit()..getPaymentData(),
-        child: AddNewCardPage(),
+        child: const AddNewCardPage(),
       );
 
   static Widget get favorite => BlocProvider.value(
