@@ -13,6 +13,10 @@ class AppAssets {
   static const menu = '$_iconsPath/menu.svg';
   static const search = '$_iconsPath/search.svg';
   static const logo = '$_logoPath/logo.svg';
+  static const home = '$_iconsPath/home.svg';
+  static const basket = '$_iconsPath/basket.svg';
+  static const bell = '$_iconsPath/bell.svg';
+  static const favorite = '$_iconsPath/favorite.svg';
   static const favoriteEmpty = '$_favoritePath/no_favorite.svg';
   static const carousel1 = '$_carouselPath/carousel1.png';
   static const gridImage1 = '$_gridPath/grid_image1.png';
@@ -24,7 +28,7 @@ class AppAssets {
   static const amex = '$_paymentPath/Amex.svg';
   static const alipay = '$_paymentPath/Alipay.svg';
   static const paypal = '$_paymentPath/PayPal.svg';
-  static const terms  = '$_settingsPath/Terms.svg';
-  static const language  = '$_settingsPath/Language.svg';
-  static const info  = '$_settingsPath/Info.svg';
+  static const terms = '$_settingsPath/Terms.svg';
+  static const language = '$_settingsPath/Language.svg';
+  static const info = '$_settingsPath/Info.svg';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/cubits/main/main_cubit.dart';
+import 'package:shop_store/ui/pages/main/main_page.dart';
 
 import '../../cubits/payment/payment_cubit.dart';
 import '../../ui/pages/add_new_card/add_new_card_page.dart';
@@ -57,6 +59,11 @@ class Pager {
       );
 
   static Widget get onboard => const OnboardPage();
+
+  static Widget get main => BlocProvider(
+        create: (context) => MainCubit(),
+        child: const MainPage(),
+      );
 
   static Widget get signUp => BlocProvider<SignUpCubit>(
         create: (_) => locator(),

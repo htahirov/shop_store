@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:shop_store/data/dio/auth_dio.dart';
 
 import '../../../utils/constants/api_keys.dart';
-import '../../dio/client_dio.dart';
 import '../../models/remote/response/settings_privacy_policy_response.dart'; 
 
 class SettingsPrivacyPolicyService {
-  final Dio _dio = ClientDio.instance.dio;
+  final Dio _dio = AuthDio.instance.dio;
 
   Future<SettingsPrivacyPolicyResponse> fetchPrivacyPolicy() async {
     try {

@@ -222,7 +222,7 @@ class _OrderTrackPageState extends State<OrderTrackPage> {
           );
         },
       ),
-      bottomNavigationBar: const CustomNavbar(),
+      // bottomNavigationBar: const CustomNavbar(),
     );
   }
 }

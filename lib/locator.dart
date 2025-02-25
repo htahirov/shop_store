@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shop_store/data/i_repo/settings_privacy_policy_repo_impl.dart';
 
 import 'cubits/basket/basket_cubit.dart';
 import 'cubits/favorite/favorite_cubit.dart';
@@ -50,12 +51,12 @@ void setupLocator() {
   // Services
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ProductService());
-  locator.registerLazySingleton(()=>SignUpService());
+  locator.registerLazySingleton(() => SignUpService());
 
   // Repositories
   locator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(locator()));
   locator.registerLazySingleton<ProductRepo>(() => ProductRepoImpl(locator()));
- locator.registerLazySingleton<SignUpRepo>(() => SignUpRepoImpl(locator()));
+  locator.registerLazySingleton<SignUpRepo>(() => SignUpRepoImpl(locator()));
 
   // Services
   locator.registerLazySingleton(() => ProductDetailService());
@@ -65,9 +66,8 @@ void setupLocator() {
   locator.registerLazySingleton(() => BasketService());
   locator.registerLazySingleton<BasketRepo>(() => BasketRepoImpl(locator()));
 
-  
   // Cubits
-  locator.registerFactory(()=>ProfileCubit());
+  locator.registerFactory(() => ProfileCubit());
   locator.registerFactory(() => SearchCubit());
   locator.registerFactory(() => SplashCubit());
   locator.registerFactory(() => VerifyCubit());
@@ -75,7 +75,7 @@ void setupLocator() {
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
   locator.registerFactory(() => PaymentCubit());
-  locator.registerFactory(() => SignUpCubit(locator<SignUpRepo>())); 
+  locator.registerFactory(() => SignUpCubit(locator<SignUpRepo>()));
   locator.registerFactory(() => HomeCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductCategoriesCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductDetailCubit(
@@ -83,9 +83,10 @@ void setupLocator() {
         locator<BasketRepo>(),
       ));
 
-locator.registerLazySingleton(() => FavoriteService());
-locator.registerLazySingleton<FavoriteRepository>(() => IFavoriteRepository(locator<FavoriteService>()));
-locator.registerFactory(() => FavoriteCubit(locator<FavoriteRepository>()));
+  locator.registerLazySingleton(() => FavoriteService());
+  locator.registerLazySingleton<FavoriteRepository>(
+      () => IFavoriteRepository(locator<FavoriteService>()));
+  locator.registerFactory(() => FavoriteCubit(locator<FavoriteRepository>()));
 
   locator.registerFactory(() => BasketCubit(locator<BasketRepo>()));
 
@@ -95,7 +96,9 @@ locator.registerFactory(() => FavoriteCubit(locator<FavoriteRepository>()));
   locator.registerFactory(() => OrderCubit(locator()));
 
   //Settings
-  locator.registerFactory(() => SettingsCubit(locator<SettingsPrivacyPolicyRepo>()));
   locator.registerLazySingleton(() => SettingsPrivacyPolicyService());
-
+  locator.registerLazySingleton<SettingsPrivacyPolicyRepo>(
+      () => ISettingsPrivacyPolicyRepo(locator()));
+  locator.registerFactory(
+      () => SettingsCubit(locator<SettingsPrivacyPolicyRepo>()));
 }

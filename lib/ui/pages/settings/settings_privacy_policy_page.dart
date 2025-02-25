@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cubits/settings/settings_cubit.dart';
 import '../../../utils/constants/app_paddings.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class SettingsPrivacyPolicyPage extends StatelessWidget {
   const SettingsPrivacyPolicyPage({super.key});
@@ -10,7 +11,7 @@ class SettingsPrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Privacy Policy")),
+      appBar: const CustomAppBar(title: "Privacy Policy"),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           if (state is SettingsLoading) {

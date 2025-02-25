@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +18,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     try {
       final policy = await _repo.getPrivacyPolicy();
       emit(SettingsLoaded(policy));
-    } catch (e) {
+    } catch (e, s) {
+      log('$e');
+      log('$s');
       if (e.toString().contains("No Internet")) {
         emit(SettingsNetworkError("No Internet Connection"));
       } else {

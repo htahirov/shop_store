@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../utils/constants/app_durations.dart';
 
@@ -19,9 +23,9 @@ class AuthDio {
       ),
     );
 
-    // if (kDebugMode) {
-    //   _dio!.interceptors.add(LogInterceptor(logPrint: (a) => log('$a')));
-    // }
+    if (kDebugMode) {
+      _dio!.interceptors.add(AwesomeDioInterceptor(logger: log));
+    }
 
     return _dio!;
   }
