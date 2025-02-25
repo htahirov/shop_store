@@ -53,7 +53,7 @@ class FavoritePage extends StatelessWidget {
           return const SizedBox.shrink();
         },
       ),
-      bottomNavigationBar: const CustomNavbar(),
+      // bottomNavigationBar: const CustomNavbar(),
     );
   }
 }

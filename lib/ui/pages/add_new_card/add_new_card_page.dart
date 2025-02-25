@@ -22,12 +22,12 @@ class AddNewCardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentCubit=context.read<PaymentCubit>();
+    final paymentCubit = context.read<PaymentCubit>();
     return Scaffold(
       appBar: CustomAppBar(
         title: "Add New Card",
         leadIcon: AppAssets.arrowLeft,
-        onLeadingPressed: () => Go.replace(context,Pager.home),
+        onLeadingPressed: () => Go.replace(context, Pager.home),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,11 +37,6 @@ class AddNewCardPage extends StatelessWidget {
               key: paymentCubit.formKey,
               child: Column(
                 children: [
-                  27.verticalSpace,
-                  Text(
-                    AppTexts.addNewCard,
-                    style: AppTextStyles.headerTextStyle,
-                  ),
                   30.verticalSpace,
                   const CardList(),
                   30.verticalSpace,
@@ -57,14 +52,13 @@ class AddNewCardPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ExpiresInput(
-                          controller:
-                              paymentCubit.expiresDateController,
+                          controller: paymentCubit.expiresDateController,
                         ),
                       ),
                       15.horizontalSpace,
                       Expanded(
                         child: CvvInput(
-                          controller:paymentCubit.cvvController,
+                          controller: paymentCubit.cvvController,
                         ),
                       ),
                     ],
@@ -75,11 +69,11 @@ class AddNewCardPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavbar(
-        showButton: true,
-        buttonTitle: AppTexts.save,
-         onButtonPressed: () => paymentCubit.savePaymentData(),
-      ),
+      // bottomNavigationBar: CustomNavbar(
+      //   showButton: true,
+      //   buttonTitle: AppTexts.save,
+      //   onButtonPressed: () => paymentCubit.savePaymentData(),
+      // ),
     );
   }
 }

@@ -46,12 +46,12 @@ class PaymentPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavbar(
-        showButton: true,
-        showIcon: true,
-        buttonTitle: AppTexts.placeOrder,
-        onButtonPressed: () {},
-      ),
+      // bottomNavigationBar: CustomNavbar(
+      //   showButton: true,
+      //   showIcon: true,
+      //   buttonTitle: AppTexts.placeOrder,
+      //   onButtonPressed: () {},
+      // ),
     );
   }
 }

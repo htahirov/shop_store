@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: const CustomNavbar(),
+        // bottomNavigationBar: const CustomNavbar(),
       ),
       borderRadius: 24.0,
       showShadow: true,

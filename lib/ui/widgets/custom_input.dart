@@ -17,7 +17,8 @@ class CustomInput extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.showPasswordConditions = false,
-    this.isPassword = false, this.maxLines,
+    this.isPassword = false,
+    this.maxLines = 1,
   }) : isDate = false;
 
   const CustomInput.date({
@@ -29,11 +30,11 @@ class CustomInput extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.showPasswordConditions = false,
-    this.isPassword = false, 
+    this.isPassword = false,
     this.maxLines,
   }) : isDate = true;
 
-final int? maxLines;
+  final int? maxLines;
   final String? title;
   final TextEditingController? controller;
   final bool isObsecure;
