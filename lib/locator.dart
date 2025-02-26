@@ -6,6 +6,7 @@ import 'cubits/basket/basket_cubit.dart';
 import 'cubits/favorite/favorite_cubit.dart';
 import 'cubits/forgot_password/forgot_password_cubit.dart';
 import 'cubits/home/home_cubit.dart';
+import 'cubits/main/main_cubit.dart';
 import 'cubits/new_password/new_password_cubit.dart';
 import 'cubits/order/order_cubit.dart';
 import 'cubits/payment/payment_cubit.dart';
@@ -67,6 +68,7 @@ void setupLocator() {
   locator.registerLazySingleton<BasketRepo>(() => BasketRepoImpl(locator()));
 
   // Cubits
+  locator.registerFactory(() => MainCubit());
   locator.registerFactory(() => ProfileCubit());
   locator.registerFactory(() => SearchCubit());
   locator.registerFactory(() => SplashCubit());

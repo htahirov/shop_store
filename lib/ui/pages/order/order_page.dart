@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../cubits/order/order_cubit.dart';
 import '../../../cubits/order/order_state.dart';
+import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_constants.dart';
 import '../../../utils/helpers/go.dart';
 import '../../../utils/helpers/pager.dart';
+import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/custom_progress_loading.dart';
 import '../../widgets/order_card.dart';
@@ -19,27 +21,13 @@ class OrderPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        appBar: CustomAppBar(
+          title: "My Order",
+          leadIcon: AppAssets.arrowLeft,
+          onLeadingPressed: () => Go.replace(context, Pager.home),
+        ),
         body: Column(
           children: [
-            30.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 40.w,
-                vertical: 20.h,
-              ),
-              child: Text(
-                'My Order',
-                style: TextStyle(
-                  color: AppColors.titleTextColor,
-                  fontSize: 26.sp,
-                  fontFamily: AppConstants.fontFamilyNunito,
-                  fontWeight: FontWeight.w700,
-                  height: 1.35,
-                  letterSpacing: -0.13,
-                ),
-              ),
-            ),
-
             // Tab Bar
             Container(
               decoration: const BoxDecoration(
@@ -349,7 +337,6 @@ class OrderPage extends StatelessWidget {
             ),
           ],
         ),
-        // bottomNavigationBar: const CustomNavbar(),
       ),
     );
   }
