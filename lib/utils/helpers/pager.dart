@@ -61,9 +61,13 @@ class Pager {
   static Widget get onboard => const OnboardPage();
 
   static Widget get main => BlocProvider(
-        create: (context) => MainCubit(),
-        child: const MainPage(),
-      );
+  create: (context) {
+    final cubit = locator<MainCubit>();
+    print("MainCubit initialized: $cubit");
+    return cubit;
+  },
+  child: const MainPage(),
+);
 
   static Widget get signUp => BlocProvider<SignUpCubit>(
         create: (_) => locator(),

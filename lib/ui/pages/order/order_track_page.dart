@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../cubits/order/order_cubit.dart';
 import '../../../cubits/order/order_state.dart';
+import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_constants.dart';
 import '../../../utils/constants/app_text_styles.dart';
+import '../../../utils/helpers/go.dart';
+import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_nav_bar.dart';
 import '../../widgets/custom_progress_loading.dart';
@@ -36,7 +39,8 @@ class _OrderTrackPageState extends State<OrderTrackPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Track Order',
-        onLeadingPressed: () => Navigator.pop(context),
+        leadIcon: AppAssets.arrowLeft,
+        onLeadingPressed: () => Go.to(context, Pager.orderDetail(widget.orderId)),
       ),
       body: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
@@ -222,7 +226,6 @@ class _OrderTrackPageState extends State<OrderTrackPage> {
           );
         },
       ),
-      // bottomNavigationBar: const CustomNavbar(),
     );
   }
 }

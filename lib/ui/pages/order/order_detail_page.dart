@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../cubits/order/order_cubit.dart';
 import '../../../cubits/order/order_state.dart';
+import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_text_styles.dart';
 import '../../../utils/helpers/go.dart';
@@ -37,7 +38,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Order',
-        onLeadingPressed: () => Go.pop(context),
+        leadIcon: AppAssets.arrowLeft,
+        onLeadingPressed: () => Go.replace(context, Pager.order),
       ),
       body: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
