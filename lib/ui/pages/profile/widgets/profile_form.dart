@@ -14,6 +14,9 @@ class ProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileCubit = context.read<ProfileCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileCubit.loadUserData();
+    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -25,39 +28,34 @@ class ProfileForm extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child:CustomInput(
-                title: "First Name",
-                controller: profileCubit.firstNameController,
-              )
-            ),
+                child: CustomInput(
+              title: "First Name",
+              controller: profileCubit.firstNameController,
+            )),
             12.horizontalSpace,
             Expanded(
-              child: CustomInput(
-                title: "Last Name",
-                controller: profileCubit.lastNameController,
-
-              )
-            ),
+                child: CustomInput(
+              title: "Last Name",
+              controller: profileCubit.lastNameController,
+            )),
           ],
         ),
         12.verticalSpace,
-      CustomInput(
-        title: "Email",
-        controller: profileCubit.emailController,
-
-
-      ),
+        CustomInput(
+          title: "Email",
+          controller: profileCubit.emailController,
+        ),
         12.verticalSpace,
         CustomInput.date(
           title: 'Date of Birth',
           controller: profileCubit.birthdayController,
         ),
         12.verticalSpace,
-      CustomInput(
-        title: "Bio",
-        controller: profileCubit.bioController,
-        maxLines: 3,
-      ),
+        CustomInput(
+          title: "Bio",
+          controller: profileCubit.bioController,
+          maxLines: 3,
+        ),
         const SizedBox(height: 12),
         ValueListenableBuilder(
             valueListenable: profileCubit.selectedGenderNotifier,
@@ -70,12 +68,14 @@ class ProfileForm extends StatelessWidget {
                           .selectedGenderNotifier.value = Gender.male,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedGender == Gender.male
-                            ?AppColors.primary
+                            ? AppColors.primary
                             : AppColors.chefsHat,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: const Text("Male", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor)),
+                      child: const Text("Male",
+                          style: TextStyle(
+                              fontSize: 16, color: AppColors.titleTextColor)),
                     ),
                   ),
                   8.horizontalSpace,
@@ -85,13 +85,14 @@ class ProfileForm extends StatelessWidget {
                           .selectedGenderNotifier.value = Gender.female,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedGender == Gender.female
-                           ?AppColors.primary
+                            ? AppColors.primary
                             : AppColors.chefsHat,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      child:
-                          const Text("Female", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor )),
+                      child: const Text("Female",
+                          style: TextStyle(
+                              fontSize: 16, color: AppColors.titleTextColor)),
                     ),
                   ),
                 ],
@@ -102,7 +103,9 @@ class ProfileForm extends StatelessWidget {
           width: double.infinity,
           child: BlocConsumer<ProfileCubit, ProfileState>(
             listener: (context, state) {
-              if (ProfileState.success == state) {
+              if (state == ProfileState.success &&
+                  profileCubit.isProfileUpdated) {
+                profileCubit.isProfileUpdated = false;
                 Snackbars.showSuccess(
                   context,
                   message: 'Updated profile successfully!',
@@ -112,15 +115,18 @@ class ProfileForm extends StatelessWidget {
             builder: (context, state) => ElevatedButton(
               onPressed: ProfileState.loading == state
                   ? null
-                  : () => profileCubit.saveProfile(),
+                  : () {
+                     profileCubit.isProfileUpdated = true;
+                     profileCubit.saveProfile();},
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              child:
-                  const Text("Update Profile", style: TextStyle(fontSize: 16,color:AppColors.titleTextColor)),
+              child: const Text("Update Profile",
+                  style:
+                      TextStyle(fontSize: 16, color: AppColors.titleTextColor)),
             ),
           ),
         ),

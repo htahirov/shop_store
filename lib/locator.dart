@@ -24,7 +24,6 @@ import 'data/i_repo/favorite_repo_impl.dart';
 import 'data/i_repo/order_repo_impl.dart';
 import 'data/i_repo/product_detail_repo_impl.dart';
 import 'data/i_repo/product_repo_impl.dart';
-import 'data/i_repo/signup_repo_impl.dart';
 import 'data/repo/auth_repo.dart';
 import 'data/repo/basket_repo.dart';
 import 'data/repo/favorite_repo.dart';
@@ -32,7 +31,6 @@ import 'data/repo/order_repo.dart';
 import 'data/repo/product_detail_repo.dart';
 import 'data/repo/product_repo.dart';
 import 'data/repo/settings_privacy_policy_repo.dart';
-import 'data/repo/signup_repo.dart';
 import 'data/services/remote/auth_service.dart';
 import 'data/services/remote/basket_service.dart';
 import 'data/services/remote/favorite_service.dart';
@@ -40,7 +38,6 @@ import 'data/services/remote/order_service.dart';
 import 'data/services/remote/product_detail_service.dart';
 import 'data/services/remote/product_service.dart';
 import 'data/services/remote/settings_privacy_policy_service.dart';
-import 'data/services/remote/signup_service.dart';
 
 final GetIt locator = GetIt.instance;
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -51,12 +48,10 @@ void setupLocator() {
   // Services
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ProductService());
-  locator.registerLazySingleton(() => SignUpService());
 
   // Repositories
-  locator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(locator()));
+  locator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(locator(),locator()));
   locator.registerLazySingleton<ProductRepo>(() => ProductRepoImpl(locator()));
-  locator.registerLazySingleton<SignUpRepo>(() => SignUpRepoImpl(locator()));
 
   // Services
   locator.registerLazySingleton(() => ProductDetailService());
@@ -75,7 +70,7 @@ void setupLocator() {
   locator.registerFactory(() => NewPasswordCubit());
   locator.registerFactory(() => SignInCubit(locator()));
   locator.registerFactory(() => PaymentCubit());
-  locator.registerFactory(() => SignUpCubit(locator<SignUpRepo>()));
+  locator.registerFactory(() => SignUpCubit(locator<AuthRepo>()));
   locator.registerFactory(() => HomeCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductCategoriesCubit(locator<ProductRepo>()));
   locator.registerFactory(() => ProductDetailCubit(
