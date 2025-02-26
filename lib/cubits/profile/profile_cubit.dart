@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/remote/response/user_profile.dart';
+import '../../data/services/local/auth_hive_service.dart';
 import '../../data/services/local/profile_hive_service.dart';
 import '../../utils/enums/gender_enum.dart';
 
@@ -11,6 +12,7 @@ enum ProfileState { initial, loading, success, error }
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState.initial);
+  bool isProfileUpdated = false;
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -36,8 +38,18 @@ class ProfileCubit extends Cubit<ProfileState> {
   void loadUserData() async {
     try {
       emit(ProfileState.loading);
+
       user = await ProfileHiveService.getUser();
-      await fillInputs();
+
+      if (user != null) {
+        fillInputs();
+      } else {
+        final authUser = await AuthHiveService.getData();
+        if (authUser != null) {
+          emailController.text = authUser.email;
+        }
+      }
+
       emit(ProfileState.success);
     } catch (e, s) {
       emit(ProfileState.error);

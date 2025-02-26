@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_store/data/models/remote/response/user_profile.dart';
-import '../../data/repo/signup_repo.dart';
+import 'package:shop_store/data/repo/auth_repo.dart';
 import '../../data/models/remote/request/signup_request.dart';
 import '../../data/services/local/profile_hive_service.dart';
 
@@ -11,7 +11,7 @@ part 'signup_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this._signUpRepo) : super(SignUpInitial());
 
-  final SignUpRepo _signUpRepo;
+  final AuthRepo _signUpRepo;
 
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
