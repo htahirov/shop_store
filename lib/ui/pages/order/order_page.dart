@@ -20,6 +20,7 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
+      initialIndex: 0,
       child: Scaffold(
         appBar: CustomAppBar(
           title: "My Order",

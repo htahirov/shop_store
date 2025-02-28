@@ -135,10 +135,17 @@ class Pager {
         child: const SearchPage(),
       );
 
-  static Widget get payment => BlocProvider(
-        create: (context) => PaymentCubit()..getPaymentData(),
-        child: const PaymentPage(),
-      );
+  static Widget get payment => MultiBlocProvider(
+  providers: [
+    BlocProvider<PaymentCubit>(
+      create: (context) => locator<PaymentCubit>()..getPaymentData(),
+    ),
+    BlocProvider<OrderCubit>(
+      create: (context) => locator<OrderCubit>(),
+    ),
+  ],
+  child: const PaymentPage(),
+);
   static Widget get addNewCard => BlocProvider(
         create: (context) => PaymentCubit()..getPaymentData(),
         child: const AddNewCardPage(),
