@@ -18,6 +18,7 @@ class PaymentCard extends StatelessWidget {
   final String title;
   final String cardHolderName;
   final bool isCompact;
+  final bool isSelected;
 
   const PaymentCard({
     super.key,
@@ -25,6 +26,7 @@ class PaymentCard extends StatelessWidget {
     required this.expiryDate,
     required this.logoPath,
     required this.cardHolderName,
+    this.isSelected = false,
     this.width = 128,
     this.height = 151,
     this.title = "Credit Card",
@@ -36,6 +38,7 @@ class PaymentCard extends StatelessWidget {
     required this.cardNumber,
     required this.expiryDate,
     required this.logoPath,
+    this.isSelected = false,
     required this.cardHolderName,
   })  : width = 349,
         height = 109,
@@ -49,9 +52,12 @@ class PaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.darkRift,
         borderRadius: AppRadiuses.a10,
+        border: isSelected
+            ? Border.all(color: AppColors.madeInTheShade, width: 3) 
+            : null,
       ),
       child: SizedBox(
         width: width.w,

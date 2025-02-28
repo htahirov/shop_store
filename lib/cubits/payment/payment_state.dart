@@ -9,8 +9,9 @@ final class PaymentLoading extends PaymentState {}
 
 final class PaymentSuccess extends PaymentState {
   final List<PaymentCardModel> cards;
+  final int? selectedCardId;
 
-  PaymentSuccess(this.cards);
+  PaymentSuccess(this.cards, this.selectedCardId);
 }
 
 final class PaymentError extends PaymentState {
