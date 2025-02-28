@@ -14,9 +14,6 @@ class ProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileCubit = context.read<ProfileCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      profileCubit.loadUserData();
-    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

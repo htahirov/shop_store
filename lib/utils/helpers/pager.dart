@@ -61,13 +61,9 @@ class Pager {
   static Widget get onboard => const OnboardPage();
 
   static Widget get main => BlocProvider(
-  create: (context) {
-    final cubit = locator<MainCubit>();
-    print("MainCubit initialized: $cubit");
-    return cubit;
-  },
-  child: const MainPage(),
-);
+        create: (context) => locator<MainCubit>(),
+        child: const MainPage(),
+      );
 
   static Widget get signUp => BlocProvider<SignUpCubit>(
         create: (_) => locator(),
@@ -144,8 +140,8 @@ class Pager {
         child: const AddNewCardPage(),
       );
 
-  static Widget get favorite => BlocProvider.value(
-        value: locator<FavoriteCubit>()..fetchFavorites(),
+  static Widget get favorite => BlocProvider(
+        create: (_) =>  locator<FavoriteCubit>()..fetchFavorites(),
         child: const FavoritePage(),
       );
 

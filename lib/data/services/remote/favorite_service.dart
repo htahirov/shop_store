@@ -5,11 +5,11 @@ import '../../dio/client_dio.dart';
 import '../../models/remote/response/product_response.dart';
 
 class FavoriteService {
-  final Dio _dio = ClientDio.instance.dio; 
+  final Dio _dio = ClientDio.instance.dio;
 
   Future<void> addToFavorites(int productId) async {
     const endpoint = ApiKeys.favoriteCreate;
-    
+
     try {
       final response = await _dio.post(
         endpoint,

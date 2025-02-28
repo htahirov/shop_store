@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../cubits/basket/basket_cubit.dart';
 import '../../../cubits/basket/basket_state.dart';
 import '../../../data/models/remote/response/basket_item_response.dart';
@@ -13,35 +14,15 @@ import 'widgets/empty_cart_content.dart';
 import 'widgets/promo_code_section.dart';
 import 'widgets/total_section.dart';
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
-  State<CartPage> createState() => CartPageState();
-}
-
-class CartPageState extends State<CartPage> {
-  final _promoController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<BasketCubit>().getBasketItems();
-    });
-  }
-
-  @override
-  void dispose() {
-    _promoController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final cubit = context.read<BasketCubit>();
     return Material(
       type: MaterialType.transparency,
-      child: Container(
+      child: ColoredBox(
         color: AppColors.white,
         child: SafeArea(
           child: BlocBuilder<BasketCubit, BasketState>(
@@ -66,11 +47,11 @@ class CartPageState extends State<CartPage> {
 
               // Handle deleting state - show items with loading indicator
               if (state is BasketItemDeleting) {
-                return _buildCartContent(state.items);
+                return _buildCartContent(state.items, cubit);
               }
 
               if (state is BasketSuccess && state.items.isNotEmpty) {
-                return _buildCartContent(state.items);
+                return _buildCartContent(state.items, cubit);
               }
 
               return const EmptyCartContent();
@@ -80,9 +61,9 @@ class CartPageState extends State<CartPage> {
       ),
     );
   }
-  
+
   // Extract cart content to a separate method to avoid duplication
-  Widget _buildCartContent(List<BasketItem> items) {
+  Widget _buildCartContent(List<BasketItem> items, final BasketCubit cubit) {
     return Column(
       children: [
         const CartHeader(),
@@ -98,7 +79,7 @@ class CartPageState extends State<CartPage> {
                         CartItemsSection(items: items),
                         SizedBox(height: 20.h),
                         PromoCodeSection(
-                          controller: _promoController,
+                          controller: cubit.promoController,
                           onApply: () {
                             // TODO: Implement promo code
                           },
@@ -111,7 +92,6 @@ class CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
-              
               Positioned(
                 left: 20.w,
                 right: 20.w,
