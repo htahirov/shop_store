@@ -16,6 +16,7 @@ import 'widgets/cardNumber.dart';
 import 'widgets/card_list.dart';
 import 'widgets/cvvInput.dart';
 import 'widgets/expiresInput.dart';
+import 'widgets/save_card_button.dart';
 
 class AddNewCardPage extends StatelessWidget {
   const AddNewCardPage({super.key});
@@ -74,6 +75,7 @@ class AddNewCardPage extends StatelessWidget {
       //   buttonTitle: AppTexts.save,
       //   onButtonPressed: () => paymentCubit.savePaymentData(),
       // ),
+      bottomNavigationBar: const SaveCardButton(),
     );
   }
 }
