@@ -7,7 +7,6 @@ import '../../../utils/constants/app_paddings.dart';
 import '../../../utils/helpers/go.dart';
 import '../../../utils/helpers/pager.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../../widgets/custom_nav_bar.dart';
 import 'widgets/favorite_empty.dart';
 import 'widgets/favorite_product_card.dart';
 
@@ -16,16 +15,14 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      context.read<FavoriteCubit>().fetchFavorites();
     return Scaffold(
-      appBar: CustomAppBar(title: "Favorite", onLeadingPressed: () => Go.replace(context, Pager.home)),
+      appBar: CustomAppBar(
+        title: "Favorite",
+        onLeadingPressed: () => Go.replace(context, Pager.home),
+      ),
       body: BlocBuilder<FavoriteCubit, FavoriteState>(
         builder: (context, state) {
-          if (state is FavoriteInitial) {
-            context.read<FavoriteCubit>().fetchFavorites(); 
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is FavoriteLoading) {
+          if (state is FavoriteLoading || state is FavoriteInitial) {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is FavoriteSuccess) {
@@ -49,7 +46,7 @@ class FavoritePage extends StatelessWidget {
                 },
               ),
             );
-          } 
+          }
           return const SizedBox.shrink();
         },
       ),

@@ -25,7 +25,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       }
 
       _favorites = List.from(fetchedFavorites);
-      emit(FavoriteSuccess(List.from(_favorites)));
+      emit(FavoriteSuccess(_favorites));
     } catch (e) {
       emit(FavoriteError("Xəta baş verdi"));
     }

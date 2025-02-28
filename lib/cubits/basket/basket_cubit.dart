@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/remote/request/basket_create_request.dart';
@@ -15,12 +16,14 @@ class BasketCubit extends Cubit<BasketState> {
 
   BasketCubit(this._basketRepo) : super(BasketInitial());
 
+  final promoController = TextEditingController();
+
   Future<void> getBasketItems() async {
     try {
       emit(BasketLoading());
       final items = await _basketRepo.getBasketItems();
       _currentItems = items;
-      
+
       if (items.isEmpty) {
         emit(BasketSuccess(const []));
       } else {
@@ -44,7 +47,7 @@ class BasketCubit extends Cubit<BasketState> {
         size: sizeId,
         quantity: quantity,
       );
-      
+
       emit(BasketSuccess(_currentItems));
       await _basketRepo.createBasketItem(request);
       final newItems = await _basketRepo.getBasketItems();
@@ -66,17 +69,17 @@ class BasketCubit extends Cubit<BasketState> {
     try {
       // First, mark the item as being deleted to show loading indicator
       startDeleting(id);
-      
+
       // Wait a short delay for UI to update
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       // Perform the actual deletion
       await _basketRepo.deleteBasketItem(id);
-      
+
       // Get updated basket items from server
       final newItems = await _basketRepo.getBasketItems();
       _currentItems = newItems;
-      
+
       // Update the UI with the new basket state
       emit(BasketSuccess(newItems));
     } catch (e) {
@@ -89,16 +92,18 @@ class BasketCubit extends Cubit<BasketState> {
   }
 
   // New method with debounce
-  Future<void> updateBasketItemWithDebounce(String id, BasketUpdateRequest request) async {
+  Future<void> updateBasketItemWithDebounce(
+      String id, BasketUpdateRequest request) async {
     // Cancel previous timer if it exists
     _debounceTimer?.cancel();
-    
+
     // Optimistically update the UI immediately
-    final itemIndex = _currentItems.indexWhere((item) => item.id.toString() == id);
+    final itemIndex =
+        _currentItems.indexWhere((item) => item.id.toString() == id);
     if (itemIndex != -1) {
       final currentItem = _currentItems[itemIndex];
       final updatedItems = List<BasketItem>.from(_currentItems);
-      
+
       // Update the item while maintaining the original structure
       updatedItems[itemIndex] = BasketItem(
         id: currentItem.id,
@@ -117,13 +122,13 @@ class BasketCubit extends Cubit<BasketState> {
       _currentItems = updatedItems;
       emit(BasketSuccess(updatedItems));
     }
-    
+
     // Set a new timer for API call (2 seconds delay)
     _debounceTimer = Timer(const Duration(seconds: 2), () async {
       try {
         // Actually update the item on the server after debounce
         await _basketRepo.updateBasketItem(id, request);
-        
+
         // Refresh basket items to sync with server
         final newItems = await _basketRepo.getBasketItems();
         _currentItems = newItems;
@@ -140,11 +145,12 @@ class BasketCubit extends Cubit<BasketState> {
   // Keep original updateBasketItem for other use cases
   Future<void> updateBasketItem(String id, BasketUpdateRequest request) async {
     try {
-      final itemIndex = _currentItems.indexWhere((item) => item.id.toString() == id);
+      final itemIndex =
+          _currentItems.indexWhere((item) => item.id.toString() == id);
       if (itemIndex != -1) {
         final currentItem = _currentItems[itemIndex];
         final updatedItems = List<BasketItem>.from(_currentItems);
-        
+
         // Update the item while maintaining the original structure
         updatedItems[itemIndex] = BasketItem(
           id: currentItem.id,
@@ -161,7 +167,7 @@ class BasketCubit extends Cubit<BasketState> {
         // Show immediate update
         _currentItems = updatedItems;
         emit(BasketSuccess(updatedItems));
-        
+
         // Update in background
         await _basketRepo.updateBasketItem(id, request);
         final newItems = await _basketRepo.getBasketItems();
@@ -173,10 +179,11 @@ class BasketCubit extends Cubit<BasketState> {
       emit(BasketSuccess(_currentItems));
     }
   }
-  
+
   @override
   Future<void> close() {
     _debounceTimer?.cancel(); // Clean up timer when cubit is closed
+    promoController.dispose();
     return super.close();
   }
 }

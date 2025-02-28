@@ -21,8 +21,8 @@ class MainPage extends StatelessWidget {
 }
 
 final List<Widget> pages = [
-  Pager.home,                    
-  Pager.cart,                    
-  Container(color: Colors.green), 
-  Pager.favorite,                
+  Pager.home,
+  Pager.cart,
+  Container(color: Colors.green),
+  Pager.favorite,
 ];
