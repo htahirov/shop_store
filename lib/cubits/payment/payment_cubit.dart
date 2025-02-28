@@ -14,6 +14,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   final cardNumberController = TextEditingController();
   final expiresDateController = TextEditingController();
   final cvvController = TextEditingController();
+  int? selectedCardId;
 
   Future<void> savePaymentData() async {
     if (formKey.currentState!.validate()) {
@@ -38,12 +39,19 @@ class PaymentCubit extends Cubit<PaymentState> {
     try {
        List<PaymentCardModel>? paymentCard = await PaymentHiveService.getData();
       if (paymentCard != null) {
-        emit(PaymentSuccess(paymentCard));
+        emit(PaymentSuccess(paymentCard,selectedCardId));
       } else {
         emit(PaymentError('No payment card found'));
       }
     } catch (e) {
       emit(PaymentError("Error: ${e.toString()}"));
+    }
+  }
+
+   void selectCard(int cardId) {
+    selectedCardId = cardId;
+    if (state is PaymentSuccess) {
+      emit(PaymentSuccess((state as PaymentSuccess).cards, selectedCardId));
     }
   }
 }

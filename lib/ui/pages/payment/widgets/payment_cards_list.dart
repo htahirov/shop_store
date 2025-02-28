@@ -13,6 +13,7 @@ class PaymentCardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentCubit = context.read<PaymentCubit>();
     return BlocBuilder<PaymentCubit, PaymentState>(
       builder: (_, state) {
         if (state is PaymentLoading) {
@@ -26,13 +27,18 @@ class PaymentCardsList extends StatelessWidget {
               itemCount: state.cards.length,
               itemBuilder: (context, index) {
                 final paymentCard = state.cards[index];
+                final isSelected = state.selectedCardId == paymentCard.id;
                 return Padding(
                   padding: AppPaddings.h18,
-                  child: PaymentCard(
-                    cardNumber: paymentCard.number,
-                    expiryDate: paymentCard.date,
-                    logoPath: AppAssets.master,
-                    cardHolderName: paymentCard.name,
+                  child: GestureDetector(
+                    onTap: () => paymentCubit.selectCard(paymentCard.id),
+                    child: PaymentCard(
+                      cardNumber: paymentCard.number,
+                      expiryDate: paymentCard.date,
+                      logoPath: AppAssets.master,
+                      cardHolderName: paymentCard.name,
+                      isSelected: isSelected,
+                    ),
                   ),
                 );
               },
