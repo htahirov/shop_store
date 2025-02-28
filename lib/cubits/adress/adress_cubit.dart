@@ -16,7 +16,7 @@ class AdressCubit extends Cubit<AdressState> {
   final cityController = TextEditingController();
 
   Future<void> saveAdressData() async {
-    if (formKey.currentState == null || !formKey.currentState!.validate()) {
+    if (!(formKey.currentState?.validate() ?? true)) {
       return;
     }
 
@@ -30,7 +30,7 @@ class AdressCubit extends Cubit<AdressState> {
 
     try {
       await AddressHiveService.saveData(address);
-       getAdressData(); 
+      getAdressData();
     } catch (e) {
       emit(AdressError(e.toString()));
     }

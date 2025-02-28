@@ -54,7 +54,7 @@ class _MenuScreenState extends State<MenuScreen> {
               DrawerItem(
                 title: "Address",
                 isActive: selectedItem == "Address",
-                onTap: () =>  Go.to(context, Pager.profile),
+                onTap: () =>  Go.to(context, Pager.address),
               ),
               DrawerItem(
                 title: "Payment method",
