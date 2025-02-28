@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_store/cubits/adress/adress_cubit.dart';
 import 'package:shop_store/cubits/main/main_cubit.dart';
+import 'package:shop_store/ui/pages/add_adress/add_address_page.dart';
+import 'package:shop_store/ui/pages/adress/address_page.dart';
 import 'package:shop_store/ui/pages/main/main_page.dart';
 
 import '../../cubits/payment/payment_cubit.dart';
@@ -74,10 +77,20 @@ class Pager {
         create: (_) => locator(),
         child: const SignInPage(),
       );
+       static Widget get address => BlocProvider(
+        create: (_) => AdressCubit()..getAdressData(),
+        child: const AddressPage(),
+      );
+  static Widget get addAdrress => BlocProvider(
+        create: (_) => AdressCubit()..saveAdressData(),
+        child: const AddAddressPage(),
+      );
 
   static Widget get forgotPassword => const ForgotPasswordPage();
 
   static Widget get createNewPassword => const CreateNewPasswordPage();
+
+
 
   static Widget get filter => const FilterPage();
 
