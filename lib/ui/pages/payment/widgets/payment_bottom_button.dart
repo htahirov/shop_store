@@ -35,39 +35,31 @@ class PaymentBottomButton extends StatelessWidget {
 
   void _handlePlaceOrder(BuildContext context) async {
   try {
+  final cubit=context.read<PaymentCubit>(); 
     // Check if we have payment cards
-    final paymentState = context.read<PaymentCubit>().state;
-    if (paymentState is! PaymentSuccess || paymentState.cards.isEmpty) {
+    if (cubit.selectedCardId == null) {
       Snackbars.showError(context, message: "Please add a payment method");
       return;
     }
-    
-    // Get the first payment card
-    final selectedCard = (paymentState as PaymentSuccess).cards.first;
     
     // Show processing message
     Snackbars.showSuccess(context, message: "Processing your order...");
     
     // Create order request
     final orderRequest = OrderCreateRequest(
-      total: totalAmount,
+      total: 0,
       address: "123 Main St, City, Country", // Static address
       shipping: "Standard",
-      paymentId: selectedCard.id.toString(),
+      paymentId: '2',
       promoCode: null,
     );
     
     // Create the order
-    await context.read<OrderCubit>().createOrder(orderRequest);
+    // await context.read<OrderCubit>().createOrder(orderRequest);
     
     // First navigate to main page
-    Go.replace(context, Pager.main);
+    Go.replace(context, Pager.order);
     
-    // After a short delay, navigate to the order page specifically
-    // This ensures the main navigation is established first
-    Future.delayed(const Duration(milliseconds: 300), () {
-      Go.to(context, Pager.order);
-    });
     
   } catch (e) {
     // Show error

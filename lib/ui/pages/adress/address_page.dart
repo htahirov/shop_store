@@ -63,7 +63,9 @@ class AddressPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                       )),
-                  onPressed: () {},
+                  onPressed: () {
+                    Go.to(context, Pager.payment);
+                  },
                   child: Row(
                     children: [
                       const Text("Payment",

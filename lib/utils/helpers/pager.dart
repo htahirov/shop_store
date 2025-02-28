@@ -77,20 +77,18 @@ class Pager {
         create: (_) => locator(),
         child: const SignInPage(),
       );
-       static Widget get address => BlocProvider(
+  static Widget get address => BlocProvider(
         create: (_) => AdressCubit()..getAdressData(),
         child: const AddressPage(),
       );
-  static Widget get addAdrress => BlocProvider(
-        create: (_) => AdressCubit()..saveAdressData(),
+  static Widget get addAdrress => BlocProvider<AdressCubit>.value(
+        value: locator(),
         child: const AddAddressPage(),
       );
 
   static Widget get forgotPassword => const ForgotPasswordPage();
 
   static Widget get createNewPassword => const CreateNewPasswordPage();
-
-
 
   static Widget get filter => const FilterPage();
 
@@ -145,23 +143,23 @@ class Pager {
       );
 
   static Widget get payment => MultiBlocProvider(
-  providers: [
-    BlocProvider<PaymentCubit>(
-      create: (context) => locator<PaymentCubit>()..getPaymentData(),
-    ),
-    BlocProvider<OrderCubit>(
-      create: (context) => locator<OrderCubit>(),
-    ),
-  ],
-  child: const PaymentPage(),
-);
+        providers: [
+          BlocProvider<PaymentCubit>(
+            create: (context) => locator<PaymentCubit>()..getPaymentData(),
+          ),
+          BlocProvider<OrderCubit>(
+            create: (context) => locator<OrderCubit>(),
+          ),
+        ],
+        child: const PaymentPage(),
+      );
   static Widget get addNewCard => BlocProvider(
         create: (context) => PaymentCubit()..getPaymentData(),
         child: const AddNewCardPage(),
       );
 
   static Widget get favorite => BlocProvider(
-        create: (_) =>  locator<FavoriteCubit>()..fetchFavorites(),
+        create: (_) => locator<FavoriteCubit>()..fetchFavorites(),
         child: const FavoritePage(),
       );
 

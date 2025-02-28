@@ -21,45 +21,42 @@ class PaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<OrderCubit>(
-    create: (context) => locator<OrderCubit>(),
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: AppPaddings.h24,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: CartStepsIndicator('Payments'),
-                ),
-                30.verticalSpace,
-                Row(
-                  children: [
-                    CustomAddButton(
-                      onPressed: () => Go.to(context, Pager.addNewCard),
-                    ),
-                    18.horizontalSpace,
-                    const PaymentCardsList()
-                  ],
-                ),
-                20.verticalSpace,
-                const AcceptedPaymentMethod(),
-                20.verticalSpace,
-                const PriceDetails()
-              ],
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: AppPaddings.h24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: CartStepsIndicator('Payments'),
+              ),
+              30.verticalSpace,
+              Row(
+                children: [
+                  CustomAddButton(
+                    onPressed: () => Go.to(context, Pager.addNewCard),
+                  ),
+                  18.horizontalSpace,
+                  const PaymentCardsList()
+                ],
+              ),
+              20.verticalSpace,
+              const AcceptedPaymentMethod(),
+              20.verticalSpace,
+              const PriceDetails()
+            ],
           ),
         ),
-        // bottomNavigationBar: CustomNavbar(
-        //   showButton: true,
-        //   showIcon: true,
-        //   buttonTitle: AppTexts.placeOrder,
-        //   onButtonPressed: () {},
-        // ),
-        bottomNavigationBar: const PaymentBottomButton(),
       ),
+      // bottomNavigationBar: CustomNavbar(
+      //   showButton: true,
+      //   showIcon: true,
+      //   buttonTitle: AppTexts.placeOrder,
+      //   onButtonPressed: () {},
+      // ),
+      bottomNavigationBar: const PaymentBottomButton(),
     );
   }
 }
